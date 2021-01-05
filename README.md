@@ -1,16 +1,16 @@
-fonteva
+sfnick
 =======
 
-A Fonteva CLI Tool
+A sfnick CLI Tool
 
-[![Version](https://img.shields.io/npm/v/fonteva.svg)](https://npmjs.org/package/fonteva)
-[![CircleCI](https://circleci.com/gh/fon-sfdx-plugin/fonteva/tree/master.svg?style=shield)](https://circleci.com/gh/fon-sfdx-plugin/fonteva/tree/master)
-[![Appveyor CI](https://ci.appveyor.com/api/projects/status/github/fon-sfdx-plugin/fonteva?branch=master&svg=true)](https://ci.appveyor.com/project/heroku/fonteva/branch/master)
-[![Codecov](https://codecov.io/gh/fon-sfdx-plugin/fonteva/branch/master/graph/badge.svg)](https://codecov.io/gh/fon-sfdx-plugin/fonteva)
-[![Greenkeeper](https://badges.greenkeeper.io/fon-sfdx-plugin/fonteva.svg)](https://greenkeeper.io/)
-[![Known Vulnerabilities](https://snyk.io/test/github/fon-sfdx-plugin/fonteva/badge.svg)](https://snyk.io/test/github/fon-sfdx-plugin/fonteva)
-[![Downloads/week](https://img.shields.io/npm/dw/fonteva.svg)](https://npmjs.org/package/fonteva)
-[![License](https://img.shields.io/npm/l/fonteva.svg)](https://github.com/fon-sfdx-plugin/fonteva/blob/master/package.json)
+[![Version](https://img.shields.io/npm/v/sfnick.svg)](https://npmjs.org/package/sfnick)
+[![CircleCI](https://circleci.com/gh/sfnick/sfnick/tree/master.svg?style=shield)](https://circleci.com/gh/sfnick/sfnick/tree/master)
+[![Appveyor CI](https://ci.appveyor.com/api/projects/status/github/sfnick/sfnick?branch=master&svg=true)](https://ci.appveyor.com/project/heroku/sfnick/branch/master)
+[![Codecov](https://codecov.io/gh/sfnick/sfnick/branch/master/graph/badge.svg)](https://codecov.io/gh/sfnick/sfnick)
+[![Greenkeeper](https://badges.greenkeeper.io/sfnick/sfnick.svg)](https://greenkeeper.io/)
+[![Known Vulnerabilities](https://snyk.io/test/github/sfnick/sfnick/badge.svg)](https://snyk.io/test/github/sfnick/sfnick)
+[![Downloads/week](https://img.shields.io/npm/dw/sfnick.svg)](https://npmjs.org/package/sfnick)
+[![License](https://img.shields.io/npm/l/sfnick.svg)](https://github.com/sfnick/sfnick/blob/master/package.json)
 
 <!-- toc -->
 * [Debugging your plugin](#debugging-your-plugin)
@@ -18,19 +18,126 @@ A Fonteva CLI Tool
 <!-- install -->
 <!-- usage -->
 ```sh-session
-$ npm install -g fonteva
-$ sfdx COMMAND
+$ npm install -g sfnick
+$ sfnick COMMAND
 running command...
-$ sfdx (-v|--version|version)
-fonteva/0.0.0 win32-x64 node-v12.18.4
-$ sfdx --help [COMMAND]
+$ sfnick (-v|--version|version)
+sfnick/0.0.1 win32-x64 node-v12.18.4
+$ sfnick --help [COMMAND]
 USAGE
-  $ sfdx COMMAND
+  $ sfnick COMMAND
 ...
 ```
 <!-- usagestop -->
 <!-- commands -->
+* [`sfnick fonteva:retrieve:dashboards [-u <string>] [--apiversion <string>] [--json] [--loglevel trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]`](#sfnick-fontevaretrievedashboards--u-string---apiversion-string---json---loglevel-tracedebuginfowarnerrorfataltracedebuginfowarnerrorfatal)
+* [`sfnick fonteva:retrieve:emailTemplates [-u <string>] [--apiversion <string>] [--json] [--loglevel trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]`](#sfnick-fontevaretrieveemailtemplates--u-string---apiversion-string---json---loglevel-tracedebuginfowarnerrorfataltracedebuginfowarnerrorfatal)
+* [`sfnick fonteva:retrieve:installedPackages [-u <string>] [--apiversion <string>] [--json] [--loglevel trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]`](#sfnick-fontevaretrieveinstalledpackages--u-string---apiversion-string---json---loglevel-tracedebuginfowarnerrorfataltracedebuginfowarnerrorfatal)
+* [`sfnick fonteva:retrieve:reports [-u <string>] [--apiversion <string>] [--json] [--loglevel trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]`](#sfnick-fontevaretrievereports--u-string---apiversion-string---json---loglevel-tracedebuginfowarnerrorfataltracedebuginfowarnerrorfatal)
 
+## `sfnick fonteva:retrieve:dashboards [-u <string>] [--apiversion <string>] [--json] [--loglevel trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]`
+
+retrieve all dashboards from target org
+
+```
+retrieve all dashboards from target org
+
+USAGE
+  $ sfnick fonteva:retrieve:dashboards [-u <string>] [--apiversion <string>] [--json] [--loglevel 
+  trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]
+
+OPTIONS
+  -u, --targetusername=targetusername                                               username or alias for the target
+                                                                                    org; overrides default target org
+
+  --apiversion=apiversion                                                           override the api version used for
+                                                                                    api requests made by this command
+
+  --json                                                                            format output as json
+
+  --loglevel=(trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL)  [default: warn] logging level for
+                                                                                    this command invocation
+```
+
+_See code: [lib/commands/fonteva/retrieve/dashboards.js](https://github.com/nicholasglesmann/sfnick/blob/v0.0.1/lib/commands/fonteva/retrieve/dashboards.js)_
+
+## `sfnick fonteva:retrieve:emailTemplates [-u <string>] [--apiversion <string>] [--json] [--loglevel trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]`
+
+retrieve all email templates from target org
+
+```
+retrieve all email templates from target org
+
+USAGE
+  $ sfnick fonteva:retrieve:emailTemplates [-u <string>] [--apiversion <string>] [--json] [--loglevel 
+  trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]
+
+OPTIONS
+  -u, --targetusername=targetusername                                               username or alias for the target
+                                                                                    org; overrides default target org
+
+  --apiversion=apiversion                                                           override the api version used for
+                                                                                    api requests made by this command
+
+  --json                                                                            format output as json
+
+  --loglevel=(trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL)  [default: warn] logging level for
+                                                                                    this command invocation
+```
+
+_See code: [lib/commands/fonteva/retrieve/emailTemplates.js](https://github.com/nicholasglesmann/sfnick/blob/v0.0.1/lib/commands/fonteva/retrieve/emailTemplates.js)_
+
+## `sfnick fonteva:retrieve:installedPackages [-u <string>] [--apiversion <string>] [--json] [--loglevel trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]`
+
+retrieve all installed packages from target org
+
+```
+retrieve all installed packages from target org
+
+USAGE
+  $ sfnick fonteva:retrieve:installedPackages [-u <string>] [--apiversion <string>] [--json] [--loglevel 
+  trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]
+
+OPTIONS
+  -u, --targetusername=targetusername                                               username or alias for the target
+                                                                                    org; overrides default target org
+
+  --apiversion=apiversion                                                           override the api version used for
+                                                                                    api requests made by this command
+
+  --json                                                                            format output as json
+
+  --loglevel=(trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL)  [default: warn] logging level for
+                                                                                    this command invocation
+```
+
+_See code: [lib/commands/fonteva/retrieve/installedPackages.js](https://github.com/nicholasglesmann/sfnick/blob/v0.0.1/lib/commands/fonteva/retrieve/installedPackages.js)_
+
+## `sfnick fonteva:retrieve:reports [-u <string>] [--apiversion <string>] [--json] [--loglevel trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]`
+
+retrieve all reports from target org
+
+```
+retrieve all reports from target org
+
+USAGE
+  $ sfnick fonteva:retrieve:reports [-u <string>] [--apiversion <string>] [--json] [--loglevel 
+  trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]
+
+OPTIONS
+  -u, --targetusername=targetusername                                               username or alias for the target
+                                                                                    org; overrides default target org
+
+  --apiversion=apiversion                                                           override the api version used for
+                                                                                    api requests made by this command
+
+  --json                                                                            format output as json
+
+  --loglevel=(trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL)  [default: warn] logging level for
+                                                                                    this command invocation
+```
+
+_See code: [lib/commands/fonteva/retrieve/reports.js](https://github.com/nicholasglesmann/sfnick/blob/v0.0.1/lib/commands/fonteva/retrieve/reports.js)_
 <!-- commandsstop -->
 <!-- debugging-your-plugin -->
 # Debugging your plugin

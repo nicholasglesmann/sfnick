@@ -1,7 +1,7 @@
 {
   "name": "sfnick",
   "description": "A CLI Tool",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "author": "Nicholas Glesmann",
   "bugs": "https://github.com/nicholasglesmann/sfnick/issues",
   "dependencies": {
