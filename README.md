@@ -4,11 +4,11 @@ sfnick
 A sfnick CLI Tool
 
 [![Version](https://img.shields.io/npm/v/sfnick.svg)](https://npmjs.org/package/sfnick)
-[![CircleCI](https://circleci.com/gh/sfnick/sfnick/tree/master.svg?style=shield)](https://circleci.com/gh/sfnick/sfnick/tree/master)
+[![CircleCI](https://circleci.com/gh/nicholasglesmann/sfnick/tree/master.svg?style=shield)](https://circleci.com/gh/nicholasglesmann/sfnick/tree/main)
 [![Appveyor CI](https://ci.appveyor.com/api/projects/status/github/sfnick/sfnick?branch=master&svg=true)](https://ci.appveyor.com/project/heroku/sfnick/branch/master)
 [![Codecov](https://codecov.io/gh/sfnick/sfnick/branch/master/graph/badge.svg)](https://codecov.io/gh/sfnick/sfnick)
 [![Greenkeeper](https://badges.greenkeeper.io/sfnick/sfnick.svg)](https://greenkeeper.io/)
-[![Known Vulnerabilities](https://snyk.io/test/github/sfnick/sfnick/badge.svg)](https://snyk.io/test/github/sfnick/sfnick)
+[![Known Vulnerabilities](https://snyk.io/test/github/nicholasglesmann/sfnick/badge.svg)](https://snyk.io/test/github/nicholasglesmann/sfnick)
 [![Downloads/week](https://img.shields.io/npm/dw/sfnick.svg)](https://npmjs.org/package/sfnick)
 [![License](https://img.shields.io/npm/l/sfnick.svg)](https://github.com/sfnick/sfnick/blob/master/package.json)
 
