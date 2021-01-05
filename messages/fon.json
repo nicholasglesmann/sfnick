@@ -1,0 +1,20 @@
+{
+    "retrieve": {
+        "dashboards": {
+            "description": "retrieve all dashboards from target org",
+            "flags": {}
+        },
+        "emailTemplates": {
+            "description": "retrieve all email templates from target org",
+            "flags": {}
+        },
+        "installedPackages": {
+            "description": "retrieve all installed packages from target org",
+            "flags": {}
+        },
+        "reports": {
+            "description": "retrieve all reports from target org",
+            "flags": {}
+        }
+    }
+}
