@@ -4,7 +4,7 @@ sfnick
 A sfnick CLI Tool
 
 [![Version](https://img.shields.io/npm/v/sfnick.svg)](https://npmjs.org/package/sfnick)
-[![CircleCI](https://circleci.com/gh/nicholasglesmann/sfnick/tree/master.svg?style=shield)](https://circleci.com/gh/nicholasglesmann/sfnick/tree/main)
+[![CircleCI](https://circleci.com/gh/nicholasglesmann/sfnick/tree/main.svg?style=shield)](https://circleci.com/gh/nicholasglesmann/sfnick/tree/main)
 [![Appveyor CI](https://ci.appveyor.com/api/projects/status/github/sfnick/sfnick?branch=master&svg=true)](https://ci.appveyor.com/project/heroku/sfnick/branch/master)
 [![Codecov](https://codecov.io/gh/sfnick/sfnick/branch/master/graph/badge.svg)](https://codecov.io/gh/sfnick/sfnick)
 [![Greenkeeper](https://badges.greenkeeper.io/sfnick/sfnick.svg)](https://greenkeeper.io/)
