@@ -3,7 +3,7 @@
   "description": "A CLI Tool",
   "version": "0.0.0",
   "author": "Nicholas Glesmann",
-  "bugs": "https://github.com/fon-sfdx-plugin/fonteva/issues",
+  "bugs": "https://github.com/nicholasglesmann/sfnick/issues",
   "dependencies": {
     "@oclif/command": "^1",
     "@oclif/config": "^1",
@@ -38,7 +38,7 @@
     "/npm-shrinkwrap.json",
     "/oclif.manifest.json"
   ],
-  "homepage": "https://github.com/fon-sfdx-plugin/fonteva",
+  "homepage": "https://github.com/nicholasglesmann/sfnick",
   "keywords": [
     "sfdx-plugin"
   ],
@@ -59,7 +59,7 @@
       "@oclif/plugin-help"
     ]
   },
-  "repository": "fon-sfdx-plugin/fonteva",
+  "repository": "nicholasglesmann/sfnick",
   "scripts": {
     "lint": "tslint --project . --config tslint.json --format stylish",
     "postpack": "rimraf oclif.manifest.json",
