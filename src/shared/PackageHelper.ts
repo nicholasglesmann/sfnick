@@ -102,6 +102,10 @@ export default class PackageHelper
                 members.add(result.Folder.DeveloperName);
                 members.add(`${result.Folder.DeveloperName}/${result.DeveloperName}`);
             }
+            else if (typeof result == 'string')
+            {
+                members.add(<string> result);
+            }
             else // Handle other Metadata Types
             {
                 members.add(result.DeveloperName);

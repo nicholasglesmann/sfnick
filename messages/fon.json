@@ -27,6 +27,10 @@
                 "description": "retrieve all installed packages from target org",
                 "flags": {}
             },
+            "managedObjects": {
+                "description": "retrieve all installed packages from target org",
+                "flags": {}
+            },
             "reports": {
                 "description": "retrieve all reports from target org",
                 "flags": {}
