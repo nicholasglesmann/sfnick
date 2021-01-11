@@ -28,7 +28,7 @@
                 "flags": {}
             },
             "managedObjects": {
-                "description": "retrieve all installed packages from target org",
+                "description": "retrieve managed objects from target org. Default namespaces: DRCTS, DonorApi, EventApi, Framework, joinapi, LTE, OrderApi, PagesApi, PriceApi, ProgramApi",
                 "flags": {}
             },
             "reports": {
