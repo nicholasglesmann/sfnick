@@ -21,14 +21,14 @@ export default class RetrieveHelper
                 resolve(data);
             });
         })
-            .then(data =>
-            {
-                console.log(`${metadataType}s retrieved!`);
-            })
-            .catch(error =>
-            {
-                console.log(`Error retrieving ${metadataType}: ${error}`);
-            });
+        .then(data =>
+        {
+            console.log(`${metadataType}s retrieved!`);
+        })
+        .catch(error =>
+        {
+            console.log(`Error retrieving ${metadataType}: ${error}`);
+        });
     }
 
     public retrieveMetadata(results, username, apiVersion, metadataType): void

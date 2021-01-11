@@ -2,8 +2,8 @@ import { SfdxCommand } from '@salesforce/command';
 import { Messages } from '@salesforce/core';
 import { JsonMap } from '@salesforce/ts-types';
 import { QueryResult } from 'jsforce';
-import MetadataResult from '../../../types/MetadataResult';
-import RetrieveHelper from '../../../shared/RetrieveHelper';
+import MetadataResult from '../../../../types/MetadataResult';
+import RetrieveHelper from '../../../../shared/RetrieveHelper';
 
 
 // Initialize Messages with the current plugin directory
@@ -13,9 +13,9 @@ Messages.importMessagesDirectory(__dirname);
 // or any library that is using the messages framework can also be loaded this way.
 const messages = Messages.loadMessages('sfnick', 'fon');
 
-export default class RetrieveEmailTemplate extends SfdxCommand
+export default class RetrieveWorkflows extends SfdxCommand
 {
-    public static description = messages.getMessage('retrieve.dashboards.description');
+    public static description = messages.getMessage('metadata.retrieve.workflows.description');
     public static examples = [];
 
     protected static requiresUsername = true;
@@ -26,27 +26,28 @@ export default class RetrieveEmailTemplate extends SfdxCommand
         const conn = org.getConnection();
         await org.refreshAuth();
 
-        let dashboardResults = <QueryResult<MetadataResult>> await conn.query(`SELECT DeveloperName, Folder.DeveloperName FROM Dashboard`);
+        let workflowResults = <QueryResult<MetadataResult>>await conn.tooling.query(`SELECT TableEnumOrId FROM WorkflowRule`);
 
-        let results = this.prepareResults(dashboardResults);
+        let results = this.prepareResults(workflowResults);
 
         let retrieveHelper = new RetrieveHelper();
 
-        retrieveHelper.retrieveDashboards(results, org.getUsername(), conn.getApiVersion());
+        retrieveHelper.retrieveWorkflows(results, org.getUsername(), conn.getApiVersion());
 
         return null;
     }
 
-    private prepareResults(dashboardResults: QueryResult<MetadataResult>): QueryResult<MetadataResult>
+
+    private prepareResults(workflowResults: QueryResult<MetadataResult>): QueryResult<MetadataResult>
     {
-        dashboardResults.records.forEach(dashboard =>
+        workflowResults.records.forEach(workflow =>
         {
-            if (!dashboard.Folder)
+            if (!workflow.Folder)
             {
-                dashboard.Folder = { Name: null, DeveloperName: null } // Ignore private dashboards, these cannont be retrieved by Metadata API
+                workflow.Folder = { Name: null, DeveloperName: 'unfiled$public' }
             }
         });
 
-        return dashboardResults;
+        return workflowResults;
     }
 }

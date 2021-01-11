@@ -45,15 +45,44 @@
   "license": "MIT",
   "oclif": {
     "commands": "./lib/commands",
+            "description": "Test",
     "topics": {
-      "fonteva": {
-        "description": "Fonteva commands",
-        "subtopics": {
-          "retrieve": {
-            "description": "commands for retrieving metadata from an org"
-          }
+        "fonteva": {
+            "description":  "A CLI tool to make life easier while working at Fonteva | by Nicholas Glesmann"
+        },
+        "fonteva:data": {
+            "description": "commands for retrieving/deploying data to/from an org"
+        },
+        "fonteva:metadata": {
+            "description": "commands for retrieving/deploying metadata to/from an org",
+            "subtopics": {
+                "retrieve": {
+                    "description": "retrieve metadata from an org"
+                }
+            }
+        },
+        "fonteva:org": {
+            "description": "commands for interacting with client orgs",
+            "subtopics": {
+                "prod": {
+                    "description": "commands for interacting with client production orgs"
+                },
+                "full": {
+                    "description": "commands for interacting with client full sandbox orgs"
+                },
+                "uat": {
+                    "description": "commands for interacting with client uat sandbox orgs"
+                }
+            }
+        },
+        "fonteva:secret": {
+            "description": "commands for interacting with secrets",
+            "subtopics": {
+                "set": {
+                    "description": "commands for setting various secrets"
+                }
+            }
         }
-      }
     },
     "devPlugins": [
       "@oclif/plugin-help"

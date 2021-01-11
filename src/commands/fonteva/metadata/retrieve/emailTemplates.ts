@@ -2,8 +2,8 @@ import { SfdxCommand } from '@salesforce/command';
 import { Messages } from '@salesforce/core';
 import { JsonMap } from '@salesforce/ts-types';
 import { QueryResult } from 'jsforce';
-import MetadataResult from '../../../types/MetadataResult';
-import RetrieveHelper from '../../../shared/RetrieveHelper';
+import MetadataResult from '../../../../types/MetadataResult';
+import RetrieveHelper from '../../../../shared/RetrieveHelper';
 
 
 // Initialize Messages with the current plugin directory
@@ -13,9 +13,9 @@ Messages.importMessagesDirectory(__dirname);
 // or any library that is using the messages framework can also be loaded this way.
 const messages = Messages.loadMessages('sfnick', 'fon');
 
-export default class RetrieveEmailTemplate extends SfdxCommand
+export default class RetrieveEmailTemplates extends SfdxCommand
 {
-    public static description = messages.getMessage('retrieve.emailTemplates.description');
+    public static description = messages.getMessage('metadata.retrieve.emailTemplates.description');
     public static examples = [];
 
     protected static requiresUsername = true;
