@@ -12,15 +12,15 @@ Messages.importMessagesDirectory(__dirname);
 // or any library that is using the messages framework can also be loaded this way.
 const messages = Messages.loadMessages('sfnick', 'fon');
 
-export default class ProdValidate extends SfdxCommand
+export default class FullValidate extends SfdxCommand
 {
-    public static description = messages.getMessage('org.prod.validate.description');
+    public static description = messages.getMessage('org.full.validate.description');
     public static examples = [];
 
     protected static flagsConfig = {
         client: flags.string({
             char: 'c',
-            description: messages.getMessage('org.prod.validate.flags.client')
+            description: messages.getMessage('org.full.validate.flags.client')
         })
     };
 
@@ -33,7 +33,7 @@ export default class ProdValidate extends SfdxCommand
             throw new SfdxError('This command requires a client name or acronym (use -c or --client)');
         }
 
-        SfdxHelper.forceSourceValidate(`${clientName}-prod`, CONSTANTS.ORG_URLS.DEPLOYMENT_STATUS);
+        SfdxHelper.forceSourceValidate(`${clientName}-full`, CONSTANTS.ORG_URLS.DEPLOYMENT_STATUS);
 
         return null;
     }

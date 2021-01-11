@@ -15,15 +15,15 @@ Messages.importMessagesDirectory(__dirname);
 // or any library that is using the messages framework can also be loaded this way.
 const messages = Messages.loadMessages('sfnick', 'fon');
 
-export default class ProdConnect extends SfdxCommand
+export default class UatConnect extends SfdxCommand
 {
-    public static description = messages.getMessage('org.prod.connect.description');
+    public static description = messages.getMessage('org.uat.connect.description');
     public static examples = [];
 
     protected static flagsConfig = {
         client: flags.string({
             char: 'c',
-            description: messages.getMessage('org.prod.connect.flags.client')
+            description: messages.getMessage('org.uat.connect.flags.client')
         })
     };
 
@@ -68,7 +68,7 @@ export default class ProdConnect extends SfdxCommand
             throw new SfdxError('This command requires a client name or acronym (use -c or --client)');
         }
 
-        let authCommand = `sfdx force:auth:web:login -i "${clientId}" --setdefaultusername --setalias "${clientName}-prod"`;
+        let authCommand = `sfdx force:auth:web:login -i "${clientId}" --setdefaultusername --setalias "${clientName}-uat"`;
 
         let cmd = await this.execute(authCommand, <ExecOptions> { stdio: 'ignore'},
                                 function(error: ExecException, stdout: string, stderr:string) {
@@ -87,7 +87,7 @@ export default class ProdConnect extends SfdxCommand
 
         cmd.stdin.write(clientSecret);
 
-        console.log(`Client ${clientName} is successfully connected! Use the alias '${clientName}-prod' for any future SFDX or Fonteva CLI commands.`);
+        console.log(`Client ${clientName} is successuaty connected! Use the alias '${clientName}-uat' for any future SFDX or Fonteva CLI commands.`);
 
         return null;
     }
