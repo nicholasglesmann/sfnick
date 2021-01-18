@@ -1,105 +1,167 @@
 {
     "data": {
         "destroy": {
-            "description": "destroy all data in target org",
-            "flags": {}
+            "description": "destroy all data in target org"
         },
         "deploy": {
-            "description": "deploy all csvfile data to target org",
-            "flags": {}
+            "description": "deploy all csvfile data to target org"
         },
         "retrieve": {
-            "description": "retrieve all data into csvfile from target org",
-            "flags": {}
+            "description": "retrieve all data into csvfile from target org"
         }
     },
-    "metadata": {
-        "retrieve": {
-            "dashboards": {
-                "description": "retrieve all dashboards from target org",
-                "flags": {}
-            },
-            "emailTemplates": {
-                "description": "retrieve all email templates from target org",
-                "flags": {}
-            },
-            "installedPackages": {
-                "description": "retrieve all installed packages from target org",
-                "flags": {}
-            },
-            "managedObjects": {
-                "description": "retrieve managed objects from target org. Default namespaces: DRCTS, DonorApi, EventApi, Framework, joinapi, LTE, OrderApi, PagesApi, PriceApi, ProgramApi",
-                "flags": {}
-            },
-            "reports": {
-                "description": "retrieve all reports from target org",
-                "flags": {}
-            },
-            "workflows": {
-                "description": "retrieve all workflows from target org",
-                "flags": {}
-            }
-        }
-    },
-    "org": {
-        "prod": {
-            "connect": {
-                "description": "sets up a production org connection with SFDX and Fonteva's CI/CD process",
+    "retrieve": {
+        "dashboards": {
+            "description": "retrieve all dashboards from target org",
+            "subcommands": {
                 "flags": {
                     "client": "name or acronym of the client"
-                }
-            },
-            "open": {
-                "description": "opens a production org in a web browser",
-                "flags": {
-                    "client": "name or acronym of the client"
-                }
-            },
-            "validate": {
-                "description": "validate local code in a production org",
-                "flags": {
-                    "client": "name or acronym of the client"
+                },
+                "prod": {
+                    "description": "retrieve all dashboards from a client's production org"
+                },
+                "full": {
+                    "description": "retrieve all dashboards from a client's full sandbox org"
+                },
+                "uat": {
+                    "description": "retrieve all dashboards from a client's uat sandbox org"
                 }
             }
         },
-        "full": {
-            "connect": {
-                "description": "sets up a full sandbox org connection with SFDX and Fonteva's CI/CD process",
+        "emailTemplates": {
+            "description": "retrieve all email templates from target org",
+            "subcommands": {
                 "flags": {
                     "client": "name or acronym of the client"
-                }
-            },
-            "open": {
-                "description": "opens a full org in a web browser",
-                "flags": {
-                    "client": "name or acronym of the client"
-                }
-            },
-            "validate": {
-                "description": "validate local code in a full org",
-                "flags": {
-                    "client": "name or acronym of the client"
+                },
+                "prod": {
+                    "description": "retrieve all email templates from a client's production org"
+                },
+                "full": {
+                    "description": "retrieve all email templates from a client's full sandbox org"
+                },
+                "uat": {
+                    "description": "retrieve all email templates from a client's uat sandbox org"
                 }
             }
         },
-        "uat": {
-            "connect": {
-                "description": "sets up a uat sandbox org connection with SFDX and Fonteva's CI/CD process",
+        "installedPackages": {
+            "description": "retrieve all installed packages from target org",
+            "subcommands": {
                 "flags": {
                     "client": "name or acronym of the client"
+                },
+                "prod": {
+                    "description": "retrieve all installed packages from a client's production org"
+                },
+                "full": {
+                    "description": "retrieve all installed packages from a client's full sandbox org"
+                },
+                "uat": {
+                    "description": "retrieve all installed packages from a client's uat sandbox org"
                 }
+            }
+        },
+        "managedObjects": {
+            "description": "retrieve managed objects from target org. Default namespaces: DRCTS, DonorApi, EventApi, Framework, joinapi, LTE, OrderApi, PagesApi, PriceApi, ProgramApi",
+            "subcommands": {
+                "flags": {
+                    "client": "name or acronym of the client"
+                },
+                "prod": {
+                    "description": "retrieve managed objects from a client's production org. Default namespaces: DRCTS, DonorApi, EventApi, Framework, joinapi, LTE, OrderApi, PagesApi, PriceApi, ProgramApi"
+                },
+                "full": {
+                    "description": "retrieve managed objects from a client's full sandbox org. Default namespaces: DRCTS, DonorApi, EventApi, Framework, joinapi, LTE, OrderApi, PagesApi, PriceApi, ProgramApi"
+                },
+                "uat": {
+                    "description": "retrieve managed objects from a client's uat sandbox org. Default namespaces: DRCTS, DonorApi, EventApi, Framework, joinapi, LTE, OrderApi, PagesApi, PriceApi, ProgramApi"
+                }
+            }
+        },
+        "reports": {
+            "description": "retrieve all reports from target org",
+            "subcommands": {
+                "flags": {
+                    "client": "name or acronym of the client"
+                },
+                "prod": {
+                    "description": "retrieve all reports from a client's production org"
+                },
+                "full": {
+                    "description": "retrieve all reports from a client's full sandbox org"
+                },
+                "uat": {
+                    "description": "retrieve all reports from a client's uat sandbox org"
+                }
+            }
+        },
+        "workflows": {
+            "description": "retrieve all workflows from target org",
+            "subcommands": {
+                "flags": {
+                    "client": "name or acronym of the client"
+                },
+                "prod": {
+                    "description": "retrieve all workflows from a client's production org"
+                },
+                "full": {
+                    "description": "retrieve all workflows from a client's full sandbox org"
+                },
+                "uat": {
+                    "description": "retrieve all workflows from a client's uat sandbox org"
+                }
+            }
+        }
+    },
+    "connect": {
+        "description": "connect any org to SFDX and Fonteva's CI/CD process",
+        "subcommands": {
+            "flags": {
+                "client": "name or acronym of the client"
             },
-            "open": {
-                "description": "opens a uat org in a web browser",
-                "flags": {
-                    "client": "name or acronym of the client"
-                }
+            "prod": {
+                "description": "connect a client's production org to SFDX and Fonteva's CI/CD process"
             },
-            "validate": {
-                "description": "validate local code in a uat org",
-                "flags": {
-                    "client": "name or acronym of the client"
-                }
+            "full": {
+                "description": "connect a client's full sandbox org to SFDX and Fonteva's CI/CD process"
+            },
+            "uat": {
+                "description": "connect a client's uat sandbox org to SFDX and Fonteva's CI/CD process"
+            }
+        }
+    },
+    "open": {
+        "description": "open any org in a web browser",
+        "subcommands": {
+            "flags": {
+                "client": "name or acronym of the client"
+            },
+            "prod": {
+                "description": "open a client's production org in a web browser"
+            },
+            "full": {
+                "description": "open a client's full sandbox org in a web browser"
+            },
+            "uat": {
+                "description": "open a client's uat sandbox org in a web browser"
+            }
+        }
+    },
+    "validate": {
+        "description": "validate (check-only deploy) all force-app metadata in any org",
+        "subcommands": {
+            "flags": {
+                "client": "name or acronym of the client"
+            },
+            "prod": {
+                "description": "validate (check-only deploy) all force-app metadata in a client's production org"
+            },
+            "full": {
+                "description": "validate (check-only deploy) all force-app metadata in a client's full sandbox org"
+            },
+            "uat": {
+                "description": "validate (check-only deploy) all force-app metadata in a client's uat sandbox org"
             }
         }
     },

@@ -3,8 +3,8 @@ import { Messages, SfdxError } from '@salesforce/core';
 import { JsonMap } from '@salesforce/ts-types';
 import { exec, ExecException, ExecOptions } from 'child_process';
 import * as util from 'util';
-import SecretManager from '../../../../shared/SecretManager';
-import CONSTANTS from '../../../../shared/constants';
+import SecretManager from '../../shared/SecretManager';
+import CONSTANTS from '../../shared/constants';
 
 // import { AuthWebLoginCommand } from '@salesforce/command';
 
@@ -15,15 +15,15 @@ Messages.importMessagesDirectory(__dirname);
 // or any library that is using the messages framework can also be loaded this way.
 const messages = Messages.loadMessages('sfnick', 'fon');
 
-export default class ProdConnect extends SfdxCommand
+export default class UatConnect extends SfdxCommand
 {
-    public static description = messages.getMessage('org.prod.connect.description');
+    public static description = messages.getMessage('connect.description');
     public static examples = [];
 
     protected static flagsConfig = {
         client: flags.string({
             char: 'c',
-            description: messages.getMessage('org.prod.connect.flags.client')
+            description: messages.getMessage('connect.subcommands.flags.client')
         })
     };
 
@@ -35,11 +35,7 @@ export default class ProdConnect extends SfdxCommand
     public async run(): Promise<JsonMap>
     {
 
-
-
         throw new SfdxError('Command not implemented yet....check back soon!');
-
-
 
 
 
@@ -68,26 +64,29 @@ export default class ProdConnect extends SfdxCommand
             throw new SfdxError('This command requires a client name or acronym (use -c or --client)');
         }
 
-        let authCommand = `sfdx force:auth:web:login -i "${clientId}" --setdefaultusername --setalias "${clientName}-prod"`;
+        let authCommand = `sfdx force:auth:web:login -i "${clientId}" --setdefaultusername --setalias "${clientName}-uat"`;
 
-        let cmd = await this.execute(authCommand, <ExecOptions> { stdio: 'ignore'},
-                                function(error: ExecException, stdout: string, stderr:string) {
+        let cmd = await exec(authCommand, <ExecOptions>{ stdio: 'ignore' },
+            (error: ExecException, stdout: string, stderr: string) =>
+            {
+                console.log(process.env.TERM);
+                console.log(process.stdin.isTTY);
 
-                                    if (error)
-                                    {
-                                        console.log(error);
-                                    }
+                if (error)
+                {
+                    console.log(error);
+                }
 
-                                    if (stderr)
-                                    {
-                                        console.log(stderr);
-                                    }
-                                }
+                if (stderr)
+                {
+                    console.log(stderr);
+                }
+            }
         );
 
         cmd.stdin.write(clientSecret);
 
-        console.log(`Client ${clientName} is successfully connected! Use the alias '${clientName}-prod' for any future SFDX or Fonteva CLI commands.`);
+        console.log(`Client ${clientName} is successfully connected! Use the alias '${clientName}-uat' for any future SFDX or Fonteva CLI commands.`);
 
         return null;
     }

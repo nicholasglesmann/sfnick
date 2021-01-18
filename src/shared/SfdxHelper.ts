@@ -1,18 +1,15 @@
 import { exec } from 'child_process';
+import CONSTANTS from './constants';
 
 export default class SfdxHelper
 {
     static forceOrgOpen(username: string, path?: string): Promise<any>
     {
-        let sfdxCommand;
+        let sfdxCommand = `sfdx force:org:open -u ${username}`;
 
         if (path)
         {
-            sfdxCommand = `sfdx force:org:open -u ${username} -p ${path}`;
-        }
-        else
-        {
-            sfdxCommand = `sfdx force:org:open -u ${username}`;
+            sfdxCommand +=  ` -p ${path}`;
         }
 
         console.log(`Opening org ${username}`);
@@ -35,13 +32,13 @@ export default class SfdxHelper
     }
 
 
-    static forceSourceValidate(username: string, path: string)
+    static forceSourceValidate(username: string): Promise<any>
     {
-        let sfdxCommand = `sfdx force:source:deploy -c -p force-app -l RunLocalTests -u ${username}`;
+        SfdxHelper.forceOrgOpen(username, CONSTANTS.ORG_URLS.DEPLOYMENT_STATUS);
+
+        let sfdxCommand = `sfdx force:source:deploy -c -p force-app -l RunLocalTests  -u ${username}`;
 
         console.log(`Validating force-app/main/default/ metadata in org ${username}...`);
-
-        SfdxHelper.forceOrgOpen(username, path);
 
         return new Promise((resolve, reject) =>
         {

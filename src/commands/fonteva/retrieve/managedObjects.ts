@@ -1,7 +1,7 @@
 import { SfdxCommand } from '@salesforce/command';
 import { Messages, SfdxError } from '@salesforce/core';
 import { JsonMap } from '@salesforce/ts-types';
-import RetrieveHelper from '../../../../shared/RetrieveHelper';
+import RetrieveHelper from '../../../shared/metadata/RetrieveHelper';
 
 
 // Initialize Messages with the current plugin directory
@@ -13,7 +13,7 @@ const messages = Messages.loadMessages('sfnick', 'fon');
 
 export default class RetrieveManagedObjects extends SfdxCommand
 {
-    public static description = messages.getMessage('metadata.retrieve.managedObjects.description');
+    public static description = messages.getMessage('retrieve.managedObjects.description');
     public static examples = [];
 
     protected static requiresUsername = true;
@@ -38,9 +38,7 @@ export default class RetrieveManagedObjects extends SfdxCommand
                 records: onlyNamespaceObjectNames
             };
 
-            let retrieveHelper = new RetrieveHelper();
-
-            retrieveHelper.retrieveMetadata(results, org.getUsername(), conn.getApiVersion(), 'CustomObject');
+            RetrieveHelper.retrieveMetadata(results, org.getUsername(), conn.getApiVersion(), 'CustomObject');
         });
 
         return null;

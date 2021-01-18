@@ -1,6 +1,6 @@
 import * as fs from 'fs';
 import { QueryResult } from 'jsforce';
-import MetadataResult from '../types/MetadataResult';
+import MetadataResult from '../../types/MetadataResult';
 
 export default class PackageHelper
 {

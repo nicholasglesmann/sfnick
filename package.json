@@ -1,100 +1,89 @@
 {
-  "name": "sfnick",
-  "description": "A CLI Tool",
-  "version": "0.0.1",
-  "author": "Nicholas Glesmann",
-  "bugs": "https://github.com/nicholasglesmann/sfnick/issues",
-  "dependencies": {
-    "@oclif/command": "^1",
-    "@oclif/config": "^1",
-    "@oclif/errors": "^1",
-    "@salesforce/command": "^2",
-    "@salesforce/core": "^2",
-    "tslib": "^2.0.3",
-    "typescript": "^4.1.3"
-  },
-  "devDependencies": {
-    "@oclif/dev-cli": "^1",
-    "@oclif/plugin-help": "^2",
-    "@oclif/test": "^1",
-    "@salesforce/dev-config": "1.4.1",
-    "@types/chai": "^4",
-    "@types/mocha": "^5",
-    "@types/node": "^10",
-    "chai": "^4",
-    "globby": "^8",
-    "mocha": "^5",
-    "nyc": "^14",
-    "rimraf": "^3.0.2",
-    "ts-node": "^8",
-    "tslint": "^5"
-  },
-  "engines": {
-    "node": ">=8.0.0"
-  },
-  "files": [
-    "/lib",
-    "/messages",
-    "/npm-shrinkwrap.json",
-    "/oclif.manifest.json"
-  ],
-  "homepage": "https://github.com/nicholasglesmann/sfnick",
-  "keywords": [
-    "sfdx-plugin"
-  ],
-  "license": "MIT",
-  "oclif": {
-    "commands": "./lib/commands",
-            "description": "Test",
-    "topics": {
-        "fonteva": {
-            "description":  "A CLI tool to make life easier while working at Fonteva | by Nicholas Glesmann"
-        },
-        "fonteva:data": {
-            "description": "commands for retrieving/deploying data to/from an org"
-        },
-        "fonteva:metadata": {
-            "description": "commands for retrieving/deploying metadata to/from an org",
-            "subtopics": {
-                "retrieve": {
-                    "description": "retrieve metadata from an org"
-                }
-            }
-        },
-        "fonteva:org": {
-            "description": "commands for interacting with client orgs",
-            "subtopics": {
-                "prod": {
-                    "description": "commands for interacting with client production orgs"
-                },
-                "full": {
-                    "description": "commands for interacting with client full sandbox orgs"
-                },
-                "uat": {
-                    "description": "commands for interacting with client uat sandbox orgs"
-                }
-            }
-        },
-        "fonteva:secret": {
-            "description": "commands for interacting with secrets",
-            "subtopics": {
-                "set": {
-                    "description": "commands for setting various secrets"
-                }
-            }
-        }
+    "name": "sfnick",
+    "description": "A CLI Tool",
+    "version": "0.0.3",
+    "author": "Nicholas Glesmann",
+    "bugs": "https://github.com/nicholasglesmann/sfnick/issues",
+    "dependencies": {
+        "@oclif/command": "^1",
+        "@oclif/config": "^1",
+        "@oclif/errors": "^1",
+        "@salesforce/command": "^3.0.5",
+        "@salesforce/core": "^2.16.0",
+        "@salesforce/kit": "^1.3.3",
+        "@salesforce/ts-types": "^1.4.3",
+        "tslib": "^2.0.3",
+        "typescript": "^4.1.3"
     },
-    "devPlugins": [
-      "@oclif/plugin-help"
-    ]
-  },
-  "repository": "nicholasglesmann/sfnick",
-  "scripts": {
-    "lint": "tslint --project . --config tslint.json --format stylish",
-    "postpack": "rimraf oclif.manifest.json",
-    "posttest": "tslint -p test -t stylish",
-    "prepack": "rimraf lib && tsc -b && oclif-dev manifest && oclif-dev readme",
-    "test": "nyc --extension .ts mocha --forbid-only \"test/**/*.test.ts\"",
-    "version": "oclif-dev readme && git add README.md"
-  }
+    "devDependencies": {
+        "@oclif/dev-cli": "^1",
+        "@oclif/plugin-help": "^2",
+        "@oclif/test": "^1",
+        "@salesforce/dev-config": "1.4.1",
+        "@types/chai": "^4",
+        "@types/mocha": "^5",
+        "@types/node": "^10",
+        "chai": "^4",
+        "globby": "^8",
+        "mocha": "^5",
+        "nyc": "^14",
+        "rimraf": "^3.0.2",
+        "ts-node": "^8",
+        "tslint": "^5"
+    },
+    "engines": {
+        "node": ">=8.0.0"
+    },
+    "files": [
+        "/lib",
+        "/messages",
+        "/npm-shrinkwrap.json",
+        "/oclif.manifest.json"
+    ],
+    "homepage": "https://github.com/nicholasglesmann/sfnick",
+    "keywords": [
+        "sfdx-plugin"
+    ],
+    "license": "MIT",
+    "oclif": {
+        "commands": "./lib/commands",
+        "description": "Test",
+        "topics": {
+            "fonteva": {
+                "description": "A CLI tool to make life easier while working at Fonteva | by Nicholas Glesmann"
+            },
+            "fonteva:data": {
+                "description": "commands for retrieving/deploying data to/from an org"
+            },
+            "fonteva:retrieve": {
+                "description": "commands for retrieving data/metadata from an org"
+            },
+            "fonteva:open": {
+                "description": "commands for opening client orgs in a web browser"
+            },
+            "fonteva:validate": {
+                "description": "commands for validating (check-only deploy) local force-app metadata in client orgs"
+            },
+            "fonteva:secret": {
+                "description": "commands for interacting with secrets",
+                "subtopics": {
+                    "set": {
+                        "description": "commands for setting various secrets"
+                    }
+                }
+            }
+        },
+        "devPlugins": [
+            "@oclif/plugin-help"
+        ]
+    },
+    "repository": "nicholasglesmann/sfnick",
+    "scripts": {
+        "lint": "tslint --project . --config tslint.json --format stylish",
+        "postpack": "rimraf oclif.manifest.json",
+        "posttest": "tslint -p test -t stylish",
+        "prepack": "rimraf lib && tsc -b && oclif-dev manifest && oclif-dev readme",
+        "test": "nyc --extension .ts mocha --forbid-only \"test/**/*.test.ts\"",
+        "version": "oclif-dev readme && git add README.md"
+    }
 }

@@ -2,7 +2,7 @@ import { SfdxCommand } from '@salesforce/command';
 import { Connection, Messages } from '@salesforce/core';
 import { JsonMap } from '@salesforce/ts-types';
 import * as fs from 'fs';
-import PackageResult from '../../../../types/PackageResult';
+import PackageResult from '../../../types/PackageResult';
 
 
 // Initialize Messages with the current plugin directory
@@ -14,7 +14,7 @@ const messages = Messages.loadMessages('sfnick', 'fon');
 
 export default class RetrieveInstalledPackages extends SfdxCommand
 {
-    public static description = messages.getMessage('metadata.retrieve.installedPackages.description');
+    public static description = messages.getMessage('retrieve.installedPackages.description');
     public static examples = [];
 
     protected static requiresUsername = true;
