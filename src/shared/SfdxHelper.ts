@@ -1,10 +1,18 @@
-import { exec } from 'child_process';
+import { SfdxError } from '@salesforce/core';
+import PromiseHelper from './PromiseHelper';
 import CONSTANTS from './constants';
 
 export default class SfdxHelper
 {
     static forceOrgOpen(username: string, path?: string): Promise<any>
     {
+        if (!username)
+        {
+            throw new SfdxError('No username entered! Use -u or --username');
+        }
+
+        console.log(`Opening org ${username}`);
+
         let sfdxCommand = `sfdx force:org:open -u ${username}`;
 
         if (path)
@@ -12,23 +20,7 @@ export default class SfdxHelper
             sfdxCommand +=  ` -p ${path}`;
         }
 
-        console.log(`Opening org ${username}`);
-
-        return new Promise((resolve, reject) =>
-        {
-            exec(sfdxCommand, (error, data, stderr) =>
-            {
-                if (error) { reject(error); }
-
-                if (stderr) { reject(stderr); }
-
-                resolve(data);
-            });
-        })
-        .catch(error =>
-        {
-            console.log(`Error opening ${username}: ${error}`);
-        });
+        return PromiseHelper.promisifyCommand(sfdxCommand, `Error opening ${username}!`);
     }
 
 
@@ -38,22 +30,8 @@ export default class SfdxHelper
 
         let sfdxCommand = `sfdx force:source:deploy -c -p force-app -l RunLocalTests  -u ${username}`;
 
-        console.log(`Validating force-app/main/default/ metadata in org ${username}...`);
+        console.log(`Validating all force-app metadata in org ${username}...`);
 
-        return new Promise((resolve, reject) =>
-        {
-            exec(sfdxCommand, (error, data, stderr) =>
-            {
-                if (error) { reject(error); }
-
-                if (stderr) { reject(stderr); }
-
-                resolve(data);
-            });
-        })
-        .catch(error =>
-        {
-            console.log(`Error validating ${username}: ${error}`);
-        });
+        return PromiseHelper.promisifyCommand(sfdxCommand, `Error validating ${username}!`);
     }
 }

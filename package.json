@@ -53,16 +53,33 @@
                 "description": "A CLI tool to make life easier while working at Fonteva | by Nicholas Glesmann"
             },
             "fonteva:data": {
-                "description": "commands for retrieving/deploying data to/from an org"
+                "description": "commands for retrieving/deploying data to/from any org"
+            },
+            "fonteva:deploy": {
+                "description": "commands for deploying data/metadata to any org"
             },
             "fonteva:retrieve": {
-                "description": "commands for retrieving data/metadata from an org"
+                "description": "commands for retrieving data/metadata from any org",
+                "subtopics": {
+                    "dashboards": {
+                        "description": "commands for retrieving all dashboards from client orgs"
+                    },
+                    "emailTemplates": {
+                        "description": "commands for retrieving all email templates from client orgs"
+                    },
+                    "reports": {
+                        "description": "commands for retrieving all reports from client orgs"
+                    },
+                    "workflows": {
+                        "description": "commands for retrieving all workflows from client orgs"
+                    }
+                }
             },
             "fonteva:open": {
                 "description": "commands for opening client orgs in a web browser"
             },
             "fonteva:validate": {
-                "description": "commands for validating (check-only deploy) local force-app metadata in client orgs"
+                "description": "commands for validating (check-only deploy) all force-app metadata in client orgs"
             },
             "fonteva:secret": {
                 "description": "commands for interacting with secrets",

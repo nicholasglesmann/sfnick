@@ -7,6 +7,9 @@ export default {
     ORG_URLS: {
         LIGHTNING_SETUP: 'lightning/setup/SetupOneHome/home',
         DEPLOYMENT_STATUS: 'lightning/setup/DeployStatus/home'
-    }
+    },
+
+    DATA_MOVER_FOLDER_NAME: 'sfData',
+    DATA_MOVER_EXPORT_FILENAME: 'export.json'
 
 };

@@ -7,4 +7,5 @@ export default class MetadataResult
     DeveloperName: string;
     FolderName: string;
     Folder: MetadataFolder;
+    TableEnumOrId: string;
 }

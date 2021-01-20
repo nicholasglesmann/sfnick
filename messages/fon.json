@@ -10,6 +10,25 @@
             "description": "retrieve all data into csvfile from target org"
         }
     },
+    "deploy": {
+        "data": {
+            "description": "deploy all config data to target org",
+            "subcommands": {
+                "flags": {
+                    "client": "name or acronym of the client"
+                },
+                "prod": {
+                    "description": "deploy all config data to a client's production org"
+                },
+                "full": {
+                    "description": "deploy all config data to a client's full sandbox org"
+                },
+                "uat": {
+                    "description": "deploy all config data to a client's uat sandbox org"
+                }
+            }
+        }
+    },
     "retrieve": {
         "dashboards": {
             "description": "retrieve all dashboards from target org",
@@ -25,6 +44,23 @@
                 },
                 "uat": {
                     "description": "retrieve all dashboards from a client's uat sandbox org"
+                }
+            }
+        },
+        "data": {
+            "description": "retrieve all config data from target org",
+            "subcommands": {
+                "flags": {
+                    "client": "name or acronym of the client"
+                },
+                "prod": {
+                    "description": "retrieve all config data from a client's production org"
+                },
+                "full": {
+                    "description": "retrieve all config data from a client's full sandbox org"
+                },
+                "uat": {
+                    "description": "retrieve all config data from a client's uat sandbox org"
                 }
             }
         },

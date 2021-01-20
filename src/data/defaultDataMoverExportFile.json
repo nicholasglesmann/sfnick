@@ -1,0 +1,164 @@
+{
+    "bulkThreshold": 10000,
+    "promptOnMissingParentObjects": false,
+    "promptOnIssuesInCSVFiles": false,
+    "keepObjectOrderWhileExecute": true,
+    "objects": [
+        {
+            "query": "SELECT all FROM OrderApi__Business_Group__c",
+            "operation": "Insert"
+        },
+        {
+            "query": "SELECT all FROM OrderApi__GL_Account__c",
+            "operation": "Insert"
+        },
+        {
+            "query": "SELECT all FROM OrderApi__Payment_Gateway__c",
+            "operation": "Insert"
+        },
+        {
+            "query": "SELECT all FROM OrderApi__Store__c",
+            "operation": "Insert"
+        },
+        {
+            "query": "SELECT all FROM OrderApi__Item__c",
+            "operation": "Insert"
+        },
+        {
+            "query": "SELECT all FROM OrderApi__Item_Class__c",
+            "operation": "Insert"
+        },
+        {
+            "query": "SELECT all FROM PriceApi__Bulk_Price_Rule__c",
+            "operation": "Insert"
+        },
+        {
+            "query": "SELECT all FROM OrderApi__Price_Rule__c",
+            "operation": "Insert"
+        },
+        {
+            "query": "SELECT all FROM OrderApi__Price_Rule_Variable__c",
+            "operation": "Insert"
+        },
+        {
+            "query": "SELECT all FROM OrderApi__Subscription_Plan__c",
+            "operation": "Insert"
+        },
+        {
+            "query": "SELECT all FROM OrderApi__Item_Subscription_Plan__c",
+            "operation": "Insert"
+        },
+        {
+            "query": "SELECT all FROM OrderApi__Package_Item__c",
+            "operation": "Insert"
+        },
+        {
+            "query": "SELECT all FROM OrderApi__Badge_Type__c",
+            "operation": "Insert"
+        },
+        {
+            "query": "SELECT all FROM OrderApi__Badge_Workflow__c",
+            "operation": "Insert"
+        },
+        {
+            "query": "SELECT all FROM OrderApi__Tax_Locale__c",
+            "operation": "Insert"
+        },
+        {
+            "query": "SELECT all FROM EventApi__Event__c",
+            "operation": "Insert"
+        },
+        {
+            "query": "SELECT all FROM EventApi__Ticket_Type__c",
+            "operation": "Insert"
+        },
+        {
+            "query": "SELECT all FROM EventApi__Event_Status__c",
+            "operation": "Insert"
+        },
+        {
+            "query": "SELECT all FROM EventApi__Event_Page__c",
+            "operation": "Insert"
+        },
+        {
+            "query": "SELECT all FROM EventApi__Event_Status_Page__c",
+            "operation": "Insert"
+        },
+        {
+            "query": "SELECT all FROM EventApi__Event_Page_Component__c",
+            "operation": "Insert"
+        },
+        {
+            "query": "SELECT all FROM PagesApi__Theme__c",
+            "operation": "Insert"
+        },
+        {
+            "query": "SELECT all FROM PagesApi__Community_Group__c",
+            "operation": "Insert"
+        },
+        {
+            "query": "SELECT all FROM DRCTS__Directories__c",
+            "operation": "Insert"
+        },
+        {
+            "query": "SELECT all FROM PagesApi__Form__c",
+            "operation": "Insert"
+        },
+        {
+            "query": "SELECT all FROM PagesApi__Field_Group__c",
+            "operation": "Insert"
+        },
+        {
+            "query": "SELECT all FROM PagesApi__Field__c",
+            "operation": "Insert"
+        },
+        {
+            "query": "SELECT all FROM OrderApi__Catalog__c",
+            "operation": "Insert"
+        },
+        {
+            "query": "SELECT all FROM OrderApi__Catalog_Item__c",
+            "operation": "Insert"
+        },
+        {
+            "query": "SELECT all FROM OrderApi__Shipping_Method__c",
+            "operation": "Insert"
+        },
+        {
+            "query": "SELECT all FROM OrderApi__Shipping_Region__c",
+            "operation": "Insert"
+        },
+        {
+            "query": "SELECT all FROM OrderApi__Source_Code__c",
+            "operation": "Insert"
+        },
+        {
+            "query": "SELECT all FROM joinapi__Join_Process__c",
+            "operation": "Insert"
+        },
+        {
+            "query": "SELECT all FROM joinapi__Step__c",
+            "operation": "Insert"
+        },
+        {
+            "query": "SELECT all FROM joinapi__Step_Condition__c",
+            "operation": "Insert"
+        },
+        {
+            "query": "SELECT all FROM PagesApi__Media_Asset__c",
+            "operation": "Insert"
+        },
+        {
+            "query": "SELECT all FROM PagesApi__Media_Asset_Collection__c",
+            "operation": "Insert"
+        },
+        {
+            "query": "SELECT all FROM PagesApi__Menu__c",
+            "operation": "Insert"
+        },
+        {
+            "query": "SELECT all FROM PagesApi__Menu_Item__c",
+            "operation": "Insert"
+        }
+    ]
+}

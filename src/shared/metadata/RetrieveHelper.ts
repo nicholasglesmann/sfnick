@@ -140,10 +140,7 @@ export default class RetrieveHelper
 
         workflowResults.records.forEach(workflow =>
         {
-            if (!workflow.Folder)
-            {
-                workflow.Folder = { Name: null, DeveloperName: 'unfiled$public' } // If folder is null, workflow is in public folder
-            }
+            workflow.DeveloperName = workflow.TableEnumOrId;
         });
 
         return RetrieveHelper.retrieveMetadata(workflowResults, username, conn.getApiVersion(), RetrieveHelper.METADATA_TYPE.WORKFLOW);
