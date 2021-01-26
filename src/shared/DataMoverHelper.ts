@@ -55,9 +55,9 @@ export default class DataMoverHelper
         return sfdxProjectDataMoverPath;
     }
 
-    static getObjectNameListFromExportFile(sfdxProjectDataMoverPath: string): string[]
+    static getobjectQueryListFromExportFile(sfdxProjectDataMoverPath: string): string[]
     {
-        let objectNameList = [];
+        let objectQueryList = [];
 
         try
         {
@@ -65,8 +65,7 @@ export default class DataMoverHelper
 
             exportFile.objects.forEach(object =>
             {
-                let objectName = DataMoverHelper.getObjectNameFrom(object.query);
-                objectNameList.push(objectName);
+                objectQueryList.push(object.query);
             });
         }
         catch (e)
@@ -74,11 +73,11 @@ export default class DataMoverHelper
             throw new SfdxError(e);
         }
 
-        return objectNameList;
+        return objectQueryList;
     }
 
 
-    static getObjectNameFrom(query: string): string
+    static getObjectNameFromQuery(query: string): string
     {
         let objectName;
 

@@ -2,8 +2,9 @@ import { SfdxCommand } from '@salesforce/command';
 import { Connection, Messages, Org } from '@salesforce/core';
 import { JsonMap } from '@salesforce/ts-types';
 import { Record } from 'jsforce';
-// import * as fs from 'fs';
-
+import DataMoverHelper from '../../../shared/DataMoverHelper';
+import PathHelper from '../../../shared/PathHelper';
+import OrgHelper from './../../../shared/OrgHelper';
 
 // Initialize Messages with the current plugin directory
 Messages.importMessagesDirectory(__dirname);
@@ -12,7 +13,7 @@ Messages.importMessagesDirectory(__dirname);
 // or any library that is using the messages framework can also be loaded this way.
 const messages = Messages.loadMessages('sfnick', 'fon');
 
-export default class DataDestroy extends SfdxCommand
+export default class DestroyData extends SfdxCommand
 {
     public static description = messages.getMessage('data.destroy.description');
     public static examples = [];
@@ -38,21 +39,28 @@ export default class DataDestroy extends SfdxCommand
 
 
         // Reversed export.json version
-        let objectsToDeleteRecords = ["PagesApi__Menu_Item__c", "PagesApi__Menu__c", "PagesApi__Media_Asset_Collection__c", "PagesApi__Media_Asset__c", "joinapi__Step_Condition__c", "joinapi__Step__c", "joinapi__Join_Process__c", "OrderApi__Source_Code__c", "OrderApi__Shipping_Region__c", "OrderApi__Shipping_Method__c", "OrderApi__Catalog_Item__c", "OrderApi__Catalog__c", "PagesApi__Field__c", "PagesApi__Field_Group__c", "PagesApi__Form__c", "DRCTS__Directories__c", "PagesApi__Community_Group__c", "PagesApi__Theme__c", "EventApi__Event_Page_Component__c", "EventApi__Event_Status_Page__c", "EventApi__Event_Page__c", "EventApi__Event_Status__c", "EventApi__Ticket_Type__c", "EventApi__Event__c", "OrderApi__Tax_Locale__c", "OrderApi__Badge_Workflow__c", "OrderApi__Badge_Type__c", "OrderApi__Package_Item__c", "OrderApi__Item_Subscription_Plan__c", "OrderApi__Subscription_Plan__c", "OrderApi__Price_Rule_Variable__c", "OrderApi__Price_Rule__c", "PriceApi__Bulk_Price_Rule__c", "OrderApi__Item_Class__c", "OrderApi__Item__c", "OrderApi__Store__c", "OrderApi__Payment_Gateway__c", "OrderApi__GL_Account__c", "OrderApi__Business_Group__c"];
+        // let objectsToDeleteRecords = ["PagesApi__Menu_Item__c", "PagesApi__Menu__c", "PagesApi__Media_Asset_Collection__c", "PagesApi__Media_Asset__c", "joinapi__Step_Condition__c", "joinapi__Step__c", "joinapi__Join_Process__c", "OrderApi__Source_Code__c", "OrderApi__Shipping_Region__c", "OrderApi__Shipping_Method__c", "OrderApi__Catalog_Item__c", "OrderApi__Catalog__c", "PagesApi__Field__c", "PagesApi__Field_Group__c", "PagesApi__Form__c", "DRCTS__Directories__c", "PagesApi__Community_Group__c", "PagesApi__Theme__c", "EventApi__Event_Page_Component__c", "EventApi__Event_Status_Page__c", "EventApi__Event_Page__c", "EventApi__Event_Status__c", "EventApi__Ticket_Type__c", "EventApi__Event__c", "OrderApi__Tax_Locale__c", "OrderApi__Badge_Workflow__c", "OrderApi__Badge_Type__c", "OrderApi__Package_Item__c", "OrderApi__Item_Subscription_Plan__c", "OrderApi__Subscription_Plan__c", "OrderApi__Price_Rule_Variable__c", "OrderApi__Price_Rule__c", "PriceApi__Bulk_Price_Rule__c", "OrderApi__Item_Class__c", "OrderApi__Item__c", "OrderApi__Store__c", "OrderApi__Payment_Gateway__c", "OrderApi__GL_Account__c", "OrderApi__Business_Group__c"];
 
-        for (let objectName of objectsToDeleteRecords)
+        let sfdxProjectDataMoverPath = await PathHelper.getSfdxProjectDataMoverFolderPath();
+
+        let objectQueriesToDeleteRecords = DataMoverHelper.getobjectQueryListFromExportFile(sfdxProjectDataMoverPath);
+
+        for (let objectQuery of objectQueriesToDeleteRecords)
         {
             try
             {
-                let records = await this._queryRecords(objectName, conn);
+                let records = await OrgHelper.queryRecords(objectQuery, conn);
 
                 if (records.length <= 0)
                 {
-                    console.log(`No records found of type ${objectName}`);
+                    console.log(`No records found for query '${objectQuery}'`);
                     continue;
                 }
 
-                console.log(`Destroying ALL records of type ${objectName}`);
+                console.log(`Destroying ALL records returned from query '${objectQuery}'`);
+
+                let objectName = DataMoverHelper.getObjectNameFromQuery(objectQuery);
+
                 await this._deleteRecords(records, conn, objectName);
             }
             catch (err)
@@ -65,25 +73,25 @@ export default class DataDestroy extends SfdxCommand
     }
 
 
-    private async _queryRecords(objectName: string, conn: Connection): Promise<Array<Record>>
-    {
-        return new Promise((resolve, reject) =>
-        {
-            let records = [];
+    // private async _queryRecords(objectName: string, conn: Connection): Promise<Array<Record>>
+    // {
+    //     return new Promise((resolve, reject) =>
+    //     {
+    //         let records = [];
 
-            conn.query(`SELECT Id FROM ${objectName}`)
-                .on('record', function(record: any) {
-                    records.push(<Record> record);
-                })
-                .on('end', function() {
-                    resolve(records);
-                })
-                .on('error', function(error: any) {
-                    reject(error);
-                })
-                .run({ autoFetch: true, maxFetch: 50000 });
-        });
-    }
+    //         conn.query(`SELECT Id FROM ${objectName}`)
+    //             .on('record', function(record: any) {
+    //                 records.push(<Record> record);
+    //             })
+    //             .on('end', function() {
+    //                 resolve(records);
+    //             })
+    //             .on('error', function(error: any) {
+    //                 reject(error);
+    //             })
+    //             .run({ autoFetch: true, maxFetch: 50000 });
+    //     });
+    // }
 
 
     private async _deleteRecords(records: Array<Record>, conn: Connection, sObjectName: string): Promise<void>
