@@ -1,6 +1,7 @@
 import { SfdxError } from '@salesforce/core';
 import PromiseHelper from './PromiseHelper';
 import CONSTANTS from './constants';
+import FilePathService from './FilePathService';
 
 export default class SfdxHelper
 {
@@ -17,7 +18,7 @@ export default class SfdxHelper
 
         if (path)
         {
-            sfdxCommand +=  ` -p ${path}`;
+            sfdxCommand += ` -p ${path}`;
         }
 
         return PromiseHelper.promisifyCommand(sfdxCommand, `Error opening ${username}!`);
@@ -34,4 +35,16 @@ export default class SfdxHelper
 
         return PromiseHelper.promisifyCommand(sfdxCommand, `Error validating ${username}!`);
     }
+
+    static forceOrgCreate(alias: string, devHub: string): Promise<any>
+    {
+        console.log(`Creating scratch org ${alias}`);
+
+        let scratchOrgConfigFilePath = FilePathService.getScratchOrgConfigFilePath();
+
+        let sfdxCommand = `sfdx force:org:create -d 30 -f ${scratchOrgConfigFilePath} -a ${alias} -v ${devHub}`;
+
+        return PromiseHelper.promisifyCommand(sfdxCommand, `Error creating scratch org ${alias}!`);
+    }
+
 }

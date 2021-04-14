@@ -2,8 +2,9 @@ import { SfdxCommand } from '@salesforce/command';
 import { Connection, Messages, Org } from '@salesforce/core';
 import { JsonMap } from '@salesforce/ts-types';
 import { Record } from 'jsforce';
-import DataMoverHelper from '../../../shared/DataMoverHelper';
-import PathHelper from '../../../shared/PathHelper';
+import DataMoverService from '../../../shared/DataMoverService';
+import DataMoverHelper from '../../../shared/DataMoverService';
+import FilePathService from '../../../shared/FilePathService';
 import OrgHelper from './../../../shared/OrgHelper';
 
 // Initialize Messages with the current plugin directory
@@ -32,18 +33,13 @@ export default class DestroyData extends SfdxCommand
             return null;
         }
 
-        // let objectsToDeleteRecords = ['Account', 'Contact'];
+        await DataMoverService.toggleTriggersAndValidationRules(this.flags.targetusername, 'disable');
 
-        // Hand fine-tuned version
-        // let objectsToDeleteRecords = ['OrderApi__Business_Group__c', 'OrderApi__GL_Account__c', 'OrderApi__Payment_Gateway__c', 'OrderApi__Store__c', 'OrderApi__Item__c', 'OrderApi__Item_Class__c', 'PriceApi__Bulk_Price_Rule__c', 'OrderApi__Price_Rule__c', 'OrderApi__Price_Rule_Variable__c', 'OrderApi__Item_Subscription_Plan__c', 'OrderApi__Package_Item__c', 'OrderApi__Badge_Type__c', 'OrderApi__Badge_Workflow__c', 'OrderApi__Tax_Locale__c', 'OrderApi__Subscription_Plan__c', 'EventApi__Event_Status_Page__c', 'EventApi__Event_Status__c', 'EventApi__Event_Page_Component__c', 'EventApi__Event_Page__c', 'EventApi__Ticket_Type__c', 'EventApi__Event__c', 'PagesApi__Theme__c', 'PagesApi__Community_Group__c', 'DRCTS__Directories__c', 'PagesApi__Form__c', 'PagesApi__Field_Group__c', 'PagesApi__Field__c', 'OrderApi__Catalog__c', 'OrderApi__Catalog_Item__c', 'OrderApi__Shipping_Method__c', 'OrderApi__Shipping_Region__c', 'OrderApi__Source_Code__c', 'joinapi__Join_Process__c', 'joinapi__Step__c', 'joinapi__Step_Condition__c', 'PagesApi__Media_Asset_Collection__c', 'PagesApi__Media_Asset__c', 'PagesApi__Menu__c', 'PagesApi__Menu_Item__c'];
-
-
-        // Reversed export.json version
-        // let objectsToDeleteRecords = ["PagesApi__Menu_Item__c", "PagesApi__Menu__c", "PagesApi__Media_Asset_Collection__c", "PagesApi__Media_Asset__c", "joinapi__Step_Condition__c", "joinapi__Step__c", "joinapi__Join_Process__c", "OrderApi__Source_Code__c", "OrderApi__Shipping_Region__c", "OrderApi__Shipping_Method__c", "OrderApi__Catalog_Item__c", "OrderApi__Catalog__c", "PagesApi__Field__c", "PagesApi__Field_Group__c", "PagesApi__Form__c", "DRCTS__Directories__c", "PagesApi__Community_Group__c", "PagesApi__Theme__c", "EventApi__Event_Page_Component__c", "EventApi__Event_Status_Page__c", "EventApi__Event_Page__c", "EventApi__Event_Status__c", "EventApi__Ticket_Type__c", "EventApi__Event__c", "OrderApi__Tax_Locale__c", "OrderApi__Badge_Workflow__c", "OrderApi__Badge_Type__c", "OrderApi__Package_Item__c", "OrderApi__Item_Subscription_Plan__c", "OrderApi__Subscription_Plan__c", "OrderApi__Price_Rule_Variable__c", "OrderApi__Price_Rule__c", "PriceApi__Bulk_Price_Rule__c", "OrderApi__Item_Class__c", "OrderApi__Item__c", "OrderApi__Store__c", "OrderApi__Payment_Gateway__c", "OrderApi__GL_Account__c", "OrderApi__Business_Group__c"];
-
-        let sfdxProjectDataMoverPath = await PathHelper.getSfdxProjectDataMoverFolderPath();
+        let sfdxProjectDataMoverPath = await FilePathService.getSfdxProjectDataMoverFolderPath();
 
         let objectQueriesToDeleteRecords = DataMoverHelper.getobjectQueryListFromExportFile(sfdxProjectDataMoverPath);
+
+        objectQueriesToDeleteRecords.reverse();
 
         for (let objectQuery of objectQueriesToDeleteRecords)
         {
@@ -69,7 +65,7 @@ export default class DestroyData extends SfdxCommand
             }
         }
 
-        return null;
+        return await DataMoverService.toggleTriggersAndValidationRules(this.flags.targetusername, 'disable');
     }
 
 
@@ -128,14 +124,17 @@ export default class DestroyData extends SfdxCommand
             let recordIds = this._getRecordIds(records);
 
             conn.sobject(sObjectName)
-                .destroy(recordIds, async (err, resp) =>
-                {
-                    if (err) { reject(err); }
+                .destroy(
+                    recordIds,
+                    async (err, resp) =>
+                    {
+                        if (err) { reject(err); }
 
-                    await this._deleteChunkOfRecords(records, conn, sObjectName);
+                        await this._deleteChunkOfRecords(records, conn, sObjectName);
 
-                    resolve();
-                });
+                        resolve();
+                    }
+                );
         });
     }
 
@@ -143,7 +142,7 @@ export default class DestroyData extends SfdxCommand
     private _getRecordIds(records: Array<Record>): Array<string>
     {
         return records.splice(0, 200)
-                    .map(record => record.Id);
+            .map(record => record.Id);
     }
 
 

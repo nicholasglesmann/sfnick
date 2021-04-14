@@ -1,5 +1,11 @@
 {
+    "create": {
+        "scratchorg": {
+            "description": "create a scratch org using a source org as a template"
+        }
+    },
     "data": {
+        "description": "DEPRICATED",
         "destroy": {
             "description": "destroy all data in target org"
         },
@@ -181,6 +187,16 @@
             },
             "uat": {
                 "description": "open a client's uat sandbox org in a web browser"
+            }
+        }
+    },
+    "transfer": {
+        "configData": {
+            "description": "transfer Fonteva config data from a source org to a target org",
+            "flags": {
+                "sourceorg": "source org SFDX username",
+                "targetorg": "target org SFDX username",
+                "pathoverride": "override default config data path"
             }
         }
     },

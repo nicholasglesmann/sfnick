@@ -1,0 +1,31 @@
+{
+    "OrderApi__Price_Rule__c": [
+        {
+            "sourceObject": "OrderApi__Badge_Type__c",
+            "fieldsToFix": "OrderApi__Required_Badge_Types__c"
+        },
+        {
+            "sourceObject": "OrderApi__Subscription_Plan__c",
+            "fieldsToFix": "OrderApi__Required_Subscription_Plans__c"
+        },
+        {
+            "sourceObject": "OrderApi__Source_Code__c",
+            "fieldsToFix": "OrderApi__Required_Source_Codes__c"
+        }
+    ],
+    "DRCTS__Directories__c": [
+        {
+            "sourceObject": "OrderApi__Badge_Type__c",
+            "fieldsToFix": "DRCTS__Badges_Filter__c"
+        }
+    ]
+}
+
+
+
+{
+    "Badge Type 1": {
+        "oldId": "2839798028734",
+        "newId": "2238029049239"
+    }
+}

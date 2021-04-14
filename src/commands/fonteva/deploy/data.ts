@@ -1,6 +1,6 @@
 import { SfdxCommand } from '@salesforce/command';
 import { Messages } from '@salesforce/core';
-import DataMoverHelper from '../../../shared/DataMoverHelper';
+import DataMoverHelper from '../../../shared/DataMoverService';
 import UsernameHelper from '../../../shared/UsernameHelper';
 
 

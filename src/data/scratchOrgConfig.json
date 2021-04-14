@@ -1,0 +1,50 @@
+{
+    "orgName": "Fonteva Scratch Org",
+    "edition": "Developer",
+    "features": [
+        "Communities",
+        "TransactionFinalizers",
+        "Walkthroughs",
+        "PlatformCache",
+        "StateAndCountryPicklist",
+        "SocialCustomerService",
+        "LiveAgent",
+        "AddCustomApps:30",
+        "AddCustomObjects:30"
+    ],
+    "settings": {
+        "lightningExperienceSettings": {
+            "enableS1DesktopEnabled": true
+        },
+        "chatterSettings": {
+            "enableChatter": true
+        },
+        "communitiesSettings": {
+            "enableNetworksEnabled": true
+        },
+        "userManagementSettings": {
+            "enableNewProfileUI": true
+        },
+        "securitySettings": {
+            "enableAdminLoginAsAnyUser": true,
+            "passwordPolicies": {
+                "enableSetPasswordInApi": true
+            },
+            "sessionSettings": {
+                "forceRelogin": false
+            }
+        },
+        "languageSettings": {
+            "enableTranslationWorkbench": true
+        },
+        "mobileSettings": {
+            "enableS1EncryptedStoragePref2": false
+        },
+        "userEngagementSettings": {
+            "enableOrchestrationInSandbox": true
+        },
+        "workDotComSettings": {
+            "enableProfileSkills": true
+        }
+    }
+}

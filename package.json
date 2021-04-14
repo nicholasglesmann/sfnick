@@ -1,7 +1,7 @@
 {
     "name": "sfnick",
     "description": "A CLI Tool",
-    "version": "0.0.3",
+    "version": "0.0.4",
     "author": "Nicholas Glesmann",
     "bugs": "https://github.com/nicholasglesmann/sfnick/issues",
     "dependencies": {
@@ -77,6 +77,9 @@
             },
             "fonteva:open": {
                 "description": "commands for opening client orgs in a web browser"
+            },
+            "fonteva:transfer": {
+                "description": "commands for transfering metadata/data from a source org to a target org"
             },
             "fonteva:validate": {
                 "description": "commands for validating (check-only deploy) all force-app metadata in client orgs"
