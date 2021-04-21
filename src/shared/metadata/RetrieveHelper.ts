@@ -3,7 +3,7 @@ import PackageHelper from './PackageHelper';
 import { QueryResult } from 'jsforce';
 import MetadataResult from '../../types/MetadataResult';
 import MetadataFolder from '../../types/MetadataFolder';
-import OrgHelper from '../OrgHelper';
+import OrgHelper from '../OrgService';
 
 export default class RetrieveHelper
 {

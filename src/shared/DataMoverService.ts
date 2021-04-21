@@ -5,7 +5,7 @@ import FilePathService from './FilePathService';
 import FileSystemHelper from './FileSystemHelper';
 import CONSTANTS from './constants';
 import DataMoverExportFile from "../types/DataMoverExportFile";
-import OrgHelper from "./OrgHelper";
+import OrgHelper from "./OrgService";
 
 export default class DataMoverService
 {
@@ -149,35 +149,41 @@ export default class DataMoverService
             return console.log('Source username is "csvfile", no need to toggle triggers/validation rules.');
         }
 
+        let logMessage = disableOrEnable === 'disable' ? 'Disabling triggers/validation...' : 'Enabling triggers/validation...';
+
+        console.log(logMessage);
+
         let anonApexPath = FilePathService.getToggleTriggersAndValidationAnonApexFilePath(disableOrEnable);
 
-        let sfdxCommand = `sfdx force:apex:execute -u ${username} -f ${anonApexPath}`;
+        let sfdxCommand = `sfdx force:apex:execute -u ${username} -f ${anonApexPath} --loglevel error`;
 
-        return PromiseHelper.promisifyCommand(sfdxCommand, `Error running command. Make sure sfdmu is installed (use sfdx plugins:install sfdmu).`);
+        let errorMessage = `Error running command. Make sure sfdmu is installed (use sfdx plugins:install sfdmu).`;
+
+        return PromiseHelper.promisifyCommand(sfdxCommand, errorMessage, false);
     }
 
-    static async buildRecordCountAnonApexTest(conn: Connection, sfdxProjectDataMoverPath: string): Promise<string>
-    {
-        let objectQueries = DataMoverService.getobjectQueryListFromExportFile(sfdxProjectDataMoverPath);
+    // static async buildRecordCountAnonApexTest(conn: Connection, sfdxProjectDataMoverPath: string): Promise<string>
+    // {
+    //     let objectQueries = DataMoverService.getobjectQueryListFromExportFile(sfdxProjectDataMoverPath);
 
 
 
-        for (let objectQuery of objectQueries)
-        {
-            try
-            {
-                let records = await OrgHelper.queryRecords(objectQuery, conn);
+    //     for (let objectQuery of objectQueries)
+    //     {
+    //         try
+    //         {
+    //             let records = await OrgHelper.queryRecords(objectQuery, conn);
 
-                let expectedRecordCount = records.length;
+    //             let expectedRecordCount = records.length;
 
-                let objectName = DataMoverService.getObjectNameFromQuery(objectQuery);
+    //             let objectName = DataMoverService.getObjectNameFromQuery(objectQuery);
 
-                // await this._deleteRecords(records, conn, objectName);
-            }
-            catch (err)
-            {
-                console.log(err);
-            }
-        }
-    }
+    //             // await this._deleteRecords(records, conn, objectName);
+    //         }
+    //         catch (err)
+    //         {
+    //             console.log(err);
+    //         }
+    //     }
+    // }
 }

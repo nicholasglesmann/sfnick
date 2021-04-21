@@ -33,6 +33,10 @@
             "operation": "Insert"
         },
         {
+            "query": "SELECT all FROM OrderApi__Connection_Type__c",
+            "operation": "Insert"
+        },
+        {
             "query": "SELECT all FROM LTE__Site__c",
             "operation": "Insert"
         },

@@ -1,7 +1,7 @@
 import { Connection, Org } from '@salesforce/core';
 import { Record } from 'jsforce';
 
-export default class OrgHelper
+export default class OrgService
 {
     static async getConnFrom(username: string): Promise<Connection>
     {

@@ -7,7 +7,12 @@
     "data": {
         "description": "DEPRICATED",
         "destroy": {
-            "description": "destroy all data in target org"
+            "description": "destroy all data in target org",
+            "flags": {
+                "pathoverride": "destroy all records using the export.json file at the specified path",
+                "object": "destroy all records for the specified object",
+                "query": "destroy all records for the specified query"
+            }
         },
         "deploy": {
             "description": "deploy all csvfile data to target org"
@@ -33,6 +38,11 @@
                     "description": "deploy all config data to a client's uat sandbox org"
                 }
             }
+        }
+    },
+    "fix": {
+        "field": {
+            "description": "fix problems with fields"
         }
     },
     "retrieve": {

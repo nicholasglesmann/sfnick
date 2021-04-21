@@ -58,6 +58,9 @@
             "fonteva:deploy": {
                 "description": "commands for deploying data/metadata to any org"
             },
+            "fonteva:fix": {
+                "description": "commands for fixing various issues"
+            },
             "fonteva:retrieve": {
                 "description": "commands for retrieving data/metadata from any org",
                 "subtopics": {

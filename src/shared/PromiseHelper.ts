@@ -3,10 +3,10 @@ import { spawn } from 'cross-spawn';
 
 export default class PromiseHelper
 {
-    static promisifyCommand(command: string, errorMessage: string): Promise<any>
+    static promisifyCommand(command: string, errorMessage: string, shouldShowOutput: boolean = true): Promise<any>
     {
-        return new Promise((resolve, reject) => {
-
+        return new Promise((resolve, reject) =>
+        {
             let commandProcess = exec(command, (error, data, stderr) =>
             {
                 if (error) { reject(error); }
@@ -18,7 +18,10 @@ export default class PromiseHelper
 
             commandProcess.stdout.on('data', function (data)
             {
-                console.log(data);
+                if (shouldShowOutput)
+                {
+                    console.log(data);
+                }
             });
 
             commandProcess.stderr.on('data', function (data)
@@ -29,10 +32,11 @@ export default class PromiseHelper
             // commandProcess.stdout.pipe(process.stdout);
             // commandProcess.stdout.pipe(process.stderr);
         })
-        .catch(error => {
-            console.log(errorMessage);
-            console.log(error);
-        });
+            .catch(error =>
+            {
+                console.log(errorMessage);
+                console.log(error);
+            });
     }
 
     static async promisifySpawnCommand(command: string, cmdArgs: string[], errorMessage: string): Promise<void>
@@ -41,7 +45,8 @@ export default class PromiseHelper
 
         // console.log(path);
 
-        return new Promise((resolve, reject) => {
+        return new Promise((resolve, reject) =>
+        {
 
             let sfdx = spawn(command, cmdArgs, { stdio: 'inherit' });
 
