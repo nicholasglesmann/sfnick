@@ -4,6 +4,7 @@ import { JsonMap } from '@salesforce/ts-types';
 import { Record } from 'jsforce';
 import DataMoverService from '../../../shared/DataMoverService';
 import OrgService from '../../../shared/OrgService';
+import cli from 'cli-ux'
 
 // Initialize Messages with the current plugin directory
 Messages.importMessagesDirectory(__dirname);
@@ -34,6 +35,16 @@ export default class DestroyData extends SfdxCommand
             char: 'q',
             required: false,
             description: messages.getMessage('data.destroy.flags.query')
+        }),
+        prod: flags.boolean({
+            char: 'z',
+            required: false,
+            description: messages.getMessage('data.destroy.flags.prod')
+        }),
+        disabletriggersvalidationrules: flags.boolean({
+            char: 't',
+            required: false,
+            description: messages.getMessage('data.destroy.flags.disabletriggersvalidationrules')
         })
     };
 
@@ -43,9 +54,9 @@ export default class DestroyData extends SfdxCommand
         const conn = org.getConnection();
         await org.refreshAuth();
 
-        if (this._isProduction(org))
+        if (this._isProduction(org) && !this.flags.prod)
         {
-            console.error(`Can't run a destroy command on a production org!`);
+            console.error(`Can't run a destroy command in a production org! Use --prod or -z to override.`);
             return null;
         }
 
@@ -75,33 +86,55 @@ export default class DestroyData extends SfdxCommand
             objectQueriesToDeleteRecords.reverse(); // Delete records from child objects first
         }
 
-        await DataMoverService.toggleTriggersAndValidationRules(this.flags.targetusername, 'disable');
+        if (this.flags.disabletriggersvalidationrules)
+        {
+            await DataMoverService.toggleTriggersAndValidationRules(this.flags.targetusername, 'disable');
+        }
 
         for (let objectQuery of objectQueriesToDeleteRecords)
         {
             try
             {
-                let records = await OrgService.queryRecords(objectQuery, conn);
+                let recordsToDelete = await OrgService.queryRecords(objectQuery, conn);
 
-                if (records.length <= 0)
+                let recordsToDeleteCount = recordsToDelete.length;
+
+                if (recordsToDeleteCount <= 0)
                 {
                     console.log(`No records found for query '${objectQuery}'`);
                     continue;
                 }
 
-                console.log(`Destroying ALL records returned from query '${objectQuery}'`);
+                console.log(`Destroying ALL ${recordsToDeleteCount} records returned from query "${objectQuery}"`);
 
                 let objectName = DataMoverService.getObjectNameFromQuery(objectQuery);
 
-                await this._deleteRecords(records, conn, objectName);
+                cli.action.start('Deleting records');
+
+                await this._deleteRecords(recordsToDelete, conn, objectName);
+
+                let recordsRemainingAfterDelete = await OrgService.queryRecords(objectQuery, conn);
+
+                if (recordsRemainingAfterDelete.length !== 0)
+                {
+                    throw new Error(`${recordsRemainingAfterDelete.length} ${objectName} records were NOT deleted!`);
+                }
+                else
+                {
+                    cli.action.stop(`${recordsToDeleteCount} ${objectName} records deleted!`);
+                }
             }
             catch (err)
             {
-                console.log(err);
+                cli.action.stop();
+                console.error(err);
             }
         }
 
-        await DataMoverService.toggleTriggersAndValidationRules(this.flags.targetusername, 'enable');
+        if (this.flags.disabletriggersvalidationrules)
+        {
+            await DataMoverService.toggleTriggersAndValidationRules(this.flags.targetusername, 'enable');
+        }
 
         console.log('Destroy operation completed!');
 
@@ -114,8 +147,6 @@ export default class DestroyData extends SfdxCommand
         {
             let deletePromises = [];
 
-            console.log(`${records.length} ${sObjectName} records being deleted...`);
-
             try
             {
                 while (records.length > 0)
@@ -127,7 +158,6 @@ export default class DestroyData extends SfdxCommand
 
                 await Promise.all(deletePromises);
 
-                console.log(`Done deleting ${sObjectName}`);
                 resolve();
             }
             catch (err)
