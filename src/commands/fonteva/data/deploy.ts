@@ -1,9 +1,7 @@
-import { SfdxCommand } from '@salesforce/command';
+import { flags, SfdxCommand } from '@salesforce/command';
 import { Messages } from '@salesforce/core';
-import { JsonMap } from '@salesforce/ts-types';
-// import { QueryResult } from 'jsforce';
-// import MetadataResult from '../../../types/MetadataResult';
-
+import DataMoverService from '../../../shared/DataMoverService';
+// import OrgService from '../../../shared/OrgService';
 
 // Initialize Messages with the current plugin directory
 Messages.importMessagesDirectory(__dirname);
@@ -17,24 +15,29 @@ export default class DataDeploy extends SfdxCommand
     public static description = messages.getMessage('data.deploy.description');
     public static examples = [];
 
-    protected static requiresUsername = true;
+    protected static requiresUsername = false;
 
-    public async run(): Promise<JsonMap>
+    protected static flagsConfig = {
+        sourceorg: flags.string({
+            char: 's',
+            required: true,
+            description: messages.getMessage('transfer.configData.flags.sourceorg')
+        }),
+        targetorg: flags.string({
+            char: 't',
+            required: true,
+            description: messages.getMessage('transfer.configData.flags.targetorg')
+        }),
+        pathoverride: flags.string({
+            char: 'p',
+            required: false,
+            description: messages.getMessage('transfer.configData.flags.pathoverride')
+        })
+    };
+
+
+    public async run(): Promise<void>
     {
-        const org = this.org;
-        // const conn = org.getConnection();
-        await org.refreshAuth();
-
-        // let emailTemplateResults = <QueryResult<MetadataResult>>await conn.query(`SELECT DeveloperName, Folder.DeveloperName FROM EmailTemplate`);
-
-        // let results = this.prepareResults(emailTemplateResults);
-
-        // let retrieveHelper = new RetrieveHelper();
-
-        // retrieveHelper.retrieveEmailTemplates(results, org.getUsername(), conn.getApiVersion());
-
-        console.log('Command not created yet...coming soon!');
-
-        return null;
+        return DataMoverService.reassignSalesforceIdReferences(this.flags.sourceorg, this.flags.targetorg);
     }
 }

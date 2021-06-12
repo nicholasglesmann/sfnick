@@ -1,22 +1,24 @@
 {
-    "OrderApi__Price_Rule__c": [
+    "repairs": [
         {
-            "sourceObject": "OrderApi__Badge_Type__c",
-            "fieldsToFix": "OrderApi__Required_Badge_Types__c"
+            "objectToRepair": "OrderApi__Price_Rule__c",
+            "fieldToRepair": "OrderApi__Required_Badge_Types__c",
+            "objectReferencedInField": "OrderApi__Badge_Type__c"
         },
         {
-            "sourceObject": "OrderApi__Subscription_Plan__c",
-            "fieldsToFix": "OrderApi__Required_Subscription_Plans__c"
+            "objectToRepair": "OrderApi__Price_Rule__c",
+            "fieldToRepair": "OrderApi__Required_Subscription_Plans__c",
+            "objectReferencedInField": "OrderApi__Subscription_Plan__c"
         },
         {
-            "sourceObject": "OrderApi__Source_Code__c",
-            "fieldsToFix": "OrderApi__Required_Source_Codes__c"
-        }
-    ],
-    "DRCTS__Directories__c": [
+            "objectToRepair": "OrderApi__Price_Rule__c",
+            "fieldToRepair": "OrderApi__Required_Source_Codes__c",
+            "objectReferencedInField": "OrderApi__Source_Code__c"
+        },
         {
-            "sourceObject": "OrderApi__Badge_Type__c",
-            "fieldsToFix": "DRCTS__Badges_Filter__c"
+            "objectToRepair": "DRCTS__Directories__c",
+            "fieldToRepair": "DRCTS__Badges_Filter__c",
+            "objectReferencedInField": "OrderApi__Badge_Type__c"
         }
     ]
 }

@@ -1,5 +1,6 @@
 import { Connection, Org } from '@salesforce/core';
 import { Record } from 'jsforce';
+import InstalledPackage from '../types/InstalledPackage';
 
 export default class OrgService
 {
@@ -9,6 +10,30 @@ export default class OrgService
         const conn = org.getConnection();
         await org.refreshAuth();
         return conn;
+    }
+
+    static async queryInstalledPackages(conn: Connection): Promise<InstalledPackage[]>
+    {
+        return new Promise((resolve, reject) =>
+        {
+            conn.tooling.sobject('InstalledSubscriberPackage').find({}, [
+                "SubscriberPackage.Name",
+                "SubscriberPackage.NamespacePrefix",
+                "SubscriberPackageVersion.MajorVersion",
+                "SubscriberPackageVersion.MinorVersion",
+                "SubscriberPackageVersion.PatchVersion"
+            ])
+            .execute({}, (err, installedPackageQueryResults) =>
+            {
+                if (err) { reject(err); }
+
+                let installedPackages = installedPackageQueryResults.map(installedPackageQueryResult => {
+                    return new InstalledPackage(installedPackageQueryResult);
+                })
+
+                resolve(installedPackages);
+            });
+        });
     }
 
 
@@ -31,7 +56,7 @@ export default class OrgService
                 {
                     reject(error);
                 })
-                .run({ autoFetch: true, maxFetch: 50000 });
+                .run({ autoFetch: true, maxFetch: 1000000 });
         });
     }
 }

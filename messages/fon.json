@@ -1,4 +1,13 @@
 {
+    "compare": {
+        "packageVersions": {
+            "description": "compare and list differences of package versions between two orgs",
+            "flags": {
+                "firstorg": "first org",
+                "secondorg": "second org"
+            }
+        }
+    },
     "create": {
         "scratchorg": {
             "description": "create a scratch org using a source org as a template"
@@ -79,6 +88,23 @@
                 },
                 "uat": {
                     "description": "retrieve all config data from a client's uat sandbox org"
+                }
+            }
+        },
+        "documents": {
+            "description": "retrieve all documents from target org",
+            "subcommands": {
+                "flags": {
+                    "client": "name or acronym of the client"
+                },
+                "prod": {
+                    "description": "retrieve all documents from a client's production org"
+                },
+                "full": {
+                    "description": "retrieve all documents from a client's full sandbox org"
+                },
+                "uat": {
+                    "description": "retrieve all documents from a client's uat sandbox org"
                 }
             }
         },

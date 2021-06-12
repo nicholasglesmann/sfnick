@@ -1,10 +1,13 @@
 import { flags, SfdxCommand } from '@salesforce/command';
-import { Connection, Messages, Org } from '@salesforce/core';
+import { Messages, Org } from '@salesforce/core';
 import { JsonMap } from '@salesforce/ts-types';
-import { Record } from 'jsforce';
+// import { Record } from 'jsforce';
 import DataMoverService from '../../../shared/DataMoverService';
 import OrgService from '../../../shared/OrgService';
 import cli from 'cli-ux'
+import { OrgCrudOperator, OperationType } from '../../../shared/OrgCrudOperator';
+import { performance } from 'perf_hooks';
+
 
 // Initialize Messages with the current plugin directory
 Messages.importMessagesDirectory(__dirname);
@@ -66,25 +69,7 @@ export default class DestroyData extends SfdxCommand
             return null;
         }
 
-        let objectQueriesToDeleteRecords = [];
-
-        if (this.flags.object) // Delete ALL records from this object
-        {
-            let objectQueryOverride = `SELECT Id FROM ${this.flags.object}`;
-            objectQueriesToDeleteRecords.push(objectQueryOverride);
-        }
-        else if (this.flags.query)
-        {
-            objectQueriesToDeleteRecords.push(this.flags.query);
-        }
-        else // Use an SFDMU export.json file to get a list of objects
-        {
-            let sfdxProjectDataMoverPath = await DataMoverService.calculateDataMoverFolderPathToUse(this.flags.pathoverride);
-
-            objectQueriesToDeleteRecords = DataMoverService.getobjectQueryListFromExportFile(sfdxProjectDataMoverPath);
-
-            objectQueriesToDeleteRecords.reverse(); // Delete records from child objects first
-        }
+        let objectQueriesToDeleteRecords = await this._getObjectDeleteQueryList(this.flags);
 
         if (this.flags.disabletriggersvalidationrules)
         {
@@ -95,9 +80,20 @@ export default class DestroyData extends SfdxCommand
         {
             try
             {
+                let objectName = DataMoverService.getObjectNameFromQuery(objectQuery);
+
+                cli.action.start(`Querying for ${objectName} records using query "${objectQuery}"`);
+
+                let queryStartTime = performance.now();
+
                 let recordsToDelete = await OrgService.queryRecords(objectQuery, conn);
 
                 let recordsToDeleteCount = recordsToDelete.length;
+
+                let queryEndTime = performance.now();
+                let queryTotalTime = Math.floor((queryEndTime - queryStartTime) / 1000);
+
+                cli.action.stop(`${recordsToDeleteCount} ${objectName} records found in ${queryTotalTime} seconds!`);
 
                 if (recordsToDeleteCount <= 0)
                 {
@@ -105,13 +101,17 @@ export default class DestroyData extends SfdxCommand
                     continue;
                 }
 
-                console.log(`Destroying ALL ${recordsToDeleteCount} records returned from query "${objectQuery}"`);
+                cli.action.start(`Destroying ALL ${recordsToDeleteCount} records returned from query "${objectQuery}"`);
 
-                let objectName = DataMoverService.getObjectNameFromQuery(objectQuery);
+                let deleteStartTime = performance.now();
 
-                cli.action.start('Deleting records');
+                let deleteOperator = new OrgCrudOperator(conn, objectName);
+                await deleteOperator.run(OperationType.Delete, recordsToDelete);
 
-                await this._deleteRecords(recordsToDelete, conn, objectName);
+                let deleteEndTime = performance.now();
+                let deleteTotalTime = Math.floor((deleteEndTime - deleteStartTime) / 1000);
+
+                console.log(`Delete operation finished in ${deleteTotalTime} seconds!`);
 
                 let recordsRemainingAfterDelete = await OrgService.queryRecords(objectQuery, conn);
 
@@ -119,10 +119,8 @@ export default class DestroyData extends SfdxCommand
                 {
                     throw new Error(`${recordsRemainingAfterDelete.length} ${objectName} records were NOT deleted!`);
                 }
-                else
-                {
-                    cli.action.stop(`${recordsToDeleteCount} ${objectName} records deleted!`);
-                }
+
+                cli.action.stop(`all ${recordsToDeleteCount} ${objectName} records were deleted!`);
             }
             catch (err)
             {
@@ -141,56 +139,29 @@ export default class DestroyData extends SfdxCommand
         return null;
     }
 
-    private async _deleteRecords(records: Array<Record>, conn: Connection, sObjectName: string): Promise<void>
+    private async _getObjectDeleteQueryList(flags: SfdxCommand["flags"]): Promise<Array<string>>
     {
-        return new Promise(async (resolve, reject) =>
+        let objectDeleteQueryList = [];
+
+        if (flags.object) // Delete ALL records from passed in object
         {
-            let deletePromises = [];
-
-            try
-            {
-                while (records.length > 0)
-                {
-                    let chunkOfRecords = this._removeChunkOfRecordsFromArray(records);
-
-                    deletePromises.push(this._deleteChunkOfRecords(chunkOfRecords, conn, sObjectName));
-                }
-
-                await Promise.all(deletePromises);
-
-                resolve();
-            }
-            catch (err)
-            {
-                console.log(err);
-                reject(err);
-            }
-        });
-    }
-
-
-    private async _deleteChunkOfRecords(records: Array<Record>, conn: Connection, sObjectName: string): Promise<void>
-    {
-        return new Promise((resolve, reject) =>
+            let objectQueryOverride = `SELECT Id FROM ${flags.object}`;
+            objectDeleteQueryList.push(objectQueryOverride);
+        }
+        else if (flags.query) // Delete ALL records from passed in query
         {
-            conn.sobject(sObjectName)
-                .destroy(
-                    records,
-                    async (err, resp) =>
-                    {
-                        if (err) { reject(err); }
+            objectDeleteQueryList.push(flags.query);
+        }
+        else // Use an SFDMU export.json file to get a list of objects/queries
+        {
+            let sfdxProjectDataMoverPath = await DataMoverService.calculateDataMoverFolderPathToUse(flags.pathoverride);
 
-                        resolve();
-                    }
-                );
-        });
-    }
+            objectDeleteQueryList = DataMoverService.getobjectQueryListFromExportFile(sfdxProjectDataMoverPath);
 
+            objectDeleteQueryList.reverse(); // Delete records from child objects first
+        }
 
-    private _removeChunkOfRecordsFromArray(records: Array<Record>): Array<string>
-    {
-        return records.splice(0, 200)
-            .map(record => record.Id);
+        return objectDeleteQueryList;
     }
 
 

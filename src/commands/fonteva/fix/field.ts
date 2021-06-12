@@ -1,8 +1,8 @@
 import { SfdxCommand } from '@salesforce/command';
-import { Connection, Messages } from '@salesforce/core';
+import { Messages } from '@salesforce/core';
 import OrgHelper from '../../../shared/OrgService';
-import { Record } from 'jsforce';
 import DataMoverService from '../../../shared/DataMoverService';
+import { OperationType, OrgCrudOperator } from '../../../shared/OrgCrudOperator';
 
 // Initialize Messages with the current plugin directory
 Messages.importMessagesDirectory(__dirname);
@@ -50,7 +50,8 @@ export default class FixField extends SfdxCommand
 
             let objectName = DataMoverService.getObjectNameFromQuery(objectQuery);
 
-            await this._updateRecords(records, conn, objectName); // Slightly different for various CRUD operations
+            let orgCrudOperator = new OrgCrudOperator(conn, objectName);
+            await orgCrudOperator.run(OperationType.Update, records);
         }
         catch (err)
         {
@@ -60,56 +61,56 @@ export default class FixField extends SfdxCommand
         return null;
     }
 
-    private async _updateRecords(records: Array<Record>, conn: Connection, sObjectName: string): Promise<void>
-    {
-        return new Promise(async (resolve, reject) =>
-        {
-            let updatePromises = [];  // Abstract into new function
+    // private async _updateRecords(records: Array<Record>, conn: Connection, sObjectName: string): Promise<void>
+    // {
+    //     return new Promise(async (resolve, reject) =>
+    //     {
+    //         let updatePromises = [];  // Abstract into new function
 
-            console.log(`${records.length} ${sObjectName} records being updated...`); // Slightly different for various CRUD operations
+    //         console.log(`${records.length} ${sObjectName} records being updated...`); // Slightly different for various CRUD operations
 
-            try  // Abstract into new function
-            {
-                while (records.length > 0)  // Abstract into new function
-                {
-                    let chunkOfRecords = this._removeChunkOfRecordsFromArray(records); // Abstract into new function
+    //         try  // Abstract into new function
+    //         {
+    //             while (records.length > 0)  // Abstract into new function
+    //             {
+    //                 let chunkOfRecords = this._removeChunkOfRecordsFromArray(records); // Abstract into new function
 
-                    updatePromises.push(this._updateChunkOfRecords(chunkOfRecords, conn, sObjectName)); // Slightly different for various CRUD operations
-                }
+    //                 updatePromises.push(this._updateChunkOfRecords(chunkOfRecords, conn, sObjectName)); // Slightly different for various CRUD operations
+    //             }
 
-                await Promise.all(updatePromises);  // Abstract into new function
+    //             await Promise.all(updatePromises);  // Abstract into new function
 
-                console.log(`Done updating ${sObjectName}`);  // Abstract into new function
-                resolve();  // Abstract into new function
-            }
-            catch (err)  // Abstract into new function
-            {
-                console.log(err);  // Abstract into new function
-                reject(err);  // Abstract into new function
-            }
-        });
-    }
+    //             console.log(`Done updating ${sObjectName}`);  // Abstract into new function
+    //             resolve();  // Abstract into new function
+    //         }
+    //         catch (err)  // Abstract into new function
+    //         {
+    //             console.log(err);  // Abstract into new function
+    //             reject(err);  // Abstract into new function
+    //         }
+    //     });
+    // }
 
-    private async _updateChunkOfRecords(records: Array<Record>, conn: Connection, sObjectName: string): Promise<void>
-    {
-        return new Promise((resolve, reject) =>
-        {
-            conn.sobject(sObjectName)
-                .update( // Only part that varies
-                    records,
-                    async (err, resp) =>
-                    {
-                        if (err) { reject(err); }
+    // private async _updateChunkOfRecords(records: Array<Record>, conn: Connection, sObjectName: string): Promise<void>
+    // {
+    //     return new Promise((resolve, reject) =>
+    //     {
+    //         conn.sobject(sObjectName)
+    //             .update( // Only part that varies
+    //                 records,
+    //                 async (err, resp) =>
+    //                 {
+    //                     if (err) { reject(err); }
 
-                        resolve();
-                    }
-                );
-        });
-    }
+    //                     resolve();
+    //                 }
+    //             );
+    //     });
+    // }
 
-    private _removeChunkOfRecordsFromArray(records: Array<Record>): Array<string>
-    {
-        return records.splice(0, 200);
-    }
+    // private _removeChunkOfRecordsFromArray(records: Array<Record>): Array<string>
+    // {
+    //     return records.splice(0, 200);
+    // }
 
 }

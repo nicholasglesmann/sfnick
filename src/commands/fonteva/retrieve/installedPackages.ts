@@ -1,8 +1,9 @@
 import { SfdxCommand } from '@salesforce/command';
-import { Connection, Messages } from '@salesforce/core';
+import { Messages } from '@salesforce/core';
 import { JsonMap } from '@salesforce/ts-types';
 import * as fs from 'fs';
-import PackageResult from '../../../types/PackageResult';
+import OrgService from '../../../shared/OrgService';
+import InstalledPackage from '../../../types/InstalledPackage';
 
 
 // Initialize Messages with the current plugin directory
@@ -25,7 +26,7 @@ export default class RetrieveInstalledPackages extends SfdxCommand
         const conn = org.getConnection();
         await org.refreshAuth();
 
-        let installedPackageResults = await this.queryInstalledPackages(conn);
+        let installedPackageResults = await OrgService.queryInstalledPackages(conn);
 
         let installedPackageDirectory = this.createInstalledPackages(installedPackageResults);
 
@@ -33,28 +34,7 @@ export default class RetrieveInstalledPackages extends SfdxCommand
     }
 
 
-
-    private queryInstalledPackages(conn: Connection): Promise<PackageResult[]>
-    {
-        return new Promise((resolve, reject) =>
-        {
-            conn.tooling.sobject('InstalledSubscriberPackage').find({}, [
-                "SubscriberPackage.NamespacePrefix",
-                "SubscriberPackageVersion.MajorVersion",
-                "SubscriberPackageVersion.MinorVersion",
-                "SubscriberPackageVersion.PatchVersion"
-            ])
-            .execute(null, (err: Error, installedPackages: any) =>
-            {
-                if (err) { reject(err); }
-
-                resolve(installedPackages);
-            });
-        });
-    }
-
-
-    private createInstalledPackages(installedPackages: PackageResult[]): string
+    private createInstalledPackages(installedPackages: InstalledPackage[]): string
     {
         const installedPackageDirectory = './temp/installedPackages';
 
@@ -62,13 +42,13 @@ export default class RetrieveInstalledPackages extends SfdxCommand
 
         console.log(`Creating packages in ${installedPackageDirectory}`);
 
-        installedPackages.forEach((installedPackageData: PackageResult) =>
+        installedPackages.forEach((installedPackage: InstalledPackage) =>
         {
-            let packageName = this.getInstalledPackageName(installedPackageData);
+            let packageName = installedPackage.getNamespacePrefix();
 
             if (!packageName) { return; }
 
-            let packageVersion = this.getInstalledPackageVersion(installedPackageData);
+            let packageVersion = installedPackage.getPackageVersion();
 
             let fileName = this.getInstalledPackageXmlFileName(packageName);
             let fileContents = this.getInstalledPackageXmlContent(packageVersion);
@@ -102,26 +82,11 @@ export default class RetrieveInstalledPackages extends SfdxCommand
     }
 
 
-    private getInstalledPackageName(installedPackageData: PackageResult): string
-    {
-        return installedPackageData.SubscriberPackage.NamespacePrefix;
-    }
-
-
-    private getInstalledPackageVersion(installedPackageData: PackageResult): string
-    {
-        let majorVersion = installedPackageData.SubscriberPackageVersion.MajorVersion;
-        let minorVersion = installedPackageData.SubscriberPackageVersion.MinorVersion;
-        let patchVersion = installedPackageData.SubscriberPackageVersion.PatchVersion;
-
-        return `${majorVersion}.${minorVersion}.${patchVersion}`;
-    }
-
-
     private getInstalledPackageXmlFileName(packageName: any): string
     {
         return `${packageName}.installedPackage-meta.xml`;
     }
+
 
     private getInstalledPackageXmlContent(packageVersion: any): string
     {

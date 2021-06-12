@@ -6,315 +6,383 @@
     "objects": [
         {
             "query": "SELECT all FROM PagesApi__Theme__c",
-            "operation": "Insert"
+            "operation": "Insert",
+            "excludedFields": ["ConnectionName","ConnectionReceivedId","ConnectionSentId"]
         },
         {
             "query": "SELECT all FROM OrderApi__Business_Group__c",
-            "operation": "Insert"
+            "operation": "Insert",
+            "excludedFields": ["ConnectionName","ConnectionReceivedId","ConnectionSentId"]
         },
         {
             "query": "SELECT all FROM OrderApi__GL_Account__c",
-            "operation": "Insert"
+            "operation": "Insert",
+            "excludedFields": ["ConnectionName","ConnectionReceivedId","ConnectionSentId"]
         },
         {
             "query": "SELECT all FROM OrderApi__Payment_Terms__c",
-            "operation": "Insert"
+            "operation": "Insert",
+            "excludedFields": ["ConnectionName","ConnectionReceivedId","ConnectionSentId"]
         },
         {
             "query": "SELECT all FROM OrderApi__Payment_Gateway__c",
-            "operation": "Insert"
+            "operation": "Insert",
+            "excludedFields": ["ConnectionName","ConnectionReceivedId","ConnectionSentId"]
         },
         {
             "query": "SELECT all FROM OrderApi__Shipping_Region__c",
-            "operation": "Insert"
+            "operation": "Insert",
+            "excludedFields": ["ConnectionName","ConnectionReceivedId","ConnectionSentId"]
         },
         {
             "query": "SELECT all FROM OrderApi__Tax_Locale__c",
-            "operation": "Insert"
+            "operation": "Insert",
+            "excludedFields": ["ConnectionName","ConnectionReceivedId","ConnectionSentId"]
         },
         {
             "query": "SELECT all FROM OrderApi__Connection_Type__c",
-            "operation": "Insert"
+            "operation": "Insert",
+            "excludedFields": ["ConnectionName","ConnectionReceivedId","ConnectionSentId"]
         },
         {
             "query": "SELECT all FROM LTE__Site__c",
-            "operation": "Insert"
+            "operation": "Insert",
+            "excludedFields": ["ConnectionName","ConnectionReceivedId","ConnectionSentId"]
         },
         {
             "query": "SELECT all FROM LTE__Menu_Item__c",
-            "operation": "Insert"
+            "operation": "Insert",
+            "excludedFields": ["ConnectionName","ConnectionReceivedId","ConnectionSentId"]
         },
         {
             "query": "SELECT all FROM OrderApi__Store__c",
-            "operation": "Insert"
+            "operation": "Insert",
+            "excludedFields": ["ConnectionName","ConnectionReceivedId","ConnectionSentId"]
         },
         {
             "query": "SELECT all FROM OrderApi__Custom_Payment_Type__c",
-            "operation": "Insert"
+            "operation": "Insert",
+            "excludedFields": ["ConnectionName","ConnectionReceivedId","ConnectionSentId"]
         },
         {
             "query": "SELECT all FROM PagesApi__Site__c",
-            "operation": "Insert"
+            "operation": "Insert",
+            "excludedFields": ["ConnectionName","ConnectionReceivedId","ConnectionSentId"]
         },
         {
             "query": "SELECT all FROM PagesApi__Page__c",
-            "operation": "Insert"
+            "operation": "Insert",
+            "excludedFields": ["ConnectionName","ConnectionReceivedId","ConnectionSentId"]
         },
         {
             "query": "SELECT all FROM PagesApi__Page_Element__c",
-            "operation": "Insert"
+            "operation": "Insert",
+            "excludedFields": ["ConnectionName","ConnectionReceivedId","ConnectionSentId"]
         },
         {
             "query": "SELECT all FROM PagesApi__Page_Element_Attribute__c",
-            "operation": "Insert"
+            "operation": "Insert",
+            "excludedFields": ["ConnectionName","ConnectionReceivedId","ConnectionSentId"]
         },
         {
             "query": "SELECT all FROM OrderApi__Item__c",
-            "operation": "Insert"
+            "operation": "Insert",
+            "excludedFields": ["ConnectionName","ConnectionReceivedId","ConnectionSentId"]
         },
         {
             "query": "SELECT all FROM OrderApi__Item_Class__c",
-            "operation": "Insert"
+            "operation": "Insert",
+            "excludedFields": ["ConnectionName","ConnectionReceivedId","ConnectionSentId"]
         },
         {
             "query": "SELECT all FROM OrderApi__Assignment_Role__c",
-            "operation": "Insert"
+            "operation": "Insert",
+            "excludedFields": ["ConnectionName","ConnectionReceivedId","ConnectionSentId"]
         },
         {
             "query": "SELECT all FROM PriceApi__Bulk_Price_Rule__c",
-            "operation": "Insert"
+            "operation": "Insert",
+            "excludedFields": ["ConnectionName","ConnectionReceivedId","ConnectionSentId"]
         },
         {
             "query": "SELECT all FROM OrderApi__Price_Rule__c",
-            "operation": "Insert"
+            "operation": "Insert",
+            "excludedFields": ["ConnectionName","ConnectionReceivedId","ConnectionSentId"]
         },
         {
             "query": "SELECT all FROM OrderApi__Price_Rule_Variable__c",
-            "operation": "Insert"
+            "operation": "Insert",
+            "excludedFields": ["ConnectionName","ConnectionReceivedId","ConnectionSentId"]
         },
         {
             "query": "SELECT all FROM OrderApi__Subscription_Plan__c",
-            "operation": "Insert"
+            "operation": "Insert",
+            "excludedFields": ["ConnectionName","ConnectionReceivedId","ConnectionSentId"]
         },
         {
             "query": "SELECT all FROM OrderApi__Item_Subscription_Plan__c",
-            "operation": "Insert"
+            "operation": "Insert",
+            "excludedFields": ["ConnectionName","ConnectionReceivedId","ConnectionSentId"]
         },
         {
             "query": "SELECT all FROM OrderApi__Package_Item__c",
-            "operation": "Insert"
+            "operation": "Insert",
+            "excludedFields": ["ConnectionName","ConnectionReceivedId","ConnectionSentId"]
         },
         {
             "query": "SELECT all FROM OrderApi__Badge_Type__c",
-            "operation": "Insert"
+            "operation": "Insert",
+            "excludedFields": ["ConnectionName","ConnectionReceivedId","ConnectionSentId"]
         },
         {
             "query": "SELECT all FROM OrderApi__Badge_Workflow__c",
-            "operation": "Insert"
+            "operation": "Insert",
+            "excludedFields": ["ConnectionName","ConnectionReceivedId","ConnectionSentId"]
         },
         {
             "query": "SELECT all FROM EventApi__Event__c",
-            "operation": "Insert"
+            "operation": "Insert",
+            "excludedFields": ["ConnectionName","ConnectionReceivedId","ConnectionSentId"]
+        },
+        {
+            "query": "SELECT all FROM EventApi__Event_Chatter_Groups__c",
+            "operation": "Insert",
+            "excludedFields": ["ConnectionName","ConnectionReceivedId","ConnectionSentId"]
         },
         {
             "query": "SELECT all FROM EventApi__Ticket_Type__c",
-            "operation": "Insert"
+            "operation": "Insert",
+            "excludedFields": ["ConnectionName","ConnectionReceivedId","ConnectionSentId"]
         },
         {
             "query": "SELECT all FROM EventApi__Section__c",
-            "operation": "Insert"
+            "operation": "Insert",
+            "excludedFields": ["ConnectionName","ConnectionReceivedId","ConnectionSentId"]
         },
         {
             "query": "SELECT all FROM EventApi__Seat__c",
-            "operation": "Insert"
+            "operation": "Insert",
+            "excludedFields": ["ConnectionName","ConnectionReceivedId","ConnectionSentId"]
         },
         {
             "query": "SELECT all FROM EventApi__Section_Ticket__c",
-            "operation": "Insert"
+            "operation": "Insert",
+            "excludedFields": ["ConnectionName","ConnectionReceivedId","ConnectionSentId"]
         },
         {
             "query": "SELECT all FROM EventApi__Event_Status__c",
-            "operation": "Insert"
+            "operation": "Insert",
+            "excludedFields": ["ConnectionName","ConnectionReceivedId","ConnectionSentId"]
         },
         {
             "query": "SELECT all FROM EventApi__Event_Page__c",
-            "operation": "Insert"
+            "operation": "Insert",
+            "excludedFields": ["ConnectionName","ConnectionReceivedId","ConnectionSentId"]
         },
         {
             "query": "SELECT all FROM EventApi__Event_Status_Page__c",
-            "operation": "Insert"
+            "operation": "Insert",
+            "excludedFields": ["ConnectionName","ConnectionReceivedId","ConnectionSentId"]
         },
         {
             "query": "SELECT all FROM EventApi__Event_Page_Component__c",
-            "operation": "Insert"
+            "operation": "Insert",
+            "excludedFields": ["ConnectionName","ConnectionReceivedId","ConnectionSentId"]
         },
         {
             "query": "SELECT all FROM EventApi__Track__c",
-            "operation": "Insert"
+            "operation": "Insert",
+            "excludedFields": ["ConnectionName","ConnectionReceivedId","ConnectionSentId"]
         },
         {
             "query": "SELECT all FROM LTE__Site_Event__c",
-            "operation": "Insert"
+            "operation": "Insert",
+            "excludedFields": ["ConnectionName","ConnectionReceivedId","ConnectionSentId"]
         },
         {
             "query": "SELECT all FROM OrderApi__Renewal_Path__c",
-            "operation": "Insert"
+            "operation": "Insert",
+            "excludedFields": ["ConnectionName","ConnectionReceivedId","ConnectionSentId"]
         },
         {
             "query": "SELECT all FROM OrderApi__Renewal_Path_Variable__c",
-            "operation": "Insert"
+            "operation": "Insert",
+            "excludedFields": ["ConnectionName","ConnectionReceivedId","ConnectionSentId"]
         },
         {
             "query": "SELECT all FROM PagesApi__Community_Group__c",
-            "operation": "Insert"
+            "operation": "Insert",
+            "excludedFields": ["ConnectionName","ConnectionReceivedId","ConnectionSentId"]
         },
         {
             "query": "SELECT all FROM OrderApi__Catalog__c",
-            "operation": "Insert"
+            "operation": "Insert",
+            "excludedFields": ["ConnectionName","ConnectionReceivedId","ConnectionSentId"]
         },
         {
             "query": "SELECT all FROM OrderApi__Catalog_Item__c",
-            "operation": "Insert"
+            "operation": "Insert",
+            "excludedFields": ["ConnectionName","ConnectionReceivedId","ConnectionSentId"]
         },
         {
             "query": "SELECT all FROM OrderApi__Shipping_Method__c",
-            "operation": "Insert"
+            "operation": "Insert",
+            "excludedFields": ["ConnectionName","ConnectionReceivedId","ConnectionSentId"]
         },
         {
             "query": "SELECT all FROM OrderApi__Source_Code__c",
-            "operation": "Insert"
+            "operation": "Insert",
+            "excludedFields": ["ConnectionName","ConnectionReceivedId","ConnectionSentId"]
         },
         {
             "query": "SELECT all FROM OrderApi__Campaign_Page__c",
-            "operation": "Insert"
+            "operation": "Insert",
+            "excludedFields": ["ConnectionName","ConnectionReceivedId","ConnectionSentId"]
         },
         {
             "query": "SELECT all FROM OrderApi__Batch__c",
-            "operation": "Insert"
+            "operation": "Insert",
+            "excludedFields": ["ConnectionName","ConnectionReceivedId","ConnectionSentId"]
         },
         {
             "query": "SELECT all FROM joinapi__Join_Process__c",
-            "operation": "Insert"
+            "operation": "Insert",
+            "excludedFields": ["ConnectionName","ConnectionReceivedId","ConnectionSentId"]
         },
         {
             "query": "SELECT all FROM joinapi__Step__c",
-            "operation": "Insert"
+            "operation": "Insert",
+            "excludedFields": ["ConnectionName","ConnectionReceivedId","ConnectionSentId"]
         },
         {
             "query": "SELECT all FROM joinapi__Step_Condition__c",
-            "operation": "Insert"
+            "operation": "Insert",
+            "excludedFields": ["ConnectionName","ConnectionReceivedId","ConnectionSentId"]
         },
         {
             "query": "SELECT all FROM DRCTS__Directories__c",
-            "operation": "Insert"
+            "operation": "Insert",
+            "excludedFields": ["ConnectionName","ConnectionReceivedId","ConnectionSentId"]
         },
         {
             "query": "SELECT all FROM PagesApi__Form__c",
-            "operation": "Insert"
+            "operation": "Insert",
+            "excludedFields": ["ConnectionName","ConnectionReceivedId","ConnectionSentId"]
         },
         {
             "query": "SELECT all FROM PagesApi__Field_Group__c",
-            "operation": "Insert"
+            "operation": "Insert",
+            "excludedFields": ["ConnectionName","ConnectionReceivedId","ConnectionSentId"]
         },
         {
             "query": "SELECT all FROM PagesApi__Field__c",
-            "operation": "Insert"
+            "operation": "Insert",
+            "excludedFields": ["ConnectionName","ConnectionReceivedId","ConnectionSentId"]
         },
         {
             "query": "SELECT all FROM PagesApi__Skip_Logic_Rule__c",
-            "operation": "Insert"
+            "operation": "Insert",
+            "excludedFields": ["ConnectionName","ConnectionReceivedId","ConnectionSentId"]
         },
         {
             "query": "SELECT all FROM PagesApi__Media_Asset__c",
-            "operation": "Insert"
+            "operation": "Insert",
+            "excludedFields": ["ConnectionName","ConnectionReceivedId","ConnectionSentId"]
         },
         {
             "query": "SELECT all FROM PagesApi__Media_Asset_Collection__c",
-            "operation": "Insert"
+            "operation": "Insert",
+            "excludedFields": ["ConnectionName","ConnectionReceivedId","ConnectionSentId"]
         },
         {
             "query": "SELECT all FROM EventApi__Event_Category__c",
-            "operation": "Insert"
+            "operation": "Insert",
+            "excludedFields": ["ConnectionName","ConnectionReceivedId","ConnectionSentId"]
         },
         {
             "query": "SELECT all FROM EventApi__Site_Event_Category__c",
-            "operation": "Insert"
+            "operation": "Insert",
+            "excludedFields": ["ConnectionName","ConnectionReceivedId","ConnectionSentId"]
         },
         {
             "query": "SELECT all FROM EventApi__Venue__c",
-            "operation": "Insert"
+            "operation": "Insert",
+            "excludedFields": ["ConnectionName","ConnectionReceivedId","ConnectionSentId"]
         },
         {
             "query": "SELECT all FROM EventApi__Room__c",
-            "operation": "Insert"
+            "operation": "Insert",
+            "excludedFields": ["ConnectionName","ConnectionReceivedId","ConnectionSentId"]
         },
         {
             "query": "SELECT all FROM EventApi__Schedule_Item__c",
-            "operation": "Insert"
+            "operation": "Insert",
+            "excludedFields": ["ConnectionName","ConnectionReceivedId","ConnectionSentId"]
         },
         {
             "query": "SELECT all FROM EventApi__Track_Schedule_Item__c",
-            "operation": "Insert"
+            "operation": "Insert",
+            "excludedFields": ["ConnectionName","ConnectionReceivedId","ConnectionSentId"]
         },
         {
             "query": "SELECT all FROM EventApi__Ticket_Schedule_Item__c",
-            "operation": "Insert"
+            "operation": "Insert",
+            "excludedFields": ["ConnectionName","ConnectionReceivedId","ConnectionSentId"]
         },
         {
             "query": "SELECT all FROM EventApi__Speaker__c",
-            "operation": "Insert"
+            "operation": "Insert",
+            "excludedFields": ["ConnectionName","ConnectionReceivedId","ConnectionSentId"]
         },
         {
             "query": "SELECT all FROM EventApi__Speaker_Schedule_Item__c",
-            "operation": "Insert"
+            "operation": "Insert",
+            "excludedFields": ["ConnectionName","ConnectionReceivedId","ConnectionSentId"]
         },
         {
             "query": "SELECT all FROM EventApi__Sponsor_Package__c",
-            "operation": "Insert"
+            "operation": "Insert",
+            "excludedFields": ["ConnectionName","ConnectionReceivedId","ConnectionSentId"]
         },
         {
             "query": "SELECT all FROM EventApi__Sponsor__c",
-            "operation": "Insert"
+            "operation": "Insert",
+            "excludedFields": ["ConnectionName","ConnectionReceivedId","ConnectionSentId"]
         },
         {
             "query": "SELECT all FROM EventApi__Vendor__c",
-            "operation": "Insert"
+            "operation": "Insert",
+            "excludedFields": ["ConnectionName","ConnectionReceivedId","ConnectionSentId"]
         },
         {
             "query": "SELECT all FROM PagesApi__Menu__c",
-            "operation": "Insert"
+            "operation": "Insert",
+            "excludedFields": ["ConnectionName","ConnectionReceivedId","ConnectionSentId"]
         },
         {
             "query": "SELECT all FROM PagesApi__Menu_Item__c",
-            "operation": "Insert"
+            "operation": "Insert",
+            "excludedFields": ["ConnectionName","ConnectionReceivedId","ConnectionSentId"]
         },
         {
             "query": "SELECT all FROM OrderApi__Access_Permission__c",
-            "operation": "Insert"
+            "operation": "Insert",
+            "excludedFields": ["ConnectionName","ConnectionReceivedId","ConnectionSentId"]
         },
         {
             "query": "SELECT all FROM ProgramApi__Program_Type__c",
-            "operation": "Insert"
+            "operation": "Insert",
+            "excludedFields": ["ConnectionName","ConnectionReceivedId","ConnectionSentId"]
         },
         {
             "query": "SELECT all FROM ProgramApi__Program__c",
-            "operation": "Insert"
-        },
-        {
-            "query": "SELECT all FROM ProgramApi__Program_Profile__c",
-            "operation": "Insert"
+            "operation": "Insert",
+            "excludedFields": ["ConnectionName","ConnectionReceivedId","ConnectionSentId"]
         },
         {
             "query": "SELECT all FROM ProgramApi__Requirement__c",
-            "operation": "Insert"
-        },
-        {
-            "query": "SELECT all FROM ProgramApi__Program_Term__c",
-            "operation": "Insert"
-        },
-        {
-            "query": "SELECT all FROM ProgramApi__Goals__c",
-            "operation": "Insert"
+            "operation": "Insert",
+            "excludedFields": ["ConnectionName","ConnectionReceivedId","ConnectionSentId"]
         }
     ]
 }

@@ -9,6 +9,7 @@ export default class RetrieveHelper
 {
     static METADATA_TYPE = {
         DASHBOARD: "Dashboard",
+        DOCUMENT:"Document",
         EMAIL_TEMPLATE: "EmailTemplate",
         REPORT: "Report",
         WORKFLOW: "Workflow"
@@ -16,6 +17,7 @@ export default class RetrieveHelper
 
     static METADATA_QUERY = {
         DASHBOARD: "SELECT DeveloperName, Folder.DeveloperName FROM Dashboard",
+        DOCUMENT: "SELECT DeveloperName, Folder.DeveloperName FROM Document",
         EMAIL_TEMPLATE: "SELECT DeveloperName, Folder.DeveloperName FROM EmailTemplate",
         REPORT: "SELECT DeveloperName, FolderName FROM Report",
         REPORT_FOLDER: "SELECT Name, DeveloperName FROM Folder WHERE Type = 'Report'",
@@ -85,6 +87,24 @@ export default class RetrieveHelper
     }
 
 
+    static async retrieveDocuments(username: string): Promise<void>
+    {
+        const conn = await OrgHelper.getConnFrom(username);
+
+        let documentResults = <QueryResult<MetadataResult>> await conn.query(RetrieveHelper.METADATA_QUERY.DOCUMENT);
+
+        documentResults.records.forEach(document =>
+        {
+            if (!document.Folder)
+            {
+                document.Folder = { Name: null, DeveloperName: null } // Ignore private documents, these cannont be retrieved by Metadata API
+            }
+        });
+
+        return RetrieveHelper.retrieveMetadata(documentResults, username, conn.getApiVersion(), RetrieveHelper.METADATA_TYPE.DOCUMENT);
+    }
+
+
     static async retrieveEmailTemplates(username: string): Promise<void>
     {
         const conn = await OrgHelper.getConnFrom(username);
@@ -95,7 +115,7 @@ export default class RetrieveHelper
         {
             if (!emailTemplate.Folder)
             {
-                emailTemplate.Folder = { Name: null, DeveloperName: 'unfiled$public' } // If folder is null, report is in public folder
+                emailTemplate.Folder = { Name: null, DeveloperName: 'unfiled$public' } // If folder is null, Email Template is in public folder
             }
         });
 
