@@ -2,7 +2,7 @@ import { SfdxCommand } from '@salesforce/command';
 import { Messages } from '@salesforce/core';
 import { JsonMap } from '@salesforce/ts-types';
 import SfdxHelper from '../../shared/SfdxHelper';
-import UsernameHelper from '../../shared/UsernameHelper';
+import UsernameService from '../../shared/UsernameService';
 
 // Initialize Messages with the current plugin directory
 Messages.importMessagesDirectory(__dirname);
@@ -20,7 +20,7 @@ export default class Validate extends SfdxCommand
 
     public async run(): Promise<JsonMap>
     {
-        let username = await UsernameHelper.getFlagOrDefaultUsername(this.flags.targetusername);
+        let username = await UsernameService.getFlagOrDefaultUsername(this.flags.targetusername);
 
         return SfdxHelper.forceSourceValidate(username);
     }

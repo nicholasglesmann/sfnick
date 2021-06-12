@@ -1,7 +1,7 @@
 import { SfdxCommand } from '@salesforce/command';
 import { Messages } from '@salesforce/core';
 import RetrieveHelper from '../../../shared/metadata/RetrieveHelper';
-import UsernameHelper from '../../../shared/UsernameHelper';
+import UsernameService from '../../../shared/UsernameService';
 
 
 // Initialize Messages with the current plugin directory
@@ -20,7 +20,7 @@ export default class RetrieveEmailTemplates extends SfdxCommand
 
     public async run(): Promise<void>
     {
-        let username = await UsernameHelper.getFlagOrDefaultUsername(this.flags.targetusername);
+        let username = await UsernameService.getFlagOrDefaultUsername(this.flags.targetusername);
 
         return RetrieveHelper.retrieveEmailTemplates(username);
     }

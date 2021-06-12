@@ -22,7 +22,7 @@
                 "disabletriggersvalidationrules": "disable all triggers/validation rules before executing destroy operation. Renables triggers/validation rules after execution.",
                 "object": "destroy all records for the specified object",
                 "query": "destroy all records for the specified query",
-                "prod": "destroy records in a production org"
+                "allowprod": "destroy records in a production org"
             }
         },
         "deploy": {

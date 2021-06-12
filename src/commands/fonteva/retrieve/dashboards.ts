@@ -1,7 +1,7 @@
 import { SfdxCommand } from '@salesforce/command';
 import { Messages } from '@salesforce/core';
 import RetrieveHelper from '../../../shared/metadata/RetrieveHelper';
-import UsernameHelper from '../../../shared/UsernameHelper';
+import UsernameService from '../../../shared/UsernameService';
 
 // Initialize Messages with the current plugin directory
 Messages.importMessagesDirectory(__dirname);
@@ -19,7 +19,7 @@ export default class RetrieveDashboards extends SfdxCommand
 
     public async run(): Promise<void>
     {
-        let username = await UsernameHelper.getFlagOrDefaultUsername(this.flags.targetusername);
+        let username = await UsernameService.getFlagOrDefaultUsername(this.flags.targetusername);
 
         return RetrieveHelper.retrieveDashboards(username);
     }

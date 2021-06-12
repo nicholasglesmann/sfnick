@@ -1,7 +1,6 @@
 import { flags, SfdxCommand } from '@salesforce/command';
 import { Messages, Org } from '@salesforce/core';
 import { JsonMap } from '@salesforce/ts-types';
-// import { Record } from 'jsforce';
 import DataMoverService from '../../../shared/DataMoverService';
 import OrgService from '../../../shared/OrgService';
 import cli from 'cli-ux'
@@ -39,10 +38,10 @@ export default class DestroyData extends SfdxCommand
             required: false,
             description: messages.getMessage('data.destroy.flags.query')
         }),
-        prod: flags.boolean({
+        allowprod: flags.boolean({
             char: 'z',
             required: false,
-            description: messages.getMessage('data.destroy.flags.prod')
+            description: messages.getMessage('data.destroy.flags.allowprod')
         }),
         disabletriggersvalidationrules: flags.boolean({
             char: 't',
@@ -57,7 +56,7 @@ export default class DestroyData extends SfdxCommand
         const conn = org.getConnection();
         await org.refreshAuth();
 
-        if (this._isProduction(org) && !this.flags.prod)
+        if (this._isProduction(org) && !this.flags.allowprod)
         {
             console.error(`Can't run a destroy command in a production org! Use --prod or -z to override.`);
             return null;

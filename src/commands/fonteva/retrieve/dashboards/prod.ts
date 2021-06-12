@@ -1,7 +1,7 @@
 import { flags, SfdxCommand } from '@salesforce/command';
 import { Messages } from '@salesforce/core';
 import RetrieveHelper from '../../../../shared/metadata/RetrieveHelper';
-import UsernameHelper from '../../../../shared/UsernameHelper';
+import UsernameService from '../../../../shared/UsernameService';
 
 // Initialize Messages with the current plugin directory
 Messages.importMessagesDirectory(__dirname);
@@ -24,7 +24,7 @@ export default class RetrieveProdDashboards extends SfdxCommand
 
     public async run(): Promise<void>
     {
-        let username = await UsernameHelper.calculateFontevaClientUsername(this.flags.client, 'prod');
+        let username = await UsernameService.calculateFontevaClientUsername(this.flags.client, 'prod');
 
         return RetrieveHelper.retrieveDashboards(username);
     }

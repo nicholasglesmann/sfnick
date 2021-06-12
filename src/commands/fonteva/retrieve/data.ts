@@ -1,7 +1,7 @@
 import { SfdxCommand } from '@salesforce/command';
 import { Messages } from '@salesforce/core';
 import DataMoverHelper from '../../../shared/DataMoverService';
-import UsernameHelper from '../../../shared/UsernameHelper';
+import UsernameService from '../../../shared/UsernameService';
 
 
 // Initialize Messages with the current plugin directory
@@ -20,7 +20,7 @@ export default class RetrieveData extends SfdxCommand
 
     public async run(): Promise<any>
     {
-        let username = await UsernameHelper.getFlagOrDefaultUsername(this.flags.targetusername);
+        let username = await UsernameService.getFlagOrDefaultUsername(this.flags.targetusername);
 
         return DataMoverHelper.retrieve(username);
     }

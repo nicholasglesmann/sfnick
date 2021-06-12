@@ -1,7 +1,7 @@
 import { ConfigAggregator, SfdxError } from "@salesforce/core";
 import GitHelper from "./GitHelper";
 
-export default class UsernameHelper
+export default class UsernameService
 {
     static async getFlagOrDefaultUsername(flagUsername: string): Promise<string>
     {
