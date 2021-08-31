@@ -1,8 +1,8 @@
 import { flags, SfdxCommand } from '@salesforce/command';
 import { Connection, Messages } from '@salesforce/core';
-import { Table } from 'cli-table3';
 import InstalledPackage from '../../../types/InstalledPackage';
 import OrgService from '../../../shared/OrgService';
+import OutputTable from '../../../shared/ui/OutputTable';
 
 // Initialize Messages with the current plugin directory
 Messages.importMessagesDirectory(__dirname);
@@ -39,16 +39,15 @@ export default class ComparePackageVersions extends SfdxCommand
 
     public async run(): Promise<void>
     {
-        let firstOrgConnPromise = OrgService.getConnFrom(this.flags.firstorg);
-        let secondOrgConnPromise = OrgService.getConnFrom(this.flags.secondorg);
+        let firstOrgConnPromise = OrgService.getConnFromUsername(this.flags.firstorg);
+        let secondOrgConnPromise = OrgService.getConnFromUsername(this.flags.secondorg);
 
         const [firstOrgConn, secondOrgConn] = await Promise.all([firstOrgConnPromise, secondOrgConnPromise]);
 
         let combinedInstalledPackageVersions = await this._getCombinedInstalledPackageVersions(firstOrgConn, secondOrgConn);
 
         let outputTable = this._constructPackageVersionOutputTable(combinedInstalledPackageVersions);
-
-        this._displayTable(outputTable);
+        outputTable.render();
     }
 
 
@@ -67,31 +66,18 @@ export default class ComparePackageVersions extends SfdxCommand
         return combinedInstalledPackageVersions;
     }
 
-
-    private _displayTable(table: Table): void
+    private _constructPackageVersionOutputTable(installedPackageVersions: any): OutputTable
     {
-        console.log(table.toString());
-    }
-
-
-    private _constructPackageVersionOutputTable(installedPackageVersions: any): Table
-    {
-        const Table = require('cli-table3');
-
-        let outputTable = new Table({
-            head: ['Package Name', 'Package Namespace', 'First Org Verison', 'Second Org Version', 'Matching?'],
-            colWidths: [40, 20, 20, 20, 15]
-        });
+        let outputTable = new OutputTable();
+        outputTable.setTableHead(['Package Name', 'Package Namespace', 'First Org Verison', 'Second Org Version', 'Matching?']);
+        outputTable.setColumnWidths([40, 20, 20, 20, 15]);
 
         let packageVersionTableRows = this._createPackageVersionTableRows(installedPackageVersions);
-
-        this._sortNonMatchingPackageVersionsToTop(packageVersionTableRows);
-
-        outputTable.push(...packageVersionTableRows);
+        outputTable.addRows(packageVersionTableRows);
+        outputTable.sortNonMatchingRowsToTop({ indexOfColumnToSortOn: 4 });
 
         return outputTable;
     }
-
 
     private _combineInstalledPackageVersions(orgInstalledPackages: InstalledPackage[], combinedInstalledPackageVersions: any, whichOrg: OrgVersions)
     {
@@ -109,8 +95,7 @@ export default class ComparePackageVersions extends SfdxCommand
         });
     }
 
-
-    private _createPackageVersionTableRows(installedPackageVersions: any): Array<Array<string>>
+    private _createPackageVersionTableRows(installedPackageVersions: any): string[][]
     {
         let packageVersionTableRows = [];
 
@@ -126,13 +111,12 @@ export default class ComparePackageVersions extends SfdxCommand
         return packageVersionTableRows;
     }
 
-
     private _createPackageVersionTableRow(packageNameSpace: string, installedPackage: any): Array<string>
     {
         let packageName = installedPackage.Name;
         let firstOrgVersion = installedPackage[OrgVersions.FirstOrgVersion];
         let secondOrgVersion = installedPackage[OrgVersions.SecondOrgVersion];
-        let doVersionsMatch = this._doVersionsMatch(firstOrgVersion, secondOrgVersion);
+        let doVersionsMatch = OutputTable.isMatch(firstOrgVersion, secondOrgVersion);
 
         let packageVersionTableRow = [];
 
@@ -143,32 +127,5 @@ export default class ComparePackageVersions extends SfdxCommand
         packageVersionTableRow.push(doVersionsMatch);
 
         return packageVersionTableRow;
-    }
-
-
-    private _sortNonMatchingPackageVersionsToTop(packageVersionTableRows: Array<any>)
-    {
-        const indexOfPackageVersion = 4;
-
-        packageVersionTableRows.sort((a, b) =>
-            {
-                return (a[indexOfPackageVersion] > b[indexOfPackageVersion])
-                ? 1
-                : ((b[indexOfPackageVersion] > a[indexOfPackageVersion]) ? -1 : 0);
-            }
-        );
-    }
-
-
-    private _doVersionsMatch(firstOrgVersion: string, secondOrgVersion: string)
-    {
-        const colors = require('colors');
-
-        if (firstOrgVersion == secondOrgVersion)
-        {
-            return colors.green('Yes');
-        }
-
-        return colors.red('No');
     }
 }

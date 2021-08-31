@@ -1,4 +1,10 @@
 {
+    "shared": {
+        "description": "NOT A COMMAND. Messages that are shared between different commands",
+        "flags": {
+            "exportJsonPathOverride": ""
+        }
+    },
     "compare": {
         "packageVersions": {
             "description": "compare and list differences of package versions between two orgs",
@@ -6,30 +12,28 @@
                 "firstorg": "first org",
                 "secondorg": "second org"
             }
+        },
+        "recordCounts": {
+            "description": "compare and list differences of record counts between two orgs"
+        }
+    },
+    "count": {
+        "records": {
+            "description": "count records in an org"
         }
     },
     "create": {
+        "migrationIdFields": {
+            "description": "create migration Id fields on specified object(s) in a target org"
+        },
         "scratchorg": {
             "description": "create a scratch org using a source org as a template"
-        }
-    },
-    "data": {
-        "description": "DEPRICATED",
-        "destroy": {
-            "description": "destroy all data in target org",
-            "flags": {
-                "pathoverride": "destroy all records using the export.json file at the specified path",
-                "disabletriggersvalidationrules": "disable all triggers/validation rules before executing destroy operation. Renables triggers/validation rules after execution.",
-                "object": "destroy all records for the specified object",
-                "query": "destroy all records for the specified query",
-                "allowprod": "destroy records in a production org"
-            }
         },
-        "deploy": {
-            "description": "deploy all csvfile data to target org"
+        "testdata": {
+            "description": "create test data in a target org"
         },
-        "retrieve": {
-            "description": "retrieve all data into csvfile from target org"
+        "users": {
+            "description": "create users in a target org"
         }
     },
     "deploy": {
@@ -51,9 +55,39 @@
             }
         }
     },
+    "destroy": {
+        "records": {
+            "description": "destroy records in target org"
+        }
+    },
     "fix": {
+        "fontevaRecords": {
+            "description": "fix problems with Fonteva Config records that exist after transfering to a new org"
+        },
+        "priceRule": {
+            "description": "fix problems with Fonteva Price Rule records that exist after transfering to a new org"
+        },
+        "priceRuleVariable": {
+            "description": "fix problems with Fonteva Price Rule Variable records that exist after transfering to a new org"
+        },
+        "skipLogicRule": {
+            "description": "fix problems with Fonteva Skip Logic records that exist after transfering to a new org"
+        },
         "field": {
             "description": "fix problems with fields"
+        }
+    },
+    "modify": {
+        "field": {
+            "description": "modify the value of one or more fields on a single object",
+            "flags": {
+                "disabletriggersvalidationrules": "disable all triggers/validation rules before executing destroy operation. Renables triggers/validation rules after execution.",
+                "object": "modify a field on the specified object",
+                "mapping": "comma-separated list of FIELD_TO_UPDATE==VALUE pairs. Add a ** before the value to indicate that the value of another field on the record should be used. Separate pairs with &&.",
+                "filter": "modify only records from a specified filter",
+                "allowprod": "allows modifying records in a production org",
+                "batchsize": "the batch size to use when updating records (default: 200)"
+            }
         }
     },
     "retrieve": {
@@ -228,13 +262,17 @@
             }
         }
     },
+    "test": {
+        "description": "used for testing various functionality. DO NOT USE"
+    },
     "transfer": {
         "configData": {
             "description": "transfer Fonteva config data from a source org to a target org",
             "flags": {
                 "sourceorg": "source org SFDX username",
                 "targetorg": "target org SFDX username",
-                "pathoverride": "override default config data path"
+                "pathoverride": "override default config data path",
+                "productiondomain": "the domain of the production org. required if migrating data to a production org"
             }
         }
     },

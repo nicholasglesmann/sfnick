@@ -1,7 +1,7 @@
 import { flags, SfdxCommand } from '@salesforce/command';
 import { Messages } from '@salesforce/core';
 import { JsonMap } from '@salesforce/ts-types';
-import FontevaCommandHelper from '../../../shared/FontevaCommandHelper';
+import FontevaCommandService from '../../../shared/FontevaCommandService';
 
 // Initialize Messages with the current plugin directory
 Messages.importMessagesDirectory(__dirname);
@@ -24,6 +24,6 @@ export default class OpenFull extends SfdxCommand
 
     public async run(): Promise<JsonMap>
     {
-        return await FontevaCommandHelper.openFontevaClient(this.flags.client, 'full');
+        return await FontevaCommandService.openFontevaClient(this.flags.client, 'full');
     }
 }

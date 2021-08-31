@@ -30,7 +30,6 @@ for (Integer i = 0; i < objectsToCountRecords.size(); i++)
 }
 
 dataMoverTestFactory += '    };\n';
-
 dataMoverTestFactory += '}\n';
 
 System.debug(dataMoverTestFactory);

@@ -38,7 +38,14 @@ export default class FilePathService
     {
         let anonApexFileName = disableOrEnable === 'disable'
             ? CONSTANTS.FILEPATH.DISABLE_FONTEVA_TRIGGERS_VALIDATION_APEX
-            : CONSTANTS.FILEPATH.ENABLE_FONTEVA_TRIGGERS_VALIDATION_APEX
+            : CONSTANTS.FILEPATH.ENABLE_FONTEVA_TRIGGERS_VALIDATION_APEX;
+
+        return __dirname + anonApexFileName;
+    }
+
+    static getFontevaFrameworkConfigQueryAnonApexFilePath(): string
+    {
+        let anonApexFileName = CONSTANTS.FILEPATH.FONTEVA_FRAMEWORK_CONFIG_QUERY_APEX;
 
         return __dirname + anonApexFileName;
     }

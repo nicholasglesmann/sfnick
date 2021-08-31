@@ -1,12 +1,13 @@
-import PromiseHelper from "./PromiseHelper";
+import PromiseService from "./PromiseService";
 import * as fs from 'fs';
 import { Connection, SfdxError } from "@salesforce/core";
 import FilePathService from './FilePathService';
-import FileSystemHelper from './FileSystemHelper';
+import FileSystemService from './FileSystemService';
 import CONSTANTS from './constants';
 import DataMoverExportFile from "../types/DataMoverExportFile";
 import OrgService from "./OrgService";
-import { OrgCrudOperator, OperationType } from "./OrgCrudOperator";
+import { OrgDMLOperator, OperationType } from "./OrgDMLOperator";
+import cli from 'cli-ux'
 
 export default class DataMoverService
 {
@@ -37,7 +38,7 @@ export default class DataMoverService
         return DataMoverService.transfer(sourceusername, targetusername, folderNameOverride);
     }
 
-    static async transfer(sourceusername: string, targetusername: string, folderNameOverride?: string)
+    static async transfer(sourceusername: string, targetusername: string, folderNameOverride?: string, productionDomain?: string)
     {
         if (targetusername !== 'csvfile')
         {
@@ -46,14 +47,19 @@ export default class DataMoverService
 
         let sfdxProjectDataMoverPath = await DataMoverService.calculateDataMoverFolderPathToUse(folderNameOverride);
 
-        let dataMoverCommand = `sfdx sfdmu:run --sourceusername ${sourceusername} --targetusername ${targetusername} --path "${sfdxProjectDataMoverPath}"`;
+        let dataMoverCommand = `sfdx sfdmu:run --sourceusername ${sourceusername} --targetusername ${targetusername}`;
+
+        if (productionDomain)
+        {
+            dataMoverCommand += ` --canmodify ${productionDomain}`;
+        }
+
+        dataMoverCommand += ` --path "${sfdxProjectDataMoverPath}"`;
 
         console.log(`Source username: ${sourceusername}`);
         console.log(`Target username: ${targetusername}`);
 
-        await PromiseHelper.promisifyCommand(dataMoverCommand, `Error running command. Make sure sfdmu is installed (use sfdx plugins:install sfdmu).`);
-
-        await DataMoverService.reassignSalesforceIdReferences(sourceusername, targetusername);
+        await PromiseService.promisifyCommand(dataMoverCommand, `Error running command. Make sure sfdmu is installed (use sfdx plugins:install sfdmu).`);
 
         if (targetusername !== 'csvfile')
         {
@@ -93,11 +99,11 @@ export default class DataMoverService
 
         try
         {
-            let exportFile = <DataMoverExportFile>FileSystemHelper.openJSONFile(sfdxProjectDataMoverPath + `\\${CONSTANTS.DATA_MOVER_EXPORT_FILENAME}`);
+            let exportFile = <DataMoverExportFile>FileSystemService.openJSONFile(sfdxProjectDataMoverPath + `\\${CONSTANTS.DATA_MOVER_EXPORT_FILENAME}`);
 
             exportFile.objects.forEach(object =>
             {
-                let query = object.query.replace('all', 'id');
+                let query = object.query.replace(' all ', ' Id ');
 
                 objectQueryList.push(query);
             });
@@ -110,7 +116,6 @@ export default class DataMoverService
         return objectQueryList;
     }
 
-
     static getObjectNameFromQuery(query: string): string
     {
         let objectName;
@@ -119,15 +124,37 @@ export default class DataMoverService
 
         for (let i = 0; i < queryParts.length; i++)
         {
-            if (queryParts[i].toLowerCase() !== 'from')
+            if (queryParts[i].toLowerCase() === 'from')
             {
-                continue;
+                objectName = queryParts[i + 1];
+                break;
             }
-
-            objectName = queryParts[i + 1];
         }
 
         return objectName;
+    }
+
+    static getobjectNameListFromExportFile(sfdxProjectDataMoverPath: string): string[]
+    {
+        let objectNameList = [];
+
+        try
+        {
+            let exportFile = <DataMoverExportFile>FileSystemService.openJSONFile(sfdxProjectDataMoverPath + `\\${CONSTANTS.DATA_MOVER_EXPORT_FILENAME}`);
+
+            exportFile.objects.forEach(object =>
+            {
+                let objectName = DataMoverService.getObjectNameFromQuery(object.query);
+
+                objectNameList.push(objectName);
+            });
+        }
+        catch (e)
+        {
+            throw new SfdxError(e);
+        }
+
+        return objectNameList;
     }
 
     static doesExportFileExist(sfdxProjectDataMoverPath: string): boolean
@@ -152,16 +179,16 @@ export default class DataMoverService
         }
     }
 
-    static async toggleTriggersAndValidationRules(username: string, disableOrEnable: string): Promise<any>
+    static async toggleTriggersAndValidationRules(username: string, disableOrEnable: string): Promise<void>
     {
         if (username === 'csvfile')
         {
             return console.log('Source username is "csvfile", no need to toggle triggers/validation rules.');
         }
 
-        let logMessage = disableOrEnable === 'disable' ? 'Disabling triggers/validation...' : 'Enabling triggers/validation...';
+        let logMessage = disableOrEnable === 'disable' ? 'Disabling triggers/validation' : 'Enabling triggers/validation';
 
-        console.log(logMessage);
+        cli.action.start(logMessage);
 
         let anonApexPath = FilePathService.getToggleTriggersAndValidationAnonApexFilePath(disableOrEnable);
 
@@ -169,18 +196,20 @@ export default class DataMoverService
 
         let errorMessage = `Error running command. Make sure sfdmu is installed (use sfdx plugins:install sfdmu).`;
 
-        return PromiseHelper.promisifyCommand(sfdxCommand, errorMessage, false);
+        await PromiseService.promisifyCommand(sfdxCommand, errorMessage, false);
+
+        cli.action.stop('Done!');
     }
 
 
-    static async reassignSalesforceIdReferences(sourceusername: string, targetusername: string)
+    static async repairPriceRules(sourceusername: string, targetusername: string)
     {
-        let sourceOrgConn = await OrgService.getConnFrom(sourceusername);
-        let targetOrgConn = await OrgService.getConnFrom(targetusername);
+        let sourceOrgConn = await OrgService.getConnFromUsername(sourceusername);
+        let targetOrgConn = await OrgService.getConnFromUsername(targetusername);
 
-        let badgeTypeOldIdToNewIdMap = await this.buildOldIdToNewIdMap('OrderApi__Badge_Type__c', sourceOrgConn, targetOrgConn);
-        let sourceCodeOldIdToNewIdMap = await this.buildOldIdToNewIdMap('OrderApi__Source_Code__c', sourceOrgConn, targetOrgConn);
-        let subscriptionPlanOldIdToNewIdMap = await this.buildOldIdToNewIdMap('OrderApi__Subscription_Plan__c', sourceOrgConn, targetOrgConn);
+        let badgeTypeOldIdToNewIdMap = await this.buildOldIdToNewIdMap('OrderApi__Badge_Type__c', 'Name', sourceOrgConn, targetOrgConn);
+        let sourceCodeOldIdToNewIdMap = await this.buildOldIdToNewIdMap('OrderApi__Source_Code__c', 'Name', sourceOrgConn, targetOrgConn);
+        let subscriptionPlanOldIdToNewIdMap = await this.buildOldIdToNewIdMap('OrderApi__Subscription_Plan__c', 'Name', sourceOrgConn, targetOrgConn);
 
         let sObjectName = 'OrderApi__Price_Rule__c';
 
@@ -210,8 +239,8 @@ export default class DataMoverService
             }
         });
 
-        let orgCrudOperator = new OrgCrudOperator(targetOrgConn, sObjectName);
-        orgCrudOperator.run(OperationType.Update, recordsToRepair);
+        let orgCrudOperator = new OrgDMLOperator(targetOrgConn, sObjectName);
+        orgCrudOperator.run(OperationType.update, recordsToRepair);
     }
 
 
@@ -228,6 +257,7 @@ export default class DataMoverService
             }
             else
             {
+                newIds.push(oldId); // Leave the old Id in place
                 console.log(`Old Id ${oldId} was missing from map!`);
             }
         });
@@ -235,58 +265,219 @@ export default class DataMoverService
         return newIds.join(',');
     }
 
-    static async buildOldIdToNewIdMap(objectName: string, sourceOrgConn: Connection, targetOrgConn: Connection)
+    static async buildOldIdToNewIdMap(objectName: string, externalIdQuery: string, sourceOrgConn: Connection, targetOrgConn: Connection)
     {
-        let recordNameToOldAndNewIdMap = {};
+        let recordExternalIdToOldAndNewIdMap = {};
 
         let oldIdToNewIdMap = {};
 
-        let objectQuery = `SELECT Id, Name FROM ${objectName}`;
+        let objectQuery = `SELECT Id, ${externalIdQuery} FROM ${objectName}`;
+
+        let externalIdFields = externalIdQuery.split(',').map(fieldName => fieldName.trim()); // remove unnecessary spaces around field names
 
         let sourceRecords = await OrgService.queryRecords(objectQuery, sourceOrgConn);
         let targetRecords = await OrgService.queryRecords(objectQuery, targetOrgConn);
 
         sourceRecords.forEach(record =>
         {
-            if (!recordNameToOldAndNewIdMap[record.Name])
+            let externalId = DataMoverService.calculateExternalId(record, externalIdFields);
+
+            if (!recordExternalIdToOldAndNewIdMap[externalId])
             {
-                recordNameToOldAndNewIdMap[record.Name] = {};
+                recordExternalIdToOldAndNewIdMap[externalId] = {};
             }
 
-            recordNameToOldAndNewIdMap[record.Name].oldId = record.Id;
+            recordExternalIdToOldAndNewIdMap[externalId].oldId = record.Id;
         });
+
+        let targetExternalIds = [];
 
         targetRecords.forEach(record =>
         {
-            if (!recordNameToOldAndNewIdMap[record.Name])
+            let externalId = DataMoverService.calculateExternalId(record, externalIdFields);
+
+            targetExternalIds.push(externalId);
+
+            if (!recordExternalIdToOldAndNewIdMap[externalId])
             {
-                recordNameToOldAndNewIdMap[record.Name] = {};
+                recordExternalIdToOldAndNewIdMap[externalId] = {};
             }
 
-            recordNameToOldAndNewIdMap[record.Name].newId = record.Id;
+            recordExternalIdToOldAndNewIdMap[externalId].newId = record.Id;
         });
 
-        for (const recordName in recordNameToOldAndNewIdMap)
+        // targetExternalIds.forEach(id =>
+        // {
+        //     console.log(id);
+        // });
+
+        // console.log(recordExternalIdToOldAndNewIdMap);
+        // console.log(Object.keys(recordExternalIdToOldAndNewIdMap).length);
+
+        for (const recordExternalId in recordExternalIdToOldAndNewIdMap)
         {
-            if (!recordNameToOldAndNewIdMap.hasOwnProperty(recordName))
+            if (!recordExternalIdToOldAndNewIdMap.hasOwnProperty(recordExternalId))
             {
                 continue;
             }
 
-            let oldAndNewIdObj = recordNameToOldAndNewIdMap[recordName];
+            let oldAndNewIdObj = recordExternalIdToOldAndNewIdMap[recordExternalId];
 
-            if (!oldAndNewIdObj.oldId || !oldAndNewIdObj.newId)
+            if (!oldAndNewIdObj.oldId)
             {
-                console.log(`Possible problem with ${objectName} record with name: ${recordName}`);
+                console.log(`Old Id missing for ${objectName} record with name: ${recordExternalId}`);
                 continue;
             }
 
-            oldIdToNewIdMap[oldAndNewIdObj.oldId.substr(0,15)] = oldAndNewIdObj.newId;  // 15 character SF Id
-            oldIdToNewIdMap[oldAndNewIdObj.oldId] = oldAndNewIdObj.newId;               // 18 character SF Id
+            if (!oldAndNewIdObj.newId)
+            {
+                console.log(`New Id missing for ${objectName} record with name: ${recordExternalId}`);
+                continue;
+            }
+
+            oldIdToNewIdMap[oldAndNewIdObj.oldId.substr(0,15)] = oldAndNewIdObj.newId;  // 15 character old SF Id
+            oldIdToNewIdMap[oldAndNewIdObj.oldId] = oldAndNewIdObj.newId;               // 18 character old SF Id
+            oldIdToNewIdMap[oldAndNewIdObj.newId] = oldAndNewIdObj.newId;               // If newId is found, keep it the same
         }
 
         return oldIdToNewIdMap;
     }
+
+    static calculateExternalId(record: any, externalIdFields: string[]): string
+    {
+        let externalId = '';
+
+        for (let i = 0; i < externalIdFields.length; i++)
+        {
+            if (i > 0)
+            {
+                externalId += ':';
+            }
+
+            let value = DataMoverService.getNextPieceOfExternalId(record, externalIdFields[i]);
+
+            externalId += value;
+        }
+
+        return externalId;
+    }
+
+    static getNextPieceOfExternalId(record: any, externalId: string): string
+    {
+        let value;
+
+        let externalIdParts = externalId.split('.');
+
+        for(let i = 0; i < externalIdParts.length; i++)
+        {
+            value = i == 0 ? record[externalIdParts[i]] : value?.[externalIdParts[i]];
+        }
+
+        return value;
+    }
+
+    static async repairPriceRuleVariables(sourceusername: string, targetusername: string)
+    {
+        let sourceOrgConn = await OrgService.getConnFromUsername(sourceusername);
+        let targetOrgConn = await OrgService.getConnFromUsername(targetusername);
+
+        let recordTypeOldIdToNewIdMap = await this.buildOldIdToNewIdMap('RecordType', 'Name', sourceOrgConn, targetOrgConn);
+
+        let sObjectToRepair = 'OrderApi__Price_Rule_Variable__c';
+
+        let fieldToRepair = 'OrderApi__Value__c';
+
+        let recordsToRepairQuery = `SELECT Id, ${fieldToRepair}
+                                    FROM ${sObjectToRepair}`;
+
+        let recordsToRepair = await OrgService.queryRecords(recordsToRepairQuery, targetOrgConn);
+
+        recordsToRepair.forEach(record =>
+        {
+            if (record[fieldToRepair])
+            {
+                let newValue = this.getCorrectSalesforceIdFieldValue(recordTypeOldIdToNewIdMap, record[fieldToRepair]);
+                record[fieldToRepair] = newValue;
+            }
+        });
+
+        let orgCrudOperator = new OrgDMLOperator(targetOrgConn, sObjectToRepair);
+        orgCrudOperator.run(OperationType.update, recordsToRepair);
+    }
+
+
+    static async repairSkipLogicRules(sourceusername: string, targetusername: string)
+    {
+        let sourceOrgConn = await OrgService.getConnFromUsername(sourceusername);
+        let targetOrgConn = await OrgService.getConnFromUsername(targetusername);
+
+        let fieldOldIdToNewIdMap = await this.buildOldIdToNewIdMap('PagesApi__Field__c', 'PagesApi__Form__r.Name,PagesApi__Field_Group__r.Name,Name,PagesApi__Order__c', sourceOrgConn, targetOrgConn);
+
+        let sObjectToRepair = 'PagesApi__Skip_Logic_Rule__c';
+
+        let fieldToRepair = 'PagesApi__Destination__c';
+
+        let recordsToRepairQuery = `SELECT Id, ${fieldToRepair}
+                                    FROM ${sObjectToRepair}`;
+
+        let recordsToRepair = await OrgService.queryRecords(recordsToRepairQuery, targetOrgConn);
+
+        recordsToRepair.forEach(record =>
+        {
+            if (record[fieldToRepair])
+            {
+                let newValue = this.getCorrectSalesforceIdFieldValue(fieldOldIdToNewIdMap, record[fieldToRepair]);
+                record[fieldToRepair] = newValue;
+            }
+        });
+
+        let orgCrudOperator = new OrgDMLOperator(targetOrgConn, sObjectToRepair);
+        orgCrudOperator.run(OperationType.update, recordsToRepair);
+    }
+
+    static async repairFieldRecords(sourceusername: string, targetusername: string)
+    {
+        let sourceOrgConn = await OrgService.getConnFromUsername(sourceusername);
+        let targetOrgConn = await OrgService.getConnFromUsername(targetusername);
+
+        let recordTypeOldIdToNewIdMap = await this.buildOldIdToNewIdMap('RecordType', 'Name', sourceOrgConn, targetOrgConn);
+
+        let sObjectToRepair = 'PagesApi__Field__c';
+
+        let fieldToRepair = 'PagesApi__Hidden_Field_Value__c';
+
+        let recordsToRepairQuery = `SELECT Id, ${fieldToRepair}
+                                    FROM ${sObjectToRepair}`;
+
+        let recordsToRepair = await OrgService.queryRecords(recordsToRepairQuery, targetOrgConn);
+
+        recordsToRepair.forEach(record =>
+        {
+            if (record[fieldToRepair])
+            {
+                let newValue = this.getCorrectSalesforceIdFieldValue(recordTypeOldIdToNewIdMap, record[fieldToRepair]);
+                record[fieldToRepair] = newValue;
+            }
+        });
+
+        let orgCrudOperator = new OrgDMLOperator(targetOrgConn, sObjectToRepair);
+        orgCrudOperator.run(OperationType.update, recordsToRepair);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

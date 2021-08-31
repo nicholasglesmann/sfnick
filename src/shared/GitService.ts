@@ -1,4 +1,4 @@
-export default class GitHelper
+export default class GitService
 {
     static async getCurrentRepoName(): Promise<String>
     {

@@ -1,0 +1,13 @@
+
+
+-f filter
+
+-o objectName
+
+-p path
+
+-q query
+
+-t disabletriggersandvalidation
+
+-u username

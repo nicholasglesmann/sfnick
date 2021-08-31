@@ -1,5 +1,5 @@
 import { exec } from 'child_process';
-import PackageHelper from './PackageHelper';
+import PackageService from './PackageService';
 import { QueryResult } from 'jsforce';
 import MetadataResult from '../../types/MetadataResult';
 import MetadataFolder from '../../types/MetadataFolder';
@@ -21,7 +21,9 @@ export default class RetrieveHelper
         EMAIL_TEMPLATE: "SELECT DeveloperName, Folder.DeveloperName FROM EmailTemplate",
         REPORT: "SELECT DeveloperName, FolderName FROM Report",
         REPORT_FOLDER: "SELECT Name, DeveloperName FROM Folder WHERE Type = 'Report'",
-        WORKFLOW: "SELECT TableEnumOrId FROM WorkflowRule"
+        WORKFLOW: "SELECT TableEnumOrId FROM WorkflowRule",
+        WORKFLOW_ALERT: "SELECT EntityDefinitionId FROM WorkflowAlert",
+        WORKFLOW_ALERT_OBJECT: "SELECT NamespacePrefix, DeveloperName From CustomObject"
     }
 
     static retrieveUsingSFDX(username, packageXmlFilePath, metadataType): Promise<void>
@@ -52,13 +54,13 @@ export default class RetrieveHelper
     }
 
 
-    static retrieveMetadata(results, username, apiVersion, metadataType): Promise<void>
+    static async retrieveMetadata(results, username, apiVersion, metadataType): Promise<void>
     {
         try
         {
-            let packageHelper = new PackageHelper();
+            let packageHelper = new PackageService();
 
-            let packageXmlFilePath = packageHelper.createPackageXmlFile(results, metadataType, apiVersion);
+            let packageXmlFilePath = await packageHelper.createPackageXmlFile(results, metadataType, apiVersion);
 
             return RetrieveHelper.retrieveUsingSFDX(username, packageXmlFilePath, metadataType);
         }
@@ -71,7 +73,7 @@ export default class RetrieveHelper
 
     static async retrieveDashboards(username: string): Promise<void>
     {
-        const conn = await OrgHelper.getConnFrom(username);
+        const conn = await OrgHelper.getConnFromUsername(username);
 
         let dashboardResults = <QueryResult<MetadataResult>> await conn.query(RetrieveHelper.METADATA_QUERY.DASHBOARD);
 
@@ -89,7 +91,7 @@ export default class RetrieveHelper
 
     static async retrieveDocuments(username: string): Promise<void>
     {
-        const conn = await OrgHelper.getConnFrom(username);
+        const conn = await OrgHelper.getConnFromUsername(username);
 
         let documentResults = <QueryResult<MetadataResult>> await conn.query(RetrieveHelper.METADATA_QUERY.DOCUMENT);
 
@@ -107,7 +109,7 @@ export default class RetrieveHelper
 
     static async retrieveEmailTemplates(username: string): Promise<void>
     {
-        const conn = await OrgHelper.getConnFrom(username);
+        const conn = await OrgHelper.getConnFromUsername(username);
 
         let emailTemplateResults = <QueryResult<MetadataResult>> await conn.query(RetrieveHelper.METADATA_QUERY.EMAIL_TEMPLATE);
 
@@ -125,7 +127,7 @@ export default class RetrieveHelper
 
     static async retrieveReports(username: string): Promise<void>
     {
-        const conn = await OrgHelper.getConnFrom(username);
+        const conn = await OrgHelper.getConnFromUsername(username);
 
         let folderResults = <QueryResult<MetadataFolder>> await conn.query(RetrieveHelper.METADATA_QUERY.REPORT_FOLDER);
 
@@ -154,7 +156,7 @@ export default class RetrieveHelper
 
     static async retrieveWorkflows(username: string): Promise<void>
     {
-        const conn = await OrgHelper.getConnFrom(username);
+        const conn = await OrgHelper.getConnFromUsername(username);
 
         let workflowResults = <QueryResult<MetadataResult>>await conn.tooling.query(RetrieveHelper.METADATA_QUERY.WORKFLOW);
 

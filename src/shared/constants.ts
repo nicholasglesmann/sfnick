@@ -12,12 +12,17 @@ export default {
     DATA_MOVER_FOLDER_NAME: 'configData',
     DATA_MOVER_EXPORT_FILENAME: 'export.json',
 
+    DATA_MOVER: {
+        JOIN_PROCESS_FOLDER_NAME: 'joinProcess'
+    },
+
 
     FILEPATH: {
-        DATA_MOVER_CONFIG: '/../data/defaultDataMoverExportFile.json',
+        DATA_MOVER_CONFIG: '/../data/defaultFontevaConfigDataConfigForSFDMU.json',
         SCRATCH_ORG_CONFIG: '/../data/scratchOrgConfig.json',
         DISABLE_FONTEVA_TRIGGERS_VALIDATION_APEX: '/../data/DisableFontevaTriggersAndValidationRules.apex',
-        ENABLE_FONTEVA_TRIGGERS_VALIDATION_APEX: '/../data/EnableFontevaTriggersAndValidationRules.apex'
+        ENABLE_FONTEVA_TRIGGERS_VALIDATION_APEX: '/../data/EnableFontevaTriggersAndValidationRules.apex',
+        FONTEVA_FRAMEWORK_CONFIG_QUERY_APEX: '/../data/FontevaFrameworkConfigQuery.apex'
     }
 
 };

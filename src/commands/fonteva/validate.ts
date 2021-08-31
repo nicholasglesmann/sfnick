@@ -1,7 +1,7 @@
 import { SfdxCommand } from '@salesforce/command';
 import { Messages } from '@salesforce/core';
 import { JsonMap } from '@salesforce/ts-types';
-import SfdxHelper from '../../shared/SfdxHelper';
+import SfdxService from '../../shared/SfdxService';
 import UsernameService from '../../shared/UsernameService';
 
 // Initialize Messages with the current plugin directory
@@ -22,6 +22,6 @@ export default class Validate extends SfdxCommand
     {
         let username = await UsernameService.getFlagOrDefaultUsername(this.flags.targetusername);
 
-        return SfdxHelper.forceSourceValidate(username);
+        return SfdxService.forceSourceValidate(username);
     }
 }

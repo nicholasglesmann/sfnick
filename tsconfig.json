@@ -2,7 +2,8 @@
   "extends": "./node_modules/@salesforce/dev-config/tsconfig",
   "compilerOptions": {
     "lib": [
-      "DOM"
+      "DOM",
+      "ESNext.String"
     ],
     "declaration": true,
     "outDir": "./lib",

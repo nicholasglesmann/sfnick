@@ -1,5 +1,5 @@
 import { ConfigAggregator, SfdxError } from "@salesforce/core";
-import GitHelper from "./GitHelper";
+import GitService from "./GitService";
 
 export default class UsernameService
 {
@@ -24,7 +24,7 @@ export default class UsernameService
     // Ex. wef-full, asa-prod, amt-uat
     static async calculateFontevaClientUsername(clientFlagValue: string, orgType: string): Promise<string>
     {
-        let clientName = clientFlagValue ? clientFlagValue : await GitHelper.getCurrentRepoName();
+        let clientName = clientFlagValue ? clientFlagValue : await GitService.getCurrentRepoName();
 
         if (!clientName)
         {

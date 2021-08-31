@@ -1,9 +1,9 @@
 import { SfdxError } from '@salesforce/core';
-import PromiseHelper from './PromiseHelper';
+import PromiseService from './PromiseService';
 import CONSTANTS from './constants';
 import FilePathService from './FilePathService';
 
-export default class SfdxHelper
+export default class SfdxService
 {
     static forceOrgOpen(username: string, path?: string): Promise<any>
     {
@@ -21,19 +21,25 @@ export default class SfdxHelper
             sfdxCommand += ` -p ${path}`;
         }
 
-        return PromiseHelper.promisifyCommand(sfdxCommand, `Error opening ${username}!`);
+        return PromiseService.promisifyCommand(sfdxCommand, `Error opening ${username}!`);
     }
 
 
-    static forceSourceValidate(username: string): Promise<any>
+    static async forceSourceValidate(username: string): Promise<any>
     {
-        SfdxHelper.forceOrgOpen(username, CONSTANTS.ORG_URLS.DEPLOYMENT_STATUS);
+        SfdxService.forceOrgOpen(username, CONSTANTS.ORG_URLS.DEPLOYMENT_STATUS);
 
-        let sfdxCommand = `sfdx force:source:deploy -c -p force-app -l RunLocalTests  -u ${username}`;
+        let cleanMetadataCommand = `npm run cleanAll`;
+
+        console.log(`Cleaning all metadata...`);
+
+        await PromiseService.promisifyCommand(cleanMetadataCommand, `Error cleaning metadata! Make sure all npm packages are installed/updated.`);
+
+        let sfdxCommand = `sfdx force:source:deploy -c -p force-app -l RunLocalTests -u ${username}`;
 
         console.log(`Validating all force-app metadata in org ${username}...`);
 
-        return PromiseHelper.promisifyCommand(sfdxCommand, `Error validating ${username}!`);
+        return PromiseService.promisifyCommand(sfdxCommand, `Error validating ${username}!`);
     }
 
     static forceOrgCreate(alias: string, devHub: string): Promise<any>
@@ -44,7 +50,7 @@ export default class SfdxHelper
 
         let sfdxCommand = `sfdx force:org:create -d 30 -f ${scratchOrgConfigFilePath} -a ${alias} -v ${devHub}`;
 
-        return PromiseHelper.promisifyCommand(sfdxCommand, `Error creating scratch org ${alias}!`);
+        return PromiseService.promisifyCommand(sfdxCommand, `Error creating scratch org ${alias}!`);
     }
 
 }

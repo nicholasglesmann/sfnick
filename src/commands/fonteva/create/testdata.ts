@@ -4,8 +4,10 @@ import { JsonMap } from '@salesforce/ts-types';
 import { Record } from 'jsforce';
 import DataMoverService from '../../../shared/DataMoverService';
 import cli from 'cli-ux';
-import { OrgCrudOperator, OperationType } from '../../../shared/OrgCrudOperator';
+import { OrgDMLOperator, OperationType } from '../../../shared/OrgDMLOperator';
 import { performance } from 'perf_hooks';
+import OrgService from '../../../shared/OrgService';
+import FlagMessage from '../../../shared/ui/FlagMessage';
 
 // Initialize Messages with the current plugin directory
 Messages.importMessagesDirectory(__dirname);
@@ -14,9 +16,9 @@ Messages.importMessagesDirectory(__dirname);
 // or any library that is using the messages framework can also be loaded this way.
 const messages = Messages.loadMessages('sfnick', 'fon');
 
-export default class DestroyData extends SfdxCommand
+export default class CreateTestData extends SfdxCommand
 {
-    public static description = messages.getMessage('data.destroy.description');
+    public static description = messages.getMessage('create.testdata.description');
     public static examples = [];
 
     protected static requiresUsername = true;
@@ -25,20 +27,18 @@ export default class DestroyData extends SfdxCommand
         object: flags.string({
             char: 'o',
             required: true,
-            description: messages.getMessage('data.destroy.flags.object')
+            description: FlagMessage.object('create test data')
         }),
         disabletriggersvalidationrules: flags.boolean({
             char: 't',
             required: false,
-            description: messages.getMessage('data.destroy.flags.disabletriggersvalidationrules')
+            description: FlagMessage.disableTriggersValidationRules('creating test data')
         })
     };
 
     public async run(): Promise<JsonMap>
     {
-        const org = this.org;
-        const conn = org.getConnection();
-        await org.refreshAuth();
+        const conn = await OrgService.getConnFromOrg(this.org);
 
         if (this.flags.disabletriggersvalidationrules)
         {
@@ -47,16 +47,16 @@ export default class DestroyData extends SfdxCommand
 
         let recordsToCreate:Array<Record> = [];
 
-        let iteration = 6;
+        let iteration = 7;
 
-        for (let i = 0; i <= 20; i++)
+        for (let i = 0; i <= 100; i++)
         {
             let contact: Record = {};
             contact.attributes = { type: 'Contact' };
             contact.FirstName = 'Test' + iteration + i;
             contact.LastName = 'Test' + iteration + i;
             // contact.Legacy_Contact_Id__c = 'Test' + iteration + i + i;
-            contact.External_Id__c = 'Test' + iteration + i + i;
+            // contact.External_Id__c = 'Test' + iteration + i + i;
             recordsToCreate.push(contact);
         }
 
@@ -66,8 +66,8 @@ export default class DestroyData extends SfdxCommand
 
             let executionStartTime = performance.now();
 
-            let orgCrudOperator = new OrgCrudOperator(conn, 'Contact');
-            await orgCrudOperator.run(OperationType.Create, recordsToCreate);
+            let orgCrudOperator = new OrgDMLOperator(conn, 'Contact');
+            await orgCrudOperator.run(OperationType.insert, recordsToCreate);
 
             let executionEndTime = performance.now();
 

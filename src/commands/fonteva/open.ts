@@ -1,7 +1,7 @@
 import { SfdxCommand } from '@salesforce/command';
 import { Messages } from '@salesforce/core';
 import { JsonMap } from '@salesforce/ts-types';
-import SfdxHelper from '../../shared/SfdxHelper';
+import SfdxService from '../../shared/SfdxService';
 import UsernameService from '../../shared/UsernameService';
 import CONSTANTS from '../../shared/constants';
 
@@ -23,6 +23,6 @@ export default class Open extends SfdxCommand
     {
         let username = await UsernameService.getFlagOrDefaultUsername(this.flags.targetusername);
 
-        return SfdxHelper.forceOrgOpen(username, CONSTANTS.ORG_URLS.LIGHTNING_SETUP);
+        return SfdxService.forceOrgOpen(username, CONSTANTS.ORG_URLS.LIGHTNING_SETUP);
     }
 }

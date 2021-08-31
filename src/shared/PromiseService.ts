@@ -1,13 +1,13 @@
 import { exec } from "child_process";
 import { spawn } from 'cross-spawn';
 
-export default class PromiseHelper
+export default class PromiseService
 {
     static promisifyCommand(command: string, errorMessage: string, shouldShowOutput: boolean = true): Promise<any>
     {
         return new Promise((resolve, reject) =>
         {
-            let commandProcess = exec(command, (error, data, stderr) =>
+            let commandProcess = exec(command, {maxBuffer: 1024 * 500}, (error, data, stderr) =>
             {
                 if (error) { reject(error); }
 

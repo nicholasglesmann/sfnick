@@ -1,0 +1,93 @@
+{
+    "bulkThreshold": 10000,
+    "alwaysUseRestApiToUpdateRecords": true,
+    "keepObjectOrderWhileExecute": true,
+    "promptOnMissingParentObjects": false,
+    "objects": [
+        {
+            "query": "SELECT Id, OrderApi__Account__r.Name, CreatedDate FROM OrderApi__Payment_Method__c WHERE OrderApi__Account__r.Is_Test_Data__c = true",
+            "operation": "Insert",
+            "excludedFields": ["ConnectionName","ConnectionReceivedId","ConnectionSentId"]
+        },
+        {
+            "query": "SELECT Id, OrderApi__Account__r.Name, CreatedDate FROM OrderApi__Sales_Order__c WHERE OrderApi__Account__r.Is_Test_Data__c = true",
+            "operation": "Insert",
+            "excludedFields": ["ConnectionName","ConnectionReceivedId","ConnectionSentId"]
+        },
+        {
+            "query": "SELECT Id, OrderApi__Account__r.Name, CreatedDate FROM OrderApi__Credit_Note__c WHERE OrderApi__Account__r.Is_Test_Data__c = true",
+            "operation": "Insert",
+            "excludedFields": ["ConnectionName","ConnectionReceivedId","ConnectionSentId"]
+        },
+        {
+            "query": "SELECT Id, OrderApi__Account__r.Name, CreatedDate FROM OrderApi__Credit_Memo__c WHERE OrderApi__Account__r.Is_Test_Data__c = true",
+            "operation": "Insert",
+            "excludedFields": ["ConnectionName","ConnectionReceivedId","ConnectionSentId"]
+        },
+        {
+            "query": "SELECT Id, OrderApi__Account__r.Name, CreatedDate FROM OrderApi__Receipt__c WHERE OrderApi__Account__r.Is_Test_Data__c = true",
+            "operation": "Insert",
+            "excludedFields": ["ConnectionName","ConnectionReceivedId","ConnectionSentId"]
+        },
+        {
+            "query": "SELECT Id, OrderApi__Account__r.Name, CreatedDate FROM OrderApi__EPayment__c WHERE OrderApi__Account__r.Is_Test_Data__c = true",
+            "operation": "Insert",
+            "excludedFields": ["ConnectionName","ConnectionReceivedId","ConnectionSentId"]
+        },
+        {
+            "query": "SELECT Id, OrderApi__Account__r.Name, CreatedDate FROM OrderApi__Subscription__c WHERE OrderApi__Account__r.Is_Test_Data__c = true",
+            "operation": "Insert",
+            "excludedFields": ["ConnectionName","ConnectionReceivedId","ConnectionSentId"]
+        },
+        {
+            "query": "SELECT Id, OrderApi__Account__r.Name, CreatedDate FROM OrderApi__Transaction__c WHERE OrderApi__Account__r.Is_Test_Data__c = true",
+            "operation": "Insert",
+            "excludedFields": ["ConnectionName","ConnectionReceivedId","ConnectionSentId"]
+        },
+        {
+            "query": "SELECT Id, EventApi__Account__r.Name, CreatedDate FROM EventApi__Sponsor__c WHERE EventApi__Account__r.Is_Test_Data__c = true",
+            "operation": "Insert",
+            "excludedFields": ["ConnectionName","ConnectionReceivedId","ConnectionSentId"]
+        },
+        {
+            "query": "SELECT Id, OrderApi__Account__r.Name, CreatedDate FROM OrderApi__Badge__c WHERE OrderApi__Account__r.Is_Test_Data__c = true",
+            "operation": "Insert",
+            "excludedFields": ["ConnectionName","ConnectionReceivedId","ConnectionSentId"]
+        },
+        {
+            "query": "SELECT Id, EventApi__Account__r.Name, CreatedDate FROM EventApi__Attendee__c WHERE EventApi__Account__r.Is_Test_Data__c = true",
+            "operation": "Insert",
+            "excludedFields": ["ConnectionName","ConnectionReceivedId","ConnectionSentId"]
+        },
+        {
+            "query": "SELECT Id, PagesApi__Account__r.Name, CreatedDate FROM PagesApi__Form_Response__c WHERE PagesApi__Account__r.Is_Test_Data__c = true",
+            "operation": "Insert",
+            "excludedFields": ["ConnectionName","ConnectionReceivedId","ConnectionSentId"]
+        },
+        {
+            "query": "SELECT Id, PagesApi__Form_Response__r.PagesApi__Account__r.Name, CreatedDate FROM PagesApi__Field_Response__c WHERE PagesApi__Form_Response__r.PagesApi__Account__r.Is_Test_Data__c = true",
+            "operation": "Insert",
+            "excludedFields": ["ConnectionName","ConnectionReceivedId","ConnectionSentId"]
+        },
+        {
+            "query": "SELECT Id, OrderApi__Account__r.Name, CreatedDate FROM OrderApi__Order_Summary__c WHERE OrderApi__Account__r.Is_Test_Data__c = true",
+            "operation": "Insert",
+            "excludedFields": ["ConnectionName","ConnectionReceivedId","ConnectionSentId"]
+        },
+        {
+            "query": "SELECT Id, ProgramApi__Account__r.Name, CreatedDate FROM ProgramApi__Program_Profile__c WHERE ProgramApi__Account__r.Is_Test_Data__c = true",
+            "operation": "Insert",
+            "excludedFields": ["ConnectionName","ConnectionReceivedId","ConnectionSentId"]
+        },
+        {
+            "query": "SELECT Id, ProgramApi__Profile__r.ProgramApi__Account__r.Name, CreatedDate FROM ProgramApi__Program_Term__c WHERE ProgramApi__Profile__r.ProgramApi__Account__r.Is_Test_Data__c = true",
+            "operation": "Insert",
+            "excludedFields": ["ConnectionName","ConnectionReceivedId","ConnectionSentId"]
+        },
+        {
+            "query": "SELECT Id, ProgramApi__Program_Profile__r.ProgramApi__Account__r.Name, CreatedDate FROM ProgramApi__Goals__c WHERE ProgramApi__Program_Profile__r.ProgramApi__Account__r.Is_Test_Data__c = true",
+            "operation": "Insert",
+            "excludedFields": ["ConnectionName","ConnectionReceivedId","ConnectionSentId"]
+        }
+    ]
+}

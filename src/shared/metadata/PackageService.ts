@@ -1,8 +1,9 @@
 import * as fs from 'fs';
 import { QueryResult } from 'jsforce';
 import MetadataResult from '../../types/MetadataResult';
+import FileSystemService from '../FileSystemService';
 
-export default class PackageHelper
+export default class PackageService
 {
     private getPackageXmlStart(): string
     {
@@ -15,9 +16,9 @@ export default class PackageHelper
     private getPackageXmlEnd(name, apiVersion): string
     {
         return `<name>${name}</name>
-        </types>
-        <version>${apiVersion}</version>
-    </Package>`;
+            </types>
+            <version>${apiVersion}</version>
+        </Package>`;
     }
 
 
@@ -59,17 +60,7 @@ export default class PackageHelper
         return packageXmlFilePath;
     }
 
-
-    private makeTempDir(): void
-    {
-        if (!fs.existsSync('./temp'))
-        {
-            fs.mkdirSync('./temp');
-        }
-    }
-
-
-    public createPackageXmlFile(results: QueryResult<MetadataResult>, metadataType: string, apiVersion: string): string
+    public async createPackageXmlFile(results: QueryResult<MetadataResult>, metadataType: string, apiVersion: string): Promise<string>
     {
         let members = this.getMemberSetFromResults(results);
 
@@ -80,7 +71,7 @@ export default class PackageHelper
 
         let packageXmlContent = this.createPackageXmlContent(members, metadataType, apiVersion);
 
-        this.makeTempDir();
+        await FileSystemService.makeTempDir();
 
         return this.writePackageXml(packageXmlContent, metadataType);
     }
@@ -99,7 +90,9 @@ export default class PackageHelper
                     return;
                 }
 
-                members.add(result.Folder.DeveloperName);
+                let nestedFolders = this._getNestedFolders(result.Folder.DeveloperName);
+
+                nestedFolders.forEach(nestedFolder => members.add(nestedFolder));
                 members.add(`${result.Folder.DeveloperName}/${result.DeveloperName}`);
             }
             else if (typeof result == 'string')
@@ -114,5 +107,27 @@ export default class PackageHelper
         });
 
         return members;
+    }
+
+    private _getNestedFolders(deepestFolder: string): Array<string>
+    {
+        let allFolders = [];
+
+        let folders = deepestFolder.split('/');
+        let folderName = '';
+
+        for (let i = 0; i < folders.length; i++)
+        {
+            if (i > 0)
+            {
+                folderName += '/';
+            }
+
+            folderName += folders[i];
+
+            allFolders.push(folderName);
+        }
+
+        return allFolders;
     }
 }

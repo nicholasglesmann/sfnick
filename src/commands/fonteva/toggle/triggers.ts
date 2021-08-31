@@ -22,6 +22,8 @@ export default class Open extends SfdxCommand
     {
         let username = await UsernameService.getFlagOrDefaultUsername(this.flags.targetusername);
 
-        return DataMoverService.toggleTriggersAndValidationRules(username, 'enable');
+        await DataMoverService.toggleTriggersAndValidationRules(username, 'enable');
+
+        return null;
     }
 }

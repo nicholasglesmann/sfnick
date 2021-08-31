@@ -30,11 +30,16 @@ export default class TransferConfigData extends SfdxCommand
             char: 'p',
             required: false,
             description: messages.getMessage('transfer.configData.flags.pathoverride')
+        }),
+        productiondomain: flags.string({
+            char: 'd',
+            required: false,
+            description: messages.getMessage('transfer.configData.flags.productiondomain')
         })
     };
 
     public async run(): Promise<any>
     {
-        return DataMoverService.transfer(this.flags.sourceorg, this.flags.targetorg, this.flags.pathoverride);
+        return DataMoverService.transfer(this.flags.sourceorg, this.flags.targetorg, this.flags.pathoverride, this.flags.productiondomain);
     }
 }
