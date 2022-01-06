@@ -49,4 +49,11 @@ export default class FilePathService
 
         return __dirname + anonApexFileName;
     }
+
+    static getFontevaFrameworkConfigUploadAnonApexFilePath(): string
+    {
+        let anonApexFileName = CONSTANTS.FILEPATH.FONTEVA_FRAMEWORK_CONFIG_UPLOAD_APEX;
+
+        return __dirname + anonApexFileName;
+    }
 }

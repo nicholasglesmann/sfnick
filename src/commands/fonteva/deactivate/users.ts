@@ -15,10 +15,12 @@ Messages.importMessagesDirectory(__dirname);
 // or any library that is using the messages framework can also be loaded this way.
 const messages = Messages.loadMessages('sfnick', 'fon');
 
-export default class CreateUsers extends SfdxCommand
+export default class DeactivateUsers extends SfdxCommand
 {
     public static description = messages.getMessage('create.users.description');
-    public static examples = [];
+    public static examples = [
+        `sfdx fonteva:deactivate:users`
+    ];
 
     protected static requiresUsername = true;
 
@@ -26,7 +28,7 @@ export default class CreateUsers extends SfdxCommand
         filter: flags.string({
             char: 'f',
             required: false,
-            description: FlagMessage.query(`${Stylize.danger('activate')} users`)
+            description: FlagMessage.query(`${Stylize.danger('deactivate')} users`)
         })
     };
 
@@ -47,18 +49,20 @@ export default class CreateUsers extends SfdxCommand
 
             let userRecords = await OrgService.queryRecords(userQuery, conn);
 
-            userRecords.forEach(userRecord => {
-
+            userRecords.forEach(userRecord =>
+            {
                 console.log(userRecord);
                 userRecord.IsActive = true;
                 userRecord.IsPortalEnabled = true;
-                userRecord.Country = ' ';
-                userRecord.State = ' ';
+                // userRecord.Country = ' ';
+                // userRecord.State = ' ';
+                console.log(userRecord);
             });
 
             console.log(userRecords.length);
 
             let orgCrudOperator = new OrgDMLOperator(conn, objectName);
+            orgCrudOperator.batchSize = 1;
             await orgCrudOperator.run(OperationType.update, userRecords);
         }
         catch (err)

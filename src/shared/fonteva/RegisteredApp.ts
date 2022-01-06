@@ -1,4 +1,5 @@
 import RegisteredObject from "./RegisteredObject";
+import RollupSummaryField from "./RollupSummaryField";
 
 export default class RegisteredApp
 {
@@ -20,7 +21,9 @@ export default class RegisteredApp
 
     public registeredObjects: RegisteredObject[];
 
-    static fromJson()
+    public rollupSummaryFields: RollupSummaryField[];
+
+    public toApex()
     {
 
     }

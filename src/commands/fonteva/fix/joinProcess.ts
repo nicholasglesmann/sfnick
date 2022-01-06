@@ -10,9 +10,9 @@ Messages.importMessagesDirectory(__dirname);
 // or any library that is using the messages framework can also be loaded this way.
 const messages = Messages.loadMessages('sfnick', 'fon');
 
-export default class FixFontevaRecords extends SfdxCommand
+export default class FixJoinProcess extends SfdxCommand
 {
-    public static description = messages.getMessage('fix.fontevaRecords.description');
+    public static description = messages.getMessage('fix.joinProcess.description');
     public static examples = [];
 
     protected static requiresUsername = false;
@@ -38,20 +38,6 @@ export default class FixFontevaRecords extends SfdxCommand
 
     public async run(): Promise<void>
     {
-        await DataMoverService.toggleTriggersAndValidationRules(this.flags.targetorg, 'disable');
-
-        await DataMoverService.repairPriceRules(this.flags.sourceorg, this.flags.targetorg);
-
-        await DataMoverService.repairPriceRuleVariables(this.flags.sourceorg, this.flags.targetorg);
-
-        await DataMoverService.repairFieldRecords(this.flags.sourceorg, this.flags.targetorg);
-
-        await DataMoverService.repairSkipLogicRules(this.flags.sourceorg, this.flags.targetorg);
-
-        // await DataMoverService.repairJoinProcess(this.flags.sourceorg, this.flags.targetorg);
-
-        await DataMoverService.toggleTriggersAndValidationRules(this.flags.targetorg, 'enable');
-
-        return null;
+        return DataMoverService.repairJoinProcess(this.flags.sourceorg, this.flags.targetorg);
     }
 }

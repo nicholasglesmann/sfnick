@@ -3,7 +3,7 @@ import { Messages, Org } from '@salesforce/core';
 import DataMoverService from '../../../shared/DataMoverService';
 import OrgService from '../../../shared/OrgService';
 import cli from 'cli-ux'
-import { OrgDMLOperator, OperationType } from '../../../shared/OrgDMLOperator';
+// import { OrgDMLOperator, OperationType } from '../../../shared/OrgDMLOperator';
 import Stylize from '../../../shared/ui/Stylize';
 import OutputMessage from '../../../shared/ui/OutputMessage';
 import FlagMessage from '../../../shared/ui/FlagMessage';
@@ -123,30 +123,30 @@ export default class DestroyRecords extends SfdxCommand
         }
     }
 
-    private async _getObjectDeleteQueryList(flags: SfdxCommand["flags"]): Promise<Array<string>>
-    {
-        let objectDeleteQueryList = [];
+    // private async _getObjectDeleteQueryList(flags: SfdxCommand["flags"]): Promise<Array<string>>
+    // {
+    //     let objectDeleteQueryList = [];
 
-        if (flags.object) // Delete ALL records from passed in object
-        {
-            let objectQueryOverride = `SELECT Id FROM ${flags.object}`;
-            objectDeleteQueryList.push(objectQueryOverride);
-        }
-        else if (flags.query) // Delete ALL records from passed in query
-        {
-            objectDeleteQueryList.push(flags.query);
-        }
-        else // Use an SFDMU export.json file to get a list of objects/queries
-        {
-            let sfdxProjectDataMoverPath = await DataMoverService.calculateDataMoverFolderPathToUse(flags.pathoverride);
+    //     if (flags.object) // Delete ALL records from passed in object
+    //     {
+    //         let objectQueryOverride = `SELECT Id FROM ${flags.object}`;
+    //         objectDeleteQueryList.push(objectQueryOverride);
+    //     }
+    //     else if (flags.query) // Delete ALL records from passed in query
+    //     {
+    //         objectDeleteQueryList.push(flags.query);
+    //     }
+    //     else // Use an SFDMU export.json file to get a list of objects/queries
+    //     {
+    //         let sfdxProjectDataMoverPath = await DataMoverService.calculateDataMoverFolderPathToUse(flags.pathoverride);
 
-            objectDeleteQueryList = DataMoverService.getobjectQueryListFromExportFile(sfdxProjectDataMoverPath);
+    //         objectDeleteQueryList = DataMoverService.getobjectQueryListFromExportFile(sfdxProjectDataMoverPath);
 
-            objectDeleteQueryList.reverse(); // Delete records from child objects first
-        }
+    //         objectDeleteQueryList.reverse(); // Delete records from child objects first
+    //     }
 
-        return objectDeleteQueryList;
-    }
+    //     return objectDeleteQueryList;
+    // }
 
 
     private _isProduction(org: Org): boolean

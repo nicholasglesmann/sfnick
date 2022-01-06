@@ -73,6 +73,9 @@
         "skipLogicRule": {
             "description": "fix problems with Fonteva Skip Logic records that exist after transfering to a new org"
         },
+        "joinProcess": {
+            "description": "fix problems with Fonteva Join Process records that exist after transfering to a new org"
+        },
         "field": {
             "description": "fix problems with fields"
         }
@@ -83,7 +86,7 @@
             "flags": {
                 "disabletriggersvalidationrules": "disable all triggers/validation rules before executing destroy operation. Renables triggers/validation rules after execution.",
                 "object": "modify a field on the specified object",
-                "mapping": "comma-separated list of FIELD_TO_UPDATE==VALUE pairs. Add a ** before the value to indicate that the value of another field on the record should be used. Separate pairs with &&.",
+                "mapping": "list of FIELD_TO_UPDATE==VALUE pairs, seperated with &&. Add a ** before the value to indicate that the value of another field on the record should be used. Seperate multiple values for a single field with ++",
                 "filter": "modify only records from a specified filter",
                 "allowprod": "allows modifying records in a production org",
                 "batchsize": "the batch size to use when updating records (default: 200)"

@@ -22,7 +22,8 @@ export default {
         SCRATCH_ORG_CONFIG: '/../data/scratchOrgConfig.json',
         DISABLE_FONTEVA_TRIGGERS_VALIDATION_APEX: '/../data/DisableFontevaTriggersAndValidationRules.apex',
         ENABLE_FONTEVA_TRIGGERS_VALIDATION_APEX: '/../data/EnableFontevaTriggersAndValidationRules.apex',
-        FONTEVA_FRAMEWORK_CONFIG_QUERY_APEX: '/../data/FontevaFrameworkConfigQuery.apex'
+        FONTEVA_FRAMEWORK_CONFIG_QUERY_APEX: '/../data/FontevaFrameworkConfigQuery.apex',
+        FONTEVA_FRAMEWORK_CONFIG_UPLOAD_APEX: '/../data/FontevaFrameworkConfigUpload.apex'
     }
 
 };

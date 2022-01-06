@@ -1,7 +1,7 @@
 {
     "name": "sfnick",
-    "description": "A CLI Tool",
-    "version": "0.0.4",
+    "description": "A CLI tool to make life easier while working at Fonteva | by Nicholas Glesmann",
+    "version": "0.0.5",
     "author": "Nicholas Glesmann",
     "bugs": "https://github.com/nicholasglesmann/sfnick/issues",
     "dependencies": {
@@ -16,7 +16,7 @@
         "cli-table3": "^0.6.0",
         "p-limit": "^3.1.0",
         "tslib": "^2.0.3",
-        "typescript": "^4.2.4"
+        "typescript": "^4.4.3"
     },
     "devDependencies": {
         "@oclif/dev-cli": "^1",

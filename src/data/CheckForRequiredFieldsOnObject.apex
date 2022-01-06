@@ -1,7 +1,5 @@
 String objectName = 'OrderApi__Subscription__c';
 
-
-
 Type objectType = Type.forName(objectName);
 SObject objectInstance = (SObject) objectType.newInstance();
 

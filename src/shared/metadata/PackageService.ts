@@ -8,17 +8,17 @@ export default class PackageService
     private getPackageXmlStart(): string
     {
         return `<?xml version="1.0" encoding="UTF-8"?>
-        <Package xmlns="http://soap.sforce.com/2006/04/metadata">
-            <types>`;
+<Package xmlns="http://soap.sforce.com/2006/04/metadata">
+    <types>\n`;
     }
 
 
     private getPackageXmlEnd(name, apiVersion): string
     {
-        return `<name>${name}</name>
-            </types>
-            <version>${apiVersion}</version>
-        </Package>`;
+        return `\t\t<name>${name}</name>
+    </types>
+    <version>${apiVersion}</version>
+</Package>`;
     }
 
 
@@ -28,7 +28,7 @@ export default class PackageService
 
         for (let member of memberSet.values())
         {
-            members.push(`<members>${member}</members>`);
+            members.push(`\t\t<members>${member}</members>\n`);
         }
 
         return members;
@@ -91,9 +91,12 @@ export default class PackageService
                 }
 
                 let nestedFolders = this._getNestedFolders(result.Folder.DeveloperName);
-
                 nestedFolders.forEach(nestedFolder => members.add(nestedFolder));
-                members.add(`${result.Folder.DeveloperName}/${result.DeveloperName}`);
+
+                let member = `${result.Folder.DeveloperName}/`;
+                member += !! result.NamespacePrefix ? `${result.NamespacePrefix}__${result.DeveloperName}` : result.DeveloperName;
+
+                members.add(member);
             }
             else if (typeof result == 'string')
             {

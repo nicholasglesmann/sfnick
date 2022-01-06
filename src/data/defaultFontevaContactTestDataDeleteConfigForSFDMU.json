@@ -5,92 +5,92 @@
     "promptOnMissingParentObjects": false,
     "objects": [
         {
-            "query": "SELECT Id, OrderApi__Contact__r.Name, CreatedDate FROM OrderApi__Payment_Method__c WHERE OrderApi__Contact__r.Is_Test_Data__c = true",
+            "query": "SELECT Id, OrderApi__Contact__r.Name, CreatedDate FROM OrderApi__Payment_Method__c WHERE OrderApi__Contact__r.Account.Legacy_Account_Id__c = null",
             "operation": "Insert",
             "excludedFields": ["ConnectionName","ConnectionReceivedId","ConnectionSentId"]
         },
         {
-            "query": "SELECT Id, OrderApi__Contact__r.Name, CreatedDate FROM OrderApi__Sales_Order__c WHERE OrderApi__Contact__r.Is_Test_Data__c = true",
+            "query": "SELECT Id, OrderApi__Contact__r.Name, CreatedDate FROM OrderApi__Sales_Order__c WHERE OrderApi__Contact__r.Account.Legacy_Account_Id__c = null",
             "operation": "Insert",
             "excludedFields": ["ConnectionName","ConnectionReceivedId","ConnectionSentId"]
         },
         {
-            "query": "SELECT Id, OrderApi__Contact__r.Name, CreatedDate FROM OrderApi__Credit_Note__c WHERE OrderApi__Contact__r.Is_Test_Data__c = true",
+            "query": "SELECT Id, OrderApi__Contact__r.Name, CreatedDate FROM OrderApi__Credit_Note__c WHERE OrderApi__Contact__r.Account.Legacy_Account_Id__c = null",
             "operation": "Insert",
             "excludedFields": ["ConnectionName","ConnectionReceivedId","ConnectionSentId"]
         },
         {
-            "query": "SELECT Id, OrderApi__Contact__r.Name, CreatedDate FROM OrderApi__Credit_Memo__c WHERE OrderApi__Contact__r.Is_Test_Data__c = true",
+            "query": "SELECT Id, OrderApi__Contact__r.Name, CreatedDate FROM OrderApi__Credit_Memo__c WHERE OrderApi__Contact__r.Account.Legacy_Account_Id__c = null",
             "operation": "Insert",
             "excludedFields": ["ConnectionName","ConnectionReceivedId","ConnectionSentId"]
         },
         {
-            "query": "SELECT Id, OrderApi__Contact__r.Name, CreatedDate FROM OrderApi__Receipt__c WHERE OrderApi__Contact__r.Is_Test_Data__c = true",
+            "query": "SELECT Id, OrderApi__Contact__r.Name, CreatedDate FROM OrderApi__Receipt__c WHERE OrderApi__Contact__r.Account.Legacy_Account_Id__c = null",
             "operation": "Insert",
             "excludedFields": ["ConnectionName","ConnectionReceivedId","ConnectionSentId"]
         },
         {
-            "query": "SELECT Id, OrderApi__Contact__r.Name, CreatedDate FROM OrderApi__EPayment__c WHERE OrderApi__Contact__r.Is_Test_Data__c = true",
+            "query": "SELECT Id, OrderApi__Contact__r.Name, CreatedDate FROM OrderApi__EPayment__c WHERE OrderApi__Contact__r.Account.Legacy_Account_Id__c = null",
             "operation": "Insert",
             "excludedFields": ["ConnectionName","ConnectionReceivedId","ConnectionSentId"]
         },
         {
-            "query": "SELECT Id, OrderApi__Contact__r.Name, CreatedDate FROM OrderApi__Subscription__c WHERE OrderApi__Contact__r.Is_Test_Data__c = true",
+            "query": "SELECT Id, OrderApi__Contact__r.Name, CreatedDate FROM OrderApi__Subscription__c WHERE OrderApi__Contact__r.Account.Legacy_Account_Id__c = null",
             "operation": "Insert",
             "excludedFields": ["ConnectionName","ConnectionReceivedId","ConnectionSentId"]
         },
         {
-            "query": "SELECT Id, OrderApi__Contact__r.Name, CreatedDate FROM OrderApi__Transaction__c WHERE OrderApi__Contact__r.Is_Test_Data__c = true",
+            "query": "SELECT Id, OrderApi__Contact__r.Name, CreatedDate FROM OrderApi__Transaction__c WHERE OrderApi__Contact__r.Account.Legacy_Account_Id__c = null",
             "operation": "Insert",
             "excludedFields": ["ConnectionName","ConnectionReceivedId","ConnectionSentId"]
         },
         {
-            "query": "SELECT id, EventApi__Contact__r.Name, CreatedDate FROM EventApi__Sponsor__c WHERE EventApi__Contact__r.Is_Test_Data__c = true",
+            "query": "SELECT id, EventApi__Contact__r.Name, CreatedDate FROM EventApi__Sponsor__c WHERE EventApi__Contact__r.Account.Legacy_Account_Id__c = null",
             "operation": "Insert",
             "excludedFields": ["ConnectionName","ConnectionReceivedId","ConnectionSentId"]
         },
         {
-            "query": "SELECT Id, OrderApi__Contact__r.Name, CreatedDate FROM OrderApi__Badge__c WHERE OrderApi__Contact__r.Is_Test_Data__c = true",
+            "query": "SELECT Id, OrderApi__Contact__r.Name, CreatedDate FROM OrderApi__Badge__c WHERE OrderApi__Contact__r.Account.Legacy_Account_Id__c = null",
             "operation": "Insert",
             "excludedFields": ["ConnectionName","ConnectionReceivedId","ConnectionSentId"]
         },
         {
-            "query": "SELECT Id, OrderApi__Contact__r.Name, CreatedDate FROM OrderApi__Known_Address__c WHERE OrderApi__Contact__r.Is_Test_Data__c = true",
+            "query": "SELECT Id, OrderApi__Contact__r.Name, CreatedDate FROM OrderApi__Known_Address__c WHERE OrderApi__Contact__r.Account.Legacy_Account_Id__c = null",
             "operation": "Insert",
             "excludedFields": ["ConnectionName","ConnectionReceivedId","ConnectionSentId"]
         },
         {
-            "query": "SELECT Id, EventApi__Contact__r.Name, CreatedDate FROM EventApi__Attendee__c WHERE EventApi__Contact__r.Is_Test_Data__c = true",
+            "query": "SELECT Id, EventApi__Contact__r.Name, CreatedDate FROM EventApi__Attendee__c WHERE EventApi__Contact__r.Account.Legacy_Account_Id__c = null",
             "operation": "Insert",
             "excludedFields": ["ConnectionName","ConnectionReceivedId","ConnectionSentId"]
         },
         {
-            "query": "SELECT Id, PagesApi__Contact__r.Name, CreatedDate FROM PagesApi__Form_Response__c WHERE PagesApi__Contact__r.Is_Test_Data__c = true",
+            "query": "SELECT Id, PagesApi__Contact__r.Name, CreatedDate FROM PagesApi__Form_Response__c WHERE PagesApi__Contact__r.Account.Legacy_Account_Id__c = null",
             "operation": "Insert",
             "excludedFields": ["ConnectionName","ConnectionReceivedId","ConnectionSentId"]
         },
         {
-            "query": "SELECT Id, PagesApi__Form_Response__r.PagesApi__Contact__r.Name FROM PagesApi__Field_Response__c WHERE PagesApi__Form_Response__r.PagesApi__Contact__r.Is_Test_Data__c = true",
+            "query": "SELECT Id, PagesApi__Form_Response__r.PagesApi__Contact__r.Name FROM PagesApi__Field_Response__c WHERE PagesApi__Form_Response__r.PagesApi__Contact__r.Account.Legacy_Account_Id__c = null",
             "operation": "Insert",
             "excludedFields": ["ConnectionName","ConnectionReceivedId","ConnectionSentId"]
         },
         {
-            "query": "SELECT Id, OrderApi__Contact__r.Name, CreatedDate FROM OrderApi__Order_Summary__c WHERE OrderApi__Contact__r.Is_Test_Data__c = true",
+            "query": "SELECT Id, OrderApi__Contact__r.Name, CreatedDate FROM OrderApi__Order_Summary__c WHERE OrderApi__Contact__r.Account.Legacy_Account_Id__c = null",
             "operation": "Insert",
             "excludedFields": ["ConnectionName","ConnectionReceivedId","ConnectionSentId"]
         },
         {
-            "query": "SELECT Id, ProgramApi__Contact__r.Name FROM ProgramApi__Program_Profile__c WHERE ProgramApi__Contact__r.Is_Test_Data__c = true",
+            "query": "SELECT Id, ProgramApi__Contact__r.Name FROM ProgramApi__Program_Profile__c WHERE ProgramApi__Contact__r.Account.Legacy_Account_Id__c = null",
             "operation": "Insert",
             "excludedFields": ["ConnectionName","ConnectionReceivedId","ConnectionSentId"]
         },
         {
-            "query": "SELECT Id, ProgramApi__Profile__r.ProgramApi__Contact__r.Name, CreatedDate FROM ProgramApi__Program_Term__c WHERE ProgramApi__Profile__r.ProgramApi__Contact__r.Is_Test_Data__c = true",
+            "query": "SELECT Id, ProgramApi__Profile__r.ProgramApi__Contact__r.Name, CreatedDate FROM ProgramApi__Program_Term__c WHERE ProgramApi__Profile__r.ProgramApi__Contact__r.Account.Legacy_Account_Id__c = null",
             "operation": "Insert",
             "excludedFields": ["ConnectionName","ConnectionReceivedId","ConnectionSentId"]
         },
         {
-            "query": "SELECT Id, ProgramApi__Program_Profile__r.ProgramApi__Contact__r.Name, CreatedDate FROM ProgramApi__Goals__c WHERE ProgramApi__Program_Profile__r.ProgramApi__Contact__r.Is_Test_Data__c = true",
+            "query": "SELECT Id, ProgramApi__Program_Profile__r.ProgramApi__Contact__r.Name, CreatedDate FROM ProgramApi__Goals__c WHERE ProgramApi__Program_Profile__r.ProgramApi__Contact__r.Account.Legacy_Account_Id__c = null",
             "operation": "Insert",
             "excludedFields": ["ConnectionName","ConnectionReceivedId","ConnectionSentId"]
         }

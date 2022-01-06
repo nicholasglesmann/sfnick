@@ -8,4 +8,5 @@ export default class MetadataResult
     FolderName: string;
     Folder: MetadataFolder;
     TableEnumOrId: string;
+    NamespacePrefix?: string;
 }

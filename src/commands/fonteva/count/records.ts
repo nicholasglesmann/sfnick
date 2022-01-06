@@ -47,17 +47,7 @@ export default class CountRecords extends SfdxCommand
         {
             try
             {
-                /////// NEW WAY
                 await OrgService.queryRecords(objectQuery, conn);
-
-                /////// OLD WAY
-                // let objectName = DataMoverService.getObjectNameFromQuery(objectQuery);
-
-                // let records = await OrgService.queryRecords(objectQuery, conn);
-
-                // let recordCount = records.length;
-
-                // console.log(`${objectQuery}\n--- ${recordCount} ${objectName} records\n`);
             }
             catch (err)
             {

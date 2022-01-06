@@ -7,7 +7,7 @@ export default class PromiseService
     {
         return new Promise((resolve, reject) =>
         {
-            let commandProcess = exec(command, {maxBuffer: 1024 * 500}, (error, data, stderr) =>
+            let commandProcess = exec(command, {maxBuffer: 1024 * 2000}, (error, data, stderr) =>
             {
                 if (error) { reject(error); }
 

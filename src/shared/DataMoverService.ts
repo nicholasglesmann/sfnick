@@ -240,9 +240,41 @@ export default class DataMoverService
         });
 
         let orgCrudOperator = new OrgDMLOperator(targetOrgConn, sObjectName);
-        orgCrudOperator.run(OperationType.update, recordsToRepair);
+        await orgCrudOperator.run(OperationType.update, recordsToRepair);
     }
 
+
+    static async repairJoinProcess(sourceusername: string, targetusername: string): Promise<void>
+    {
+        let targetOrgConn = await OrgService.getConnFromUsername(targetusername);
+
+        let joinProcessQuery = 'SELECT Id, joinapi__Is_Published__c FROM joinapi__Join_Process__c WHERE joinapi__Is_Published__c = true';
+        let joinProcessRecordsToRepair = await OrgService.queryRecords(joinProcessQuery, targetOrgConn);
+
+        let joinStepQuery = 'SELECT Id, joinapi__Is_Published__c FROM joinapi__Step__c WHERE joinapi__Is_First_Step__c = true AND joinapi__Is_Published__c = true';
+        let joinStepRecordsToRepair = await OrgService.queryRecords(joinStepQuery, targetOrgConn);
+
+        let joinProcessRecordsPublished = joinProcessRecordsToRepair.map(record => Object.assign({}, record));
+        let joinStepRecordsPublished = joinStepRecordsToRepair.map(record => Object.assign({}, record));
+
+        joinProcessRecordsToRepair.forEach(record => {
+            record.joinapi__Is_Published__c = false;
+        });
+
+        joinStepRecordsToRepair.forEach(record => {
+            record.joinapi__Is_Published__c = false;
+        });
+
+        let joinProcessOperator = new OrgDMLOperator(targetOrgConn, 'joinapi__Join_Process__c');
+        await joinProcessOperator.run(OperationType.update, joinProcessRecordsToRepair);
+
+        let joinStepOperator = new OrgDMLOperator(targetOrgConn, 'joinapi__Step__c');
+        await joinStepOperator.run(OperationType.update, joinStepRecordsToRepair);
+
+        await joinStepOperator.run(OperationType.update, joinStepRecordsPublished);
+
+        await joinProcessOperator.run(OperationType.update, joinProcessRecordsPublished);
+    }
 
     static getCorrectSalesforceIdFieldValue(oldIdToNewIdMap: any, oldIdFieldValue: string): string
     {
@@ -402,7 +434,7 @@ export default class DataMoverService
         });
 
         let orgCrudOperator = new OrgDMLOperator(targetOrgConn, sObjectToRepair);
-        orgCrudOperator.run(OperationType.update, recordsToRepair);
+        await orgCrudOperator.run(OperationType.update, recordsToRepair);
     }
 
 
@@ -432,7 +464,7 @@ export default class DataMoverService
         });
 
         let orgCrudOperator = new OrgDMLOperator(targetOrgConn, sObjectToRepair);
-        orgCrudOperator.run(OperationType.update, recordsToRepair);
+        await orgCrudOperator.run(OperationType.update, recordsToRepair);
     }
 
     static async repairFieldRecords(sourceusername: string, targetusername: string)
@@ -461,7 +493,7 @@ export default class DataMoverService
         });
 
         let orgCrudOperator = new OrgDMLOperator(targetOrgConn, sObjectToRepair);
-        orgCrudOperator.run(OperationType.update, recordsToRepair);
+        await orgCrudOperator.run(OperationType.update, recordsToRepair);
     }
 
 

@@ -19,5 +19,16 @@ export default class FileSystemService
             fs.mkdirSync(tempDirPath);
         }
     }
+
+    static async writeAnonApexFile(contents: string, fileName: string): Promise<string>
+    {
+        let filePath = `./temp/${fileName}.apex`;
+
+        fs.writeFileSync(filePath, contents);
+
+        console.log(`${fileName} Apex file created!`);
+
+        return filePath;
+    }
 }
 

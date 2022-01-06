@@ -19,8 +19,8 @@ export default class RetrieveHelper
         DASHBOARD: "SELECT DeveloperName, Folder.DeveloperName FROM Dashboard",
         DOCUMENT: "SELECT DeveloperName, Folder.DeveloperName FROM Document",
         EMAIL_TEMPLATE: "SELECT DeveloperName, Folder.DeveloperName FROM EmailTemplate",
-        REPORT: "SELECT DeveloperName, FolderName FROM Report",
-        REPORT_FOLDER: "SELECT Name, DeveloperName FROM Folder WHERE Type = 'Report'",
+        REPORT: "SELECT DeveloperName, NamespacePrefix, FolderName FROM Report",
+        REPORT_FOLDER: "SELECT Name, NamespacePrefix, DeveloperName FROM Folder WHERE Type = 'Report'",
         WORKFLOW: "SELECT TableEnumOrId FROM WorkflowRule",
         WORKFLOW_ALERT: "SELECT EntityDefinitionId FROM WorkflowAlert",
         WORKFLOW_ALERT_OBJECT: "SELECT NamespacePrefix, DeveloperName From CustomObject"
@@ -139,7 +139,7 @@ export default class RetrieveHelper
         {
             if (folder.Name && folder.DeveloperName)
             {
-                reportFolders[folder.Name] = folder.DeveloperName;
+                reportFolders[folder.Name] = !!folder.NamespacePrefix ? `${folder.NamespacePrefix}__${folder.DeveloperName}` : folder.DeveloperName;
             }
         });
 
